@@ -1,0 +1,184 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: CUDO Compute
+providerId: cudo-compute
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: false
+tags:
+- GPU
+- Cloud Compute
+- Infrastructure
+- Virtual Machines
+- Marketplace
+- Plans
+description: >-
+  CUDO Compute uses a usage-based, pay-as-you-go model billed per GPU-hour, per
+  vCPU-hour, per GB of memory-hour, and per GB of storage, with rates that vary
+  by GPU model and data center. On-demand VMs are billed by the second/hour;
+  Reserved Capacity and committed contracts unlock lower rates across multiple
+  term lengths. Bare metal and multi-node GPU clusters are typically priced by
+  quote/reservation. The API exposes live machine-type prices per data center.
+notes: >-
+  CUDO Compute does not publish a single fixed public per-GPU-hour rate card
+  for every model; on-demand rates are surfaced per data center and GPU model
+  in the console and via the machine-type-prices endpoint, and newer/enterprise
+  GPUs are quote-on-request. The per-GPU-hour figures below are representative
+  examples drawn from secondary pricing comparisons and CUDO blog/product pages
+  and MUST be reconciled against the live catalog
+  (GET /v1/data-centers/{dataCenterId}/machine-type-prices) and
+  https://www.cudocompute.com/pricing before use.
+sources:
+- https://www.cudocompute.com/pricing
+- https://www.cudocompute.com/docs/api
+- https://www.cudocompute.com/products/gpu-cloud/nvidia-a100
+- https://www.cudocompute.com/blog/what-does-it-cost-to-rent-cloud-gpus
+plans:
+- id: cudo-compute-on-demand
+  name: On-Demand
+  type: usage
+  description: >-
+    Pay-as-you-go GPU and CPU virtual machines billed per resource-hour with no
+    commitment; rates vary by GPU model and data center.
+  entries:
+  - label: NVIDIA H100 (per GPU)
+    name: gpu_h100
+    type: usage
+    metric: gpu_hours
+    limit: -1
+    timeFrame: hour
+    geo: global
+    unit: 1
+    price: ~$1.80-$2.45 per GPU/hr (representative; varies by data center)
+    userMultiplied: false
+  - label: NVIDIA H200 (per GPU)
+    name: gpu_h200
+    type: usage
+    metric: gpu_hours
+    limit: -1
+    timeFrame: hour
+    geo: global
+    unit: 1
+    price: quote on request / per data center
+    userMultiplied: false
+  - label: NVIDIA A100 80GB (per GPU)
+    name: gpu_a100
+    type: usage
+    metric: gpu_hours
+    limit: -1
+    timeFrame: hour
+    geo: global
+    unit: 1
+    price: ~$1.50-$1.60 per GPU/hr (representative; varies by data center)
+    userMultiplied: false
+  - label: NVIDIA L40S (per GPU)
+    name: gpu_l40s
+    type: usage
+    metric: gpu_hours
+    limit: -1
+    timeFrame: hour
+    geo: global
+    unit: 1
+    price: per data center (see live catalog)
+    userMultiplied: false
+  - label: NVIDIA V100 (per GPU)
+    name: gpu_v100
+    type: usage
+    metric: gpu_hours
+    limit: -1
+    timeFrame: hour
+    geo: global
+    unit: 1
+    price: per data center (see live catalog)
+    userMultiplied: false
+  - label: NVIDIA A800 (per GPU)
+    name: gpu_a800
+    type: usage
+    metric: gpu_hours
+    limit: -1
+    timeFrame: hour
+    geo: global
+    unit: 1
+    price: per data center (see live catalog)
+    userMultiplied: false
+  - label: vCPU
+    name: vcpu
+    type: usage
+    metric: vcpu_hours
+    limit: -1
+    timeFrame: hour
+    geo: global
+    unit: 1
+    price: per vCPU/hr (varies by CPU model and data center)
+    userMultiplied: false
+  - label: Memory
+    name: memory
+    type: usage
+    metric: gib_hours
+    limit: -1
+    timeFrame: hour
+    geo: global
+    unit: 1
+    price: per GiB/hr (varies by data center)
+    userMultiplied: false
+  - label: Block Storage
+    name: storage
+    type: usage
+    metric: gib_month
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: per GiB/month (varies by storage class and data center)
+    userMultiplied: false
+  elements:
+  - name: Virtual Machines
+  - name: Disks & Storage
+  - name: Networks
+  - name: Public IPs
+- id: cudo-compute-reserved
+  name: Reserved Capacity
+  type: subscription
+  description: >-
+    Commitment-based capacity at discounted rates across multiple term lengths,
+    with capacity guarantees for GPU VMs, dedicated servers, and clusters.
+  entries:
+  - label: Committed GPU Capacity
+    name: reserved_gpu
+    type: subscription
+    metric: gpu_hours
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: discounted vs. on-demand (term-based; contact sales)
+    userMultiplied: false
+  elements:
+  - name: Reserved GPU VMs
+  - name: Commitment Terms
+- id: cudo-compute-bare-metal-cluster
+  name: Bare Metal & Clusters
+  type: enterprise
+  description: >-
+    Dedicated bare metal servers and multi-node GPU clusters (H200, H100,
+    A100 80GB, L40S, A800, and Blackwell-generation GPUs) priced by quote and
+    reservation with InfiniBand/high-bandwidth networking options.
+  entries:
+  - label: Cluster Reservation
+    name: cluster_quote
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: quote on request
+    userMultiplied: false
+  elements:
+  - name: Bare Metal Servers
+  - name: Multi-Node GPU Clusters
+  - name: High-Bandwidth Networking
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

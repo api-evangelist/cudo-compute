@@ -1,0 +1,105 @@
+aid: cudo-compute
+name: CUDO Compute
+review:
+  question: Does CUDO Compute expose a documented public streaming (WebSocket/SSE) API?
+  answer: false
+  date: '2026-06-21'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was created. CUDO Compute is a control-plane
+    infrastructure provider. It documents a synchronous REST API and a
+    parallel gRPC API for the same services. No public WebSocket (ws://,
+    wss://) or HTTP Server-Sent Events (SSE) streaming surface is documented,
+    so there is no event-driven/streaming interface in scope for AsyncAPI
+    modeling as of the review date.
+findings:
+  summary: |
+    CUDO Compute publishes a versioned, resource-oriented REST API at
+    https://rest.compute.cudo.org (v1) that provisions and manages virtual
+    machines, machine types, GPU models, data centers, disks and snapshots,
+    networks and security groups, images, SSH keys, object storage, projects,
+    permissions, API keys, and billing. The same capabilities are also exposed
+    via a gRPC API (the published clients are generated from a protobuf/gRPC
+    contract; the REST surface is the gRPC-gateway JSON transcoding). All REST
+    endpoints speak JSON over HTTPS and authenticate with a Bearer API key in
+    the Authorization header; missing or invalid keys return 401
+    UNAUTHENTICATED. No documented WebSocket or SSE streaming endpoint exists.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://rest.compute.cudo.org
+      documented: true
+    - protocol: gRPC
+      scheme: grpc
+      note: Parallel gRPC API exposing the same Cudo Compute services; the REST surface is its JSON/HTTP transcoding via grpc-gateway. Generated clients are published (e.g. Python, Go).
+      documented: true
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented in the CUDO Compute API reference as of the review date.
+    - protocol: SSE
+      scheme: https
+      documented: false
+      note: No Server-Sent Events streaming endpoint is documented.
+  endpointsConfirmedRest:
+    - POST   https://rest.compute.cudo.org/v1/projects/{projectId}/vm
+    - GET    https://rest.compute.cudo.org/v1/projects/{projectId}/vms
+    - GET    https://rest.compute.cudo.org/v1/projects/{projectId}/vms/{id}
+    - POST   https://rest.compute.cudo.org/v1/projects/{projectId}/vms/{id}/start
+    - POST   https://rest.compute.cudo.org/v1/projects/{projectId}/vms/{id}/stop
+    - POST   https://rest.compute.cudo.org/v1/projects/{projectId}/vms/{id}/reboot
+    - POST   https://rest.compute.cudo.org/v1/projects/{projectId}/vms/{id}/resize
+    - POST   https://rest.compute.cudo.org/v1/projects/{projectId}/vms/{id}/terminate
+    - GET    https://rest.compute.cudo.org/v1/projects/{projectId}/vms/{id}/connect
+    - GET    https://rest.compute.cudo.org/v1/projects/{projectId}/vms/{id}/monitor
+    - GET    https://rest.compute.cudo.org/v1/vms/gpu-models
+    - GET    https://rest.compute.cudo.org/v1/vms/machine-types
+    - GET    https://rest.compute.cudo.org/v1/vms/public-images
+    - GET    https://rest.compute.cudo.org/v1/data-centers
+    - GET    https://rest.compute.cudo.org/v1/data-centers/{id}
+    - GET    https://rest.compute.cudo.org/v1/data-centers/{dataCenterId}/machine-types
+    - GET    https://rest.compute.cudo.org/v1/data-centers/{dataCenterId}/machine-type-prices
+    - GET    https://rest.compute.cudo.org/v1/regions
+    - GET    https://rest.compute.cudo.org/v1/projects/{projectId}/disks
+    - POST   https://rest.compute.cudo.org/v1/projects/{projectId}/disks
+    - GET    https://rest.compute.cudo.org/v1/projects/{projectId}/disks/{id}
+    - DELETE https://rest.compute.cudo.org/v1/projects/{projectId}/disks/{id}
+    - PATCH  https://rest.compute.cudo.org/v1/projects/{projectId}/disk/{id}/attach
+    - PUT    https://rest.compute.cudo.org/v1/projects/{projectId}/disk/{id}/detach
+    - GET    https://rest.compute.cudo.org/v1/projects/{projectId}/networks
+    - POST   https://rest.compute.cudo.org/v1/projects/{projectId}/networks
+    - DELETE https://rest.compute.cudo.org/v1/projects/{projectId}/networks/{id}
+    - GET    https://rest.compute.cudo.org/v1/projects/{projectId}/images
+    - POST   https://rest.compute.cudo.org/v1/projects/{projectId}/images
+    - GET    https://rest.compute.cudo.org/v1/ssh-keys
+    - POST   https://rest.compute.cudo.org/v1/ssh-keys
+    - DELETE https://rest.compute.cudo.org/v1/ssh-keys/{id}
+    - GET    https://rest.compute.cudo.org/v1/billing-accounts
+    - POST   https://rest.compute.cudo.org/v1/billing-accounts
+    - GET    https://rest.compute.cudo.org/v1/billing-accounts/{id}
+    - GET    https://rest.compute.cudo.org/v1/billing-accounts/invoices
+sources:
+  - url: https://www.cudocompute.com/docs/api
+    type: Documentation
+    note: API introduction; resource-oriented HTTPS REST, base URL https://rest.compute.cudo.org, v1 surface.
+  - url: https://www.cudocompute.com/docs/rest-api/introduction
+    type: APIReference
+    note: Authentication via Bearer API key in Authorization header; 401 UNAUTHENTICATED on missing key.
+  - url: https://github.com/CudoVentures/cudo-compute-python-client
+    type: SDK
+    note: Generated client; swagger/compute.swagger.json defines host rest.compute.cudo.org and 97 v1 REST paths. Clients are swagger-codegen generated, indicating a gRPC/protobuf-backed gateway.
+  - url: https://pypi.org/project/cudo-compute/
+    type: SDK
+    note: Official cudo-compute Python client on PyPI.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No streaming protocol surface exists. The provider documents a REST API
+    (modeled in openapi/cudo-compute-openapi.yml) plus a parallel gRPC API.
+    No AsyncAPI document was authored because no WebSocket or SSE interface is
+    documented.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

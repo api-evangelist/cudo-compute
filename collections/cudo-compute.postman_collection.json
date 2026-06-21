@@ -1,0 +1,1895 @@
+{
+ "item": [
+  {
+   "id": "05b47e79-1366-4bf7-b026-f242d4b49ed0",
+   "name": "Virtual Machines",
+   "description": {
+    "content": "",
+    "type": "text/plain"
+   },
+   "item": [
+    {
+     "name": "Create a virtual machine",
+     "request": {
+      "name": "Create a virtual machine",
+      "description": {
+       "content": "Provisions a new CPU- or GPU-backed virtual machine in a project.",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/vm",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "vm"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Content-Type",
+        "value": "application/json"
+       },
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "POST",
+      "auth": null,
+      "body": {
+       "mode": "raw",
+       "raw": "{}",
+       "options": {
+        "raw": {
+         "language": "json"
+        }
+       }
+      }
+     },
+     "response": [],
+     "id": "3710f288-f73e-4910-a5ea-65ce7c4b7862"
+    },
+    {
+     "name": "List virtual machines",
+     "request": {
+      "name": "List virtual machines",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/vms",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "vms"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "4f504fc4-f5d8-42d7-833d-210f4dd1ae45"
+    },
+    {
+     "name": "Get a virtual machine",
+     "request": {
+      "name": "Get a virtual machine",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/vms/{id}",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "vms",
+        "{id}"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "9170bae2-286a-48c5-9dd1-363828b9e140"
+    },
+    {
+     "name": "Start a virtual machine",
+     "request": {
+      "name": "Start a virtual machine",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/vms/{id}/start",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "vms",
+        "{id}",
+        "start"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "POST",
+      "auth": null
+     },
+     "response": [],
+     "id": "d9b720e6-aecd-4e27-8777-a8e57ad0e1f8"
+    },
+    {
+     "name": "Stop a virtual machine",
+     "request": {
+      "name": "Stop a virtual machine",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/vms/{id}/stop",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "vms",
+        "{id}",
+        "stop"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "POST",
+      "auth": null
+     },
+     "response": [],
+     "id": "c4088774-e5c7-4a37-8b15-df00e9f35f46"
+    },
+    {
+     "name": "Reboot a virtual machine",
+     "request": {
+      "name": "Reboot a virtual machine",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/vms/{id}/reboot",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "vms",
+        "{id}",
+        "reboot"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "POST",
+      "auth": null
+     },
+     "response": [],
+     "id": "e16fe031-f690-4744-aa7c-60cb1a188c3a"
+    },
+    {
+     "name": "Resize a virtual machine",
+     "request": {
+      "name": "Resize a virtual machine",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/vms/{id}/resize",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "vms",
+        "{id}",
+        "resize"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Content-Type",
+        "value": "application/json"
+       },
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "POST",
+      "auth": null,
+      "body": {
+       "mode": "raw",
+       "raw": "{}",
+       "options": {
+        "raw": {
+         "language": "json"
+        }
+       }
+      }
+     },
+     "response": [],
+     "id": "8e219044-3e48-46d9-baad-ce213d4b025a"
+    },
+    {
+     "name": "Terminate a virtual machine",
+     "request": {
+      "name": "Terminate a virtual machine",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/vms/{id}/terminate",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "vms",
+        "{id}",
+        "terminate"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "POST",
+      "auth": null
+     },
+     "response": [],
+     "id": "868e6dd7-aa2e-47f8-a7d9-931ddb0f8113"
+    },
+    {
+     "name": "Get virtual machine connection details",
+     "request": {
+      "name": "Get virtual machine connection details",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/vms/{id}/connect",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "vms",
+        "{id}",
+        "connect"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "8e4c8fc5-5cac-4918-a483-3e0b495f5de7"
+    },
+    {
+     "name": "Get virtual machine monitoring metrics",
+     "request": {
+      "name": "Get virtual machine monitoring metrics",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/vms/{id}/monitor",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "vms",
+        "{id}",
+        "monitor"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "6af29b2f-de14-4030-9e96-82fe71453214"
+    }
+   ]
+  },
+  {
+   "id": "19324031-0df6-4308-bff7-2daee0a36e97",
+   "name": "Machine Types",
+   "description": {
+    "content": "",
+    "type": "text/plain"
+   },
+   "item": [
+    {
+     "name": "List GPU models",
+     "request": {
+      "name": "List GPU models",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/vms/gpu-models",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "vms",
+        "gpu-models"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "d8c64479-b12d-4ffe-b072-25abf5f38826"
+    },
+    {
+     "name": "List machine types",
+     "request": {
+      "name": "List machine types",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/vms/machine-types",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "vms",
+        "machine-types"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "a7a37f5d-001b-4045-8e88-c59ef2fc6dec"
+    },
+    {
+     "name": "List machine types in a data center",
+     "request": {
+      "name": "List machine types in a data center",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/data-centers/{dataCenterId}/machine-types",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "data-centers",
+        "{dataCenterId}",
+        "machine-types"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "d49daf9c-78b7-4015-8668-276689d52d92"
+    },
+    {
+     "name": "List machine-type prices in a data center",
+     "request": {
+      "name": "List machine-type prices in a data center",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/data-centers/{dataCenterId}/machine-type-prices",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "data-centers",
+        "{dataCenterId}",
+        "machine-type-prices"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "c2572c1a-44ba-4661-9bb2-2601e9e9bb7f"
+    }
+   ]
+  },
+  {
+   "id": "922918b7-9faf-454f-8842-d410040e294c",
+   "name": "Data Centers",
+   "description": {
+    "content": "",
+    "type": "text/plain"
+   },
+   "item": [
+    {
+     "name": "List data centers",
+     "request": {
+      "name": "List data centers",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/data-centers",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "data-centers"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "0622bd72-228b-4b45-9907-ec571e8961ea"
+    },
+    {
+     "name": "Get a data center",
+     "request": {
+      "name": "Get a data center",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/data-centers/{id}",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "data-centers",
+        "{id}"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "ea310605-4e90-4e58-8656-3fbc0f3b9e57"
+    },
+    {
+     "name": "List regions",
+     "request": {
+      "name": "List regions",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/regions",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "regions"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "ef5a66b8-3494-47b0-8cc5-324258d35ca6"
+    }
+   ]
+  },
+  {
+   "id": "1bb35ee2-d2d7-4678-a6cf-45b84ee210a4",
+   "name": "Disks",
+   "description": {
+    "content": "",
+    "type": "text/plain"
+   },
+   "item": [
+    {
+     "name": "List storage disks",
+     "request": {
+      "name": "List storage disks",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/disks",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "disks"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "25e7477d-b94b-484c-b319-53d18414e6a1"
+    },
+    {
+     "name": "Create a storage disk",
+     "request": {
+      "name": "Create a storage disk",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/disks",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "disks"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Content-Type",
+        "value": "application/json"
+       },
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "POST",
+      "auth": null,
+      "body": {
+       "mode": "raw",
+       "raw": "{}",
+       "options": {
+        "raw": {
+         "language": "json"
+        }
+       }
+      }
+     },
+     "response": [],
+     "id": "c9c7d611-bb26-4e4a-b13f-a8c8eddfae83"
+    },
+    {
+     "name": "Get a storage disk",
+     "request": {
+      "name": "Get a storage disk",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/disks/{id}",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "disks",
+        "{id}"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "d94e71c8-ac90-4944-ad45-2b3199657df0"
+    },
+    {
+     "name": "Delete a storage disk",
+     "request": {
+      "name": "Delete a storage disk",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/disks/{id}",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "disks",
+        "{id}"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "DELETE",
+      "auth": null
+     },
+     "response": [],
+     "id": "33dec017-e080-41d3-bac6-4769ba6f87eb"
+    },
+    {
+     "name": "Attach a storage disk to a virtual machine",
+     "request": {
+      "name": "Attach a storage disk to a virtual machine",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/disk/{id}/attach",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "disk",
+        "{id}",
+        "attach"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Content-Type",
+        "value": "application/json"
+       },
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "PATCH",
+      "auth": null,
+      "body": {
+       "mode": "raw",
+       "raw": "{}",
+       "options": {
+        "raw": {
+         "language": "json"
+        }
+       }
+      }
+     },
+     "response": [],
+     "id": "2b96b879-0e36-4a56-970c-9ce2d36ec536"
+    },
+    {
+     "name": "Detach a storage disk from a virtual machine",
+     "request": {
+      "name": "Detach a storage disk from a virtual machine",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/disk/{id}/detach",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "disk",
+        "{id}",
+        "detach"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "PUT",
+      "auth": null
+     },
+     "response": [],
+     "id": "3f2e6a39-3a6c-486b-80be-c7ec45a4732e"
+    },
+    {
+     "name": "List disk snapshots",
+     "request": {
+      "name": "List disk snapshots",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/disks/{id}/snapshots",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "disks",
+        "{id}",
+        "snapshots"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "5b783ec2-6de9-481f-af11-df55caea094b"
+    },
+    {
+     "name": "Create a disk snapshot",
+     "request": {
+      "name": "Create a disk snapshot",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/disks/{id}/snapshots",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "disks",
+        "{id}",
+        "snapshots"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "POST",
+      "auth": null
+     },
+     "response": [],
+     "id": "167cb547-e269-49a1-b335-d4e6157dc44c"
+    },
+    {
+     "name": "Delete a disk snapshot",
+     "request": {
+      "name": "Delete a disk snapshot",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/disks/{id}/snapshots",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "disks",
+        "{id}",
+        "snapshots"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "DELETE",
+      "auth": null
+     },
+     "response": [],
+     "id": "221e1710-684e-41ba-9169-9d16a852e144"
+    }
+   ]
+  },
+  {
+   "id": "daf7bde1-a090-49ee-b89b-a6ec82d6711e",
+   "name": "Networks",
+   "description": {
+    "content": "",
+    "type": "text/plain"
+   },
+   "item": [
+    {
+     "name": "List networks",
+     "request": {
+      "name": "List networks",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/networks",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "networks"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "0a6af81b-cc4b-4e6a-a636-24b121a71cb8"
+    },
+    {
+     "name": "Create a network",
+     "request": {
+      "name": "Create a network",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/networks",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "networks"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Content-Type",
+        "value": "application/json"
+       },
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "POST",
+      "auth": null,
+      "body": {
+       "mode": "raw",
+       "raw": "{}",
+       "options": {
+        "raw": {
+         "language": "json"
+        }
+       }
+      }
+     },
+     "response": [],
+     "id": "da98d519-9259-4c02-949d-7ed075963963"
+    },
+    {
+     "name": "Get a network",
+     "request": {
+      "name": "Get a network",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/networks/{id}",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "networks",
+        "{id}"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "1b76a55c-15c1-4563-b686-34ac6e98106a"
+    },
+    {
+     "name": "Delete a network",
+     "request": {
+      "name": "Delete a network",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/networks/{id}",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "networks",
+        "{id}"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "DELETE",
+      "auth": null
+     },
+     "response": [],
+     "id": "ccf41d45-154b-43e2-bf06-fc3b8cb5f80a"
+    },
+    {
+     "name": "Start a network",
+     "request": {
+      "name": "Start a network",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/networks/{id}/start",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "networks",
+        "{id}",
+        "start"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "POST",
+      "auth": null
+     },
+     "response": [],
+     "id": "1c0eb890-7fa4-47ed-b732-f06b76624208"
+    },
+    {
+     "name": "Stop a network",
+     "request": {
+      "name": "Stop a network",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/networks/{id}/stop",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "networks",
+        "{id}",
+        "stop"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "POST",
+      "auth": null
+     },
+     "response": [],
+     "id": "5424d631-dbea-4a1d-a7fc-0d4c4549bd11"
+    },
+    {
+     "name": "List security groups",
+     "request": {
+      "name": "List security groups",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/networks/security-groups",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "networks",
+        "security-groups"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "aeb91b56-439a-4670-9193-1de036919337"
+    }
+   ]
+  },
+  {
+   "id": "b4a6351f-b37f-40c2-a33e-b8473afaf997",
+   "name": "Images",
+   "description": {
+    "content": "",
+    "type": "text/plain"
+   },
+   "item": [
+    {
+     "name": "List private VM images",
+     "request": {
+      "name": "List private VM images",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/images",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "images"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "9e77cf65-52f6-4683-bce9-9e77f866ccc9"
+    },
+    {
+     "name": "Create a private VM image",
+     "request": {
+      "name": "Create a private VM image",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/images",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "images"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Content-Type",
+        "value": "application/json"
+       },
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "POST",
+      "auth": null,
+      "body": {
+       "mode": "raw",
+       "raw": "{}",
+       "options": {
+        "raw": {
+         "language": "json"
+        }
+       }
+      }
+     },
+     "response": [],
+     "id": "716066b9-f24a-484c-8588-4f329ffcbde6"
+    },
+    {
+     "name": "Get a private VM image",
+     "request": {
+      "name": "Get a private VM image",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/images/{id}",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "images",
+        "{id}"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "aa0499b6-c96f-4746-a501-d550c9d5eafa"
+    },
+    {
+     "name": "Delete a private VM image",
+     "request": {
+      "name": "Delete a private VM image",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/projects/{projectId}/images/{id}",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "projects",
+        "{projectId}",
+        "images",
+        "{id}"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "DELETE",
+      "auth": null
+     },
+     "response": [],
+     "id": "8b106b58-d9db-4a63-bd60-38d8c753a7ab"
+    },
+    {
+     "name": "List public VM images",
+     "request": {
+      "name": "List public VM images",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/vms/public-images",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "vms",
+        "public-images"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "6b336f69-39ff-4652-8a3d-37d6a773e7c7"
+    }
+   ]
+  },
+  {
+   "id": "92bee471-1937-4fd7-b12f-acd3cb12483e",
+   "name": "SSH Keys",
+   "description": {
+    "content": "",
+    "type": "text/plain"
+   },
+   "item": [
+    {
+     "name": "List SSH keys",
+     "request": {
+      "name": "List SSH keys",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/ssh-keys",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "ssh-keys"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "c455ce37-e764-4b51-8462-341c6c9ad75f"
+    },
+    {
+     "name": "Create an SSH key",
+     "request": {
+      "name": "Create an SSH key",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/ssh-keys",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "ssh-keys"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Content-Type",
+        "value": "application/json"
+       },
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "POST",
+      "auth": null,
+      "body": {
+       "mode": "raw",
+       "raw": "{}",
+       "options": {
+        "raw": {
+         "language": "json"
+        }
+       }
+      }
+     },
+     "response": [],
+     "id": "3a86cab4-ca39-4b36-903a-bf54840b632b"
+    },
+    {
+     "name": "Get an SSH key",
+     "request": {
+      "name": "Get an SSH key",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/ssh-keys/{id}",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "ssh-keys",
+        "{id}"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "f830e032-2811-46ad-871c-78257f429b50"
+    },
+    {
+     "name": "Delete an SSH key",
+     "request": {
+      "name": "Delete an SSH key",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/ssh-keys/{id}",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "ssh-keys",
+        "{id}"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "DELETE",
+      "auth": null
+     },
+     "response": [],
+     "id": "536279a8-d649-41a7-9fad-8c6a812cc829"
+    },
+    {
+     "name": "List SSH keys available to a project",
+     "request": {
+      "name": "List SSH keys available to a project",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/project/{projectId}/ssh-keys",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "project",
+        "{projectId}",
+        "ssh-keys"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "49323557-d5b0-4119-85a2-8b9027e0a03a"
+    }
+   ]
+  },
+  {
+   "id": "7d7e64ed-729c-4426-9e4d-7c8e29db01fa",
+   "name": "Billing",
+   "description": {
+    "content": "",
+    "type": "text/plain"
+   },
+   "item": [
+    {
+     "name": "List billing accounts",
+     "request": {
+      "name": "List billing accounts",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/billing-accounts",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "billing-accounts"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "026d0540-e1a5-4a44-9136-d676cd04a64b"
+    },
+    {
+     "name": "Create a billing account",
+     "request": {
+      "name": "Create a billing account",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/billing-accounts",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "billing-accounts"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Content-Type",
+        "value": "application/json"
+       },
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "POST",
+      "auth": null,
+      "body": {
+       "mode": "raw",
+       "raw": "{}",
+       "options": {
+        "raw": {
+         "language": "json"
+        }
+       }
+      }
+     },
+     "response": [],
+     "id": "3e3937cb-7dd7-4233-9573-b56a740cdff3"
+    },
+    {
+     "name": "Get a billing account",
+     "request": {
+      "name": "Get a billing account",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/billing-accounts/{id}",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "billing-accounts",
+        "{id}"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "03ea1c8d-5e4f-4865-a7a7-cc3777ac98df"
+    },
+    {
+     "name": "Delete a billing account",
+     "request": {
+      "name": "Delete a billing account",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/billing-accounts/{id}",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "billing-accounts",
+        "{id}"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "DELETE",
+      "auth": null
+     },
+     "response": [],
+     "id": "95402efe-ccaf-49de-8793-9613181c151e"
+    },
+    {
+     "name": "Get billing account details",
+     "request": {
+      "name": "Get billing account details",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/billing-accounts/{id}/details",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "billing-accounts",
+        "{id}",
+        "details"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "6d472d17-4c23-44e5-9aaf-ee9f35600e2b"
+    },
+    {
+     "name": "List billing account invoices",
+     "request": {
+      "name": "List billing account invoices",
+      "description": {
+       "content": "",
+       "type": "text/plain"
+      },
+      "url": {
+       "raw": "{{baseUrl}}/v1/billing-accounts/invoices",
+       "host": [
+        "{{baseUrl}}"
+       ],
+       "path": [
+        "v1",
+        "billing-accounts",
+        "invoices"
+       ],
+       "query": [],
+       "variable": []
+      },
+      "header": [
+       {
+        "key": "Accept",
+        "value": "application/json"
+       }
+      ],
+      "method": "GET",
+      "auth": null
+     },
+     "response": [],
+     "id": "c0f740e8-2c08-442a-b746-452de996f49e"
+    }
+   ]
+  }
+ ],
+ "event": [],
+ "variable": [
+  {
+   "type": "string",
+   "value": "https://rest.compute.cudo.org",
+   "key": "baseUrl"
+  }
+ ],
+ "auth": {
+  "type": "bearer",
+  "bearer": [
+   {
+    "key": "token",
+    "value": "{{bearerToken}}"
+   }
+  ]
+ },
+ "info": {
+  "_postman_id": "23a28b33-d4b8-4965-93ea-98bc5ebd6c80",
+  "name": "CUDO Compute API",
+  "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+  "description": {
+   "content": "REST API for the CUDO Compute global GPU and cloud compute platform and marketplace. The API is versioned, resource-oriented, and speaks JSON over HTTPS. It provisions and manages virtual machines, machine types, data centers, disks and snapshots, networks and security groups, images, SSH keys, object storage, and billing. A parallel gRPC API exposes the same services. Authentication uses a Bearer API key created in the CUDO Compute dashboard; requests without a valid key return 401 UNAUTHENTICATED.",
+   "type": "text/plain"
+  }
+ }
+}

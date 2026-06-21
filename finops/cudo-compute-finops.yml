@@ -1,0 +1,128 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: CUDO Compute
+providerId: cudo-compute
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: false
+tags:
+- GPU
+- Cloud Compute
+- Infrastructure
+- Virtual Machines
+- Marketplace
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of CUDO Compute spend. CUDO bills usage-based, per-resource-hour
+  rates: per GPU-hour (by GPU model and data center), per vCPU-hour, per GiB of
+  memory-hour, per GiB of storage, plus public IP and network charges. Reserved
+  Capacity and committed contracts lower effective rates; bare metal and cluster
+  capacity is priced by quote. The Billing API exposes spend details, invoices,
+  outstanding balances, credit balances, and per-account hourly/monthly spend
+  limits for cost governance.
+notes: >-
+  Per-GPU and per-resource rates vary by data center and change over time;
+  verify against the live machine-type-prices endpoint and the pricing page
+  during reconciliation.
+sources:
+- https://www.cudocompute.com/pricing
+- https://www.cudocompute.com/docs/api
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: CUDO Compute
+serviceCategory: Compute
+billingModel:
+  pricingCategory: Usage-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Usage
+  - Purchase
+  - Adjustment
+  - Credit
+focusColumns:
+  ServiceName: CUDO Compute
+  ServiceCategory: Compute
+  ProviderName: CUDO Compute
+  PublisherName: CUDO Compute
+  InvoiceIssuerName: CUDO Compute
+  BillingCurrency: USD
+  ChargeCategory: Usage
+  PricingCategory: Usage-Based
+meters:
+- name: gpu_hours
+  description: GPU-hours consumed by virtual machines, billed per GPU model and data center.
+  unit: gpu_hours
+  aggregation: sum
+  dimensions:
+  - billingAccount
+  - project
+  - dataCenter
+  - gpuModel
+- name: vcpu_hours
+  description: vCPU-hours consumed by virtual machines, billed per CPU model and data center.
+  unit: vcpu_hours
+  aggregation: sum
+  dimensions:
+  - billingAccount
+  - project
+  - dataCenter
+  - cpuModel
+- name: memory_gib_hours
+  description: Memory GiB-hours allocated to virtual machines, billed per data center.
+  unit: gib_hours
+  aggregation: sum
+  dimensions:
+  - billingAccount
+  - project
+  - dataCenter
+- name: storage_gib_month
+  description: Block and object storage GiB-months, billed per storage class and data center.
+  unit: gib_month
+  aggregation: sum
+  dimensions:
+  - billingAccount
+  - project
+  - dataCenter
+  - storageClass
+- name: network_hours
+  description: Network and v-router hours plus public IP charges.
+  unit: hours
+  aggregation: sum
+  dimensions:
+  - billingAccount
+  - project
+  - dataCenter
+- name: reserved_capacity
+  description: Committed/reserved GPU capacity billed at discounted contract rates.
+  unit: gpu_hours
+  aggregation: sum
+  dimensions:
+  - billingAccount
+  - commitmentTerm
+- name: credit_balance
+  description: Prepaid credit balance applied against usage charges.
+  unit: usd
+  aggregation: sum
+  dimensions:
+  - billingAccount
+principles:
+- name: Visibility
+  description: Pull spend details, invoices, and credit-balance transactions via the Billing API; inspect per-project and per-data-center resource burn.
+- name: Allocation
+  description: Tag workloads by project and billing account; map machine types and data centers to internal cost centers.
+- name: Optimization
+  description: Use Reserved Capacity and commitment terms for steady GPU workloads; right-size machine types; pick cheaper GPU models and data centers; stop or terminate idle VMs and detach unused disks.
+- name: Accountability
+  description: Set hourly and monthly spend limits and billing thresholds per billing account; review invoices and outstanding balances against budget.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

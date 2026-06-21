@@ -1,0 +1,650 @@
+{
+ "opencollection": "1.0.0",
+ "info": {
+  "name": "CUDO Compute API",
+  "version": "1.0.0"
+ },
+ "request": {
+  "auth": {
+   "type": "bearer",
+   "token": "{{bearerToken}}"
+  }
+ },
+ "items": [
+  {
+   "info": {
+    "name": "Virtual Machines",
+    "type": "folder"
+   },
+   "items": [
+    {
+     "info": {
+      "name": "Create a virtual machine",
+      "type": "http"
+     },
+     "http": {
+      "method": "POST",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/vm",
+      "body": {
+       "type": "json",
+       "data": "{}"
+      }
+     },
+     "docs": "Provisions a new CPU- or GPU-backed virtual machine in a project."
+    },
+    {
+     "info": {
+      "name": "List virtual machines",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/vms"
+     },
+     "docs": "List virtual machines"
+    },
+    {
+     "info": {
+      "name": "Get a virtual machine",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/vms/{id}"
+     },
+     "docs": "Get a virtual machine"
+    },
+    {
+     "info": {
+      "name": "Start a virtual machine",
+      "type": "http"
+     },
+     "http": {
+      "method": "POST",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/vms/{id}/start"
+     },
+     "docs": "Start a virtual machine"
+    },
+    {
+     "info": {
+      "name": "Stop a virtual machine",
+      "type": "http"
+     },
+     "http": {
+      "method": "POST",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/vms/{id}/stop"
+     },
+     "docs": "Stop a virtual machine"
+    },
+    {
+     "info": {
+      "name": "Reboot a virtual machine",
+      "type": "http"
+     },
+     "http": {
+      "method": "POST",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/vms/{id}/reboot"
+     },
+     "docs": "Reboot a virtual machine"
+    },
+    {
+     "info": {
+      "name": "Resize a virtual machine",
+      "type": "http"
+     },
+     "http": {
+      "method": "POST",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/vms/{id}/resize",
+      "body": {
+       "type": "json",
+       "data": "{}"
+      }
+     },
+     "docs": "Resize a virtual machine"
+    },
+    {
+     "info": {
+      "name": "Terminate a virtual machine",
+      "type": "http"
+     },
+     "http": {
+      "method": "POST",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/vms/{id}/terminate"
+     },
+     "docs": "Terminate a virtual machine"
+    },
+    {
+     "info": {
+      "name": "Get virtual machine connection details",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/vms/{id}/connect"
+     },
+     "docs": "Get virtual machine connection details"
+    },
+    {
+     "info": {
+      "name": "Get virtual machine monitoring metrics",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/vms/{id}/monitor"
+     },
+     "docs": "Get virtual machine monitoring metrics"
+    }
+   ]
+  },
+  {
+   "info": {
+    "name": "Machine Types",
+    "type": "folder"
+   },
+   "items": [
+    {
+     "info": {
+      "name": "List GPU models",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/vms/gpu-models"
+     },
+     "docs": "List GPU models"
+    },
+    {
+     "info": {
+      "name": "List machine types",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/vms/machine-types"
+     },
+     "docs": "List machine types"
+    },
+    {
+     "info": {
+      "name": "List machine types in a data center",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/data-centers/{dataCenterId}/machine-types"
+     },
+     "docs": "List machine types in a data center"
+    },
+    {
+     "info": {
+      "name": "List machine-type prices in a data center",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/data-centers/{dataCenterId}/machine-type-prices"
+     },
+     "docs": "List machine-type prices in a data center"
+    }
+   ]
+  },
+  {
+   "info": {
+    "name": "Data Centers",
+    "type": "folder"
+   },
+   "items": [
+    {
+     "info": {
+      "name": "List data centers",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/data-centers"
+     },
+     "docs": "List data centers"
+    },
+    {
+     "info": {
+      "name": "Get a data center",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/data-centers/{id}"
+     },
+     "docs": "Get a data center"
+    },
+    {
+     "info": {
+      "name": "List regions",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/regions"
+     },
+     "docs": "List regions"
+    }
+   ]
+  },
+  {
+   "info": {
+    "name": "Disks",
+    "type": "folder"
+   },
+   "items": [
+    {
+     "info": {
+      "name": "List storage disks",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/disks"
+     },
+     "docs": "List storage disks"
+    },
+    {
+     "info": {
+      "name": "Create a storage disk",
+      "type": "http"
+     },
+     "http": {
+      "method": "POST",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/disks",
+      "body": {
+       "type": "json",
+       "data": "{}"
+      }
+     },
+     "docs": "Create a storage disk"
+    },
+    {
+     "info": {
+      "name": "Get a storage disk",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/disks/{id}"
+     },
+     "docs": "Get a storage disk"
+    },
+    {
+     "info": {
+      "name": "Delete a storage disk",
+      "type": "http"
+     },
+     "http": {
+      "method": "DELETE",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/disks/{id}"
+     },
+     "docs": "Delete a storage disk"
+    },
+    {
+     "info": {
+      "name": "Attach a storage disk to a virtual machine",
+      "type": "http"
+     },
+     "http": {
+      "method": "PATCH",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/disk/{id}/attach",
+      "body": {
+       "type": "json",
+       "data": "{}"
+      }
+     },
+     "docs": "Attach a storage disk to a virtual machine"
+    },
+    {
+     "info": {
+      "name": "Detach a storage disk from a virtual machine",
+      "type": "http"
+     },
+     "http": {
+      "method": "PUT",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/disk/{id}/detach"
+     },
+     "docs": "Detach a storage disk from a virtual machine"
+    },
+    {
+     "info": {
+      "name": "List disk snapshots",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/disks/{id}/snapshots"
+     },
+     "docs": "List disk snapshots"
+    },
+    {
+     "info": {
+      "name": "Create a disk snapshot",
+      "type": "http"
+     },
+     "http": {
+      "method": "POST",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/disks/{id}/snapshots"
+     },
+     "docs": "Create a disk snapshot"
+    },
+    {
+     "info": {
+      "name": "Delete a disk snapshot",
+      "type": "http"
+     },
+     "http": {
+      "method": "DELETE",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/disks/{id}/snapshots"
+     },
+     "docs": "Delete a disk snapshot"
+    }
+   ]
+  },
+  {
+   "info": {
+    "name": "Networks",
+    "type": "folder"
+   },
+   "items": [
+    {
+     "info": {
+      "name": "List networks",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/networks"
+     },
+     "docs": "List networks"
+    },
+    {
+     "info": {
+      "name": "Create a network",
+      "type": "http"
+     },
+     "http": {
+      "method": "POST",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/networks",
+      "body": {
+       "type": "json",
+       "data": "{}"
+      }
+     },
+     "docs": "Create a network"
+    },
+    {
+     "info": {
+      "name": "Get a network",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/networks/{id}"
+     },
+     "docs": "Get a network"
+    },
+    {
+     "info": {
+      "name": "Delete a network",
+      "type": "http"
+     },
+     "http": {
+      "method": "DELETE",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/networks/{id}"
+     },
+     "docs": "Delete a network"
+    },
+    {
+     "info": {
+      "name": "Start a network",
+      "type": "http"
+     },
+     "http": {
+      "method": "POST",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/networks/{id}/start"
+     },
+     "docs": "Start a network"
+    },
+    {
+     "info": {
+      "name": "Stop a network",
+      "type": "http"
+     },
+     "http": {
+      "method": "POST",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/networks/{id}/stop"
+     },
+     "docs": "Stop a network"
+    },
+    {
+     "info": {
+      "name": "List security groups",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/networks/security-groups"
+     },
+     "docs": "List security groups"
+    }
+   ]
+  },
+  {
+   "info": {
+    "name": "Images",
+    "type": "folder"
+   },
+   "items": [
+    {
+     "info": {
+      "name": "List private VM images",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/images"
+     },
+     "docs": "List private VM images"
+    },
+    {
+     "info": {
+      "name": "Create a private VM image",
+      "type": "http"
+     },
+     "http": {
+      "method": "POST",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/images",
+      "body": {
+       "type": "json",
+       "data": "{}"
+      }
+     },
+     "docs": "Create a private VM image"
+    },
+    {
+     "info": {
+      "name": "Get a private VM image",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/images/{id}"
+     },
+     "docs": "Get a private VM image"
+    },
+    {
+     "info": {
+      "name": "Delete a private VM image",
+      "type": "http"
+     },
+     "http": {
+      "method": "DELETE",
+      "url": "https://rest.compute.cudo.org/v1/projects/{projectId}/images/{id}"
+     },
+     "docs": "Delete a private VM image"
+    },
+    {
+     "info": {
+      "name": "List public VM images",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/vms/public-images"
+     },
+     "docs": "List public VM images"
+    }
+   ]
+  },
+  {
+   "info": {
+    "name": "SSH Keys",
+    "type": "folder"
+   },
+   "items": [
+    {
+     "info": {
+      "name": "List SSH keys",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/ssh-keys"
+     },
+     "docs": "List SSH keys"
+    },
+    {
+     "info": {
+      "name": "Create an SSH key",
+      "type": "http"
+     },
+     "http": {
+      "method": "POST",
+      "url": "https://rest.compute.cudo.org/v1/ssh-keys",
+      "body": {
+       "type": "json",
+       "data": "{}"
+      }
+     },
+     "docs": "Create an SSH key"
+    },
+    {
+     "info": {
+      "name": "Get an SSH key",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/ssh-keys/{id}"
+     },
+     "docs": "Get an SSH key"
+    },
+    {
+     "info": {
+      "name": "Delete an SSH key",
+      "type": "http"
+     },
+     "http": {
+      "method": "DELETE",
+      "url": "https://rest.compute.cudo.org/v1/ssh-keys/{id}"
+     },
+     "docs": "Delete an SSH key"
+    },
+    {
+     "info": {
+      "name": "List SSH keys available to a project",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/project/{projectId}/ssh-keys"
+     },
+     "docs": "List SSH keys available to a project"
+    }
+   ]
+  },
+  {
+   "info": {
+    "name": "Billing",
+    "type": "folder"
+   },
+   "items": [
+    {
+     "info": {
+      "name": "List billing accounts",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/billing-accounts"
+     },
+     "docs": "List billing accounts"
+    },
+    {
+     "info": {
+      "name": "Create a billing account",
+      "type": "http"
+     },
+     "http": {
+      "method": "POST",
+      "url": "https://rest.compute.cudo.org/v1/billing-accounts",
+      "body": {
+       "type": "json",
+       "data": "{}"
+      }
+     },
+     "docs": "Create a billing account"
+    },
+    {
+     "info": {
+      "name": "Get a billing account",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/billing-accounts/{id}"
+     },
+     "docs": "Get a billing account"
+    },
+    {
+     "info": {
+      "name": "Delete a billing account",
+      "type": "http"
+     },
+     "http": {
+      "method": "DELETE",
+      "url": "https://rest.compute.cudo.org/v1/billing-accounts/{id}"
+     },
+     "docs": "Delete a billing account"
+    },
+    {
+     "info": {
+      "name": "Get billing account details",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/billing-accounts/{id}/details"
+     },
+     "docs": "Get billing account details"
+    },
+    {
+     "info": {
+      "name": "List billing account invoices",
+      "type": "http"
+     },
+     "http": {
+      "method": "GET",
+      "url": "https://rest.compute.cudo.org/v1/billing-accounts/invoices"
+     },
+     "docs": "List billing account invoices"
+    }
+   ]
+  }
+ ]
+}

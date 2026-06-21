@@ -1,0 +1,72 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: CUDO Compute
+providerId: cudo-compute
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: false
+tags:
+- GPU
+- Cloud Compute
+- Infrastructure
+- Virtual Machines
+- Marketplace
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  The CUDO Compute REST API is a control-plane API for provisioning and managing
+  compute, storage, and networking resources. CUDO Compute does not publish
+  numeric per-endpoint request-rate limits; practical constraints are governed
+  by per-account and per-project resource quotas (number and size of virtual
+  machines, GPUs, disks, networks, and public IPs), data-center capacity, and
+  billing-account spend limits. Excessive control-plane request rates may be
+  throttled by the platform. Specific numeric values are not reconciled in this
+  artifact.
+notes: >-
+  Verify any per-endpoint request-rate throttling, per-project resource quotas,
+  and account spend limits (monthlySpendLimit / hourlySpendLimit on the billing
+  account) in the CUDO Compute console and support channels on reconciliation.
+sources:
+- https://www.cudocompute.com/docs/api
+- https://www.cudocompute.com/docs/rest-api/introduction
+responseCodes:
+  throttled: 429
+  unauthenticated: 401
+limits:
+- name: API Requests
+  scope: account
+  metric: requests
+  limit: see provider documentation
+  notes: Control-plane request throttling; numeric per-endpoint rate not publicly documented.
+- name: Virtual Machine Quota
+  scope: project
+  metric: virtual_machines
+  limit: see provider documentation
+  notes: Number and size of VMs constrained by project quota and data-center capacity.
+- name: GPU Quota
+  scope: project
+  metric: gpus
+  limit: see provider documentation
+  notes: Number of GPUs available subject to account standing and data-center capacity.
+- name: Storage Quota
+  scope: project
+  metric: disks
+  limit: see provider documentation
+  notes: Disk count and size constrained by project quota and data-center capacity.
+- name: Spend Limit
+  scope: account
+  metric: spend
+  limit: account-configured
+  notes: Billing accounts carry hourly and monthly spend limits and billing thresholds.
+policies:
+- name: Resource Quotas
+  description: Provisioning is gated by per-account/per-project resource quotas and live data-center capacity rather than fixed request-rate limits.
+- name: Spend Limits
+  description: Hourly and monthly spend limits on the billing account cap resource consumption.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on 429 responses.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
