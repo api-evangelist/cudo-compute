@@ -1,0 +1,15 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/cudo-compute-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: 'A CUDO Compute API key passed as a Bearer token in the Authorization header,
+    e.g. `Authorization: Bearer $CUDO_API_KEY`. Create keys in the CUDO Compute dashboard. Missing
+    or invalid keys return 401 UNAUTHENTICATED.'
+  sources:
+  - openapi/cudo-compute-openapi.yml

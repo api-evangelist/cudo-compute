@@ -183,6 +183,10 @@ apis:
   description: Create and manage billing accounts, payment methods, credit, invoices
     and outstanding balances, spend details, and credit-balance transactions.
 common:
+- type: DomainSecurity
+  url: security/cudo-compute-domain-security.yml
+- type: Authentication
+  url: authentication/cudo-compute-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/CudoVentures
 - type: LinkedIn
@@ -197,6 +201,8 @@ common:
   url: rate-limits/cudo-compute-rate-limits.yml
 - type: FinOps
   url: finops/cudo-compute-finops.yml
+- type: Blog
+  url: https://www.cudocompute.com/feed/
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
