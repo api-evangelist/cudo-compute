@@ -1,0 +1,13 @@
+{
+  "repo": "cudo-compute",
+  "feeds": [
+    {
+      "source": "https://www.cudocompute.com/feed/",
+      "feed_url": "https://www.cudocompute.com/feed/",
+      "title": "CUDO Compute",
+      "saved": 0
+    }
+  ],
+  "fetched": "2026-07-11T11:43:46Z",
+  "post_count": 10
+}
