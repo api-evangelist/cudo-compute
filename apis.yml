@@ -183,6 +183,8 @@ apis:
   description: Create and manage billing accounts, payment methods, credit, invoices
     and outstanding balances, spend details, and credit-balance transactions.
 common:
+- type: AgenticAccess
+  url: agentic-access/cudo-compute-agentic-access.yml
 - type: DomainSecurity
   url: security/cudo-compute-domain-security.yml
 - type: Authentication
