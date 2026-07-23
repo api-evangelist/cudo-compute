@@ -1,0 +1,111 @@
+openapi: 3.0.1
+info:
+  title: CUDO Compute Billing Machine Types API
+  description: REST API for the CUDO Compute global GPU and cloud compute platform and marketplace. The API is versioned, resource-oriented, and speaks JSON over HTTPS. It provisions and manages virtual machines, machine types, data centers, disks and snapshots, networks and security groups, images, SSH keys, object storage, and billing. A parallel gRPC API exposes the same services. Authentication uses a Bearer API key created in the CUDO Compute dashboard; requests without a valid key return 401 UNAUTHENTICATED.
+  termsOfService: https://www.cudocompute.com/legal/terms-of-service
+  contact:
+    name: CUDO Compute Support
+    url: https://www.cudocompute.com/contact
+  version: 1.0.0
+servers:
+- url: https://rest.compute.cudo.org
+security:
+- bearerAuth: []
+tags:
+- name: Machine Types
+paths:
+  /v1/vms/gpu-models:
+    get:
+      operationId: listVMGpuModels
+      tags:
+      - Machine Types
+      summary: List GPU models
+      responses:
+        '200':
+          description: Available GPU models
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/vms/machine-types:
+    get:
+      operationId: listVMMachineTypes
+      tags:
+      - Machine Types
+      summary: List machine types
+      responses:
+        '200':
+          description: Available machine types
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/data-centers/{dataCenterId}/machine-types:
+    get:
+      operationId: listDataCenterMachineTypes
+      tags:
+      - Machine Types
+      summary: List machine types in a data center
+      parameters:
+      - $ref: '#/components/parameters/dataCenterId'
+      responses:
+        '200':
+          description: Machine types in the data center
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/data-centers/{dataCenterId}/machine-type-prices:
+    get:
+      operationId: listMachineTypePrices
+      tags:
+      - Machine Types
+      summary: List machine-type prices in a data center
+      parameters:
+      - $ref: '#/components/parameters/dataCenterId'
+      responses:
+        '200':
+          description: Machine-type prices
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Authentication failed; missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    dataCenterId:
+      name: dataCenterId
+      in: path
+      required: true
+      description: The data center identifier.
+      schema:
+        type: string
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        status:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'A CUDO Compute API key passed as a Bearer token in the Authorization header, e.g. `Authorization: Bearer $CUDO_API_KEY`. Create keys in the CUDO Compute dashboard. Missing or invalid keys return 401 UNAUTHENTICATED.'

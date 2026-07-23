@@ -1,0 +1,164 @@
+openapi: 3.0.1
+info:
+  title: CUDO Compute Billing API
+  description: REST API for the CUDO Compute global GPU and cloud compute platform and marketplace. The API is versioned, resource-oriented, and speaks JSON over HTTPS. It provisions and manages virtual machines, machine types, data centers, disks and snapshots, networks and security groups, images, SSH keys, object storage, and billing. A parallel gRPC API exposes the same services. Authentication uses a Bearer API key created in the CUDO Compute dashboard; requests without a valid key return 401 UNAUTHENTICATED.
+  termsOfService: https://www.cudocompute.com/legal/terms-of-service
+  contact:
+    name: CUDO Compute Support
+    url: https://www.cudocompute.com/contact
+  version: 1.0.0
+servers:
+- url: https://rest.compute.cudo.org
+security:
+- bearerAuth: []
+tags:
+- name: Billing
+paths:
+  /v1/billing-accounts:
+    get:
+      operationId: listBillingAccounts
+      tags:
+      - Billing
+      summary: List billing accounts
+      responses:
+        '200':
+          description: A list of billing accounts
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createBillingAccount
+      tags:
+      - Billing
+      summary: Create a billing account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                displayName:
+                  type: string
+      responses:
+        '200':
+          description: Billing account created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingAccount'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/billing-accounts/{id}:
+    get:
+      operationId: getBillingAccount
+      tags:
+      - Billing
+      summary: Get a billing account
+      parameters:
+      - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: The requested billing account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingAccount'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: deleteBillingAccount
+      tags:
+      - Billing
+      summary: Delete a billing account
+      parameters:
+      - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: Billing account deleted
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/billing-accounts/{id}/details:
+    get:
+      operationId: getBillingAccountDetails
+      tags:
+      - Billing
+      summary: Get billing account details
+      parameters:
+      - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: Billing account details
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/billing-accounts/invoices:
+    get:
+      operationId: listBillingAccountInvoices
+      tags:
+      - Billing
+      summary: List billing account invoices
+      responses:
+        '200':
+          description: A list of invoices
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    BillingAccount:
+      type: object
+      properties:
+        id:
+          type: string
+        displayName:
+          type: string
+        createTime:
+          type: string
+          format: date-time
+        monthlySpend:
+          type: string
+        creditBalance:
+          type: string
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        status:
+          type: string
+  responses:
+    Unauthorized:
+      description: Authentication failed; missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      description: The resource identifier.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'A CUDO Compute API key passed as a Bearer token in the Authorization header, e.g. `Authorization: Bearer $CUDO_API_KEY`. Create keys in the CUDO Compute dashboard. Missing or invalid keys return 401 UNAUTHENTICATED.'

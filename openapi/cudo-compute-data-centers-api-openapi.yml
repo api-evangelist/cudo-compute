@@ -1,0 +1,114 @@
+openapi: 3.0.1
+info:
+  title: CUDO Compute Billing Data Centers API
+  description: REST API for the CUDO Compute global GPU and cloud compute platform and marketplace. The API is versioned, resource-oriented, and speaks JSON over HTTPS. It provisions and manages virtual machines, machine types, data centers, disks and snapshots, networks and security groups, images, SSH keys, object storage, and billing. A parallel gRPC API exposes the same services. Authentication uses a Bearer API key created in the CUDO Compute dashboard; requests without a valid key return 401 UNAUTHENTICATED.
+  termsOfService: https://www.cudocompute.com/legal/terms-of-service
+  contact:
+    name: CUDO Compute Support
+    url: https://www.cudocompute.com/contact
+  version: 1.0.0
+servers:
+- url: https://rest.compute.cudo.org
+security:
+- bearerAuth: []
+tags:
+- name: Data Centers
+paths:
+  /v1/data-centers:
+    get:
+      operationId: listDataCenters
+      tags:
+      - Data Centers
+      summary: List data centers
+      responses:
+        '200':
+          description: A list of data centers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListDataCentersResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/data-centers/{id}:
+    get:
+      operationId: getDataCenter
+      tags:
+      - Data Centers
+      summary: Get a data center
+      parameters:
+      - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: The requested data center
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataCenter'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/regions:
+    get:
+      operationId: listRegions
+      tags:
+      - Data Centers
+      summary: List regions
+      responses:
+        '200':
+          description: A list of regions
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    DataCenter:
+      type: object
+      properties:
+        id:
+          type: string
+        regionId:
+          type: string
+        ipAddresses:
+          type: array
+          items:
+            type: string
+        renewableEnergy:
+          type: boolean
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        status:
+          type: string
+    ListDataCentersResponse:
+      type: object
+      properties:
+        dataCenters:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataCenter'
+  responses:
+    Unauthorized:
+      description: Authentication failed; missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      description: The resource identifier.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'A CUDO Compute API key passed as a Bearer token in the Authorization header, e.g. `Authorization: Bearer $CUDO_API_KEY`. Create keys in the CUDO Compute dashboard. Missing or invalid keys return 401 UNAUTHENTICATED.'

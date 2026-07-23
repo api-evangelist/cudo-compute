@@ -1,0 +1,158 @@
+openapi: 3.0.1
+info:
+  title: CUDO Compute Billing SSH Keys API
+  description: REST API for the CUDO Compute global GPU and cloud compute platform and marketplace. The API is versioned, resource-oriented, and speaks JSON over HTTPS. It provisions and manages virtual machines, machine types, data centers, disks and snapshots, networks and security groups, images, SSH keys, object storage, and billing. A parallel gRPC API exposes the same services. Authentication uses a Bearer API key created in the CUDO Compute dashboard; requests without a valid key return 401 UNAUTHENTICATED.
+  termsOfService: https://www.cudocompute.com/legal/terms-of-service
+  contact:
+    name: CUDO Compute Support
+    url: https://www.cudocompute.com/contact
+  version: 1.0.0
+servers:
+- url: https://rest.compute.cudo.org
+security:
+- bearerAuth: []
+tags:
+- name: SSH Keys
+paths:
+  /v1/ssh-keys:
+    get:
+      operationId: listSSHKeys
+      tags:
+      - SSH Keys
+      summary: List SSH keys
+      responses:
+        '200':
+          description: A list of SSH keys
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createSSHKey
+      tags:
+      - SSH Keys
+      summary: Create an SSH key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                publicKey:
+                  type: string
+      responses:
+        '200':
+          description: SSH key created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SshKey'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/ssh-keys/{id}:
+    get:
+      operationId: getSSHKey
+      tags:
+      - SSH Keys
+      summary: Get an SSH key
+      parameters:
+      - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: The requested SSH key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SshKey'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: deleteSSHKey
+      tags:
+      - SSH Keys
+      summary: Delete an SSH key
+      parameters:
+      - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: SSH key deleted
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/project/{projectId}/ssh-keys:
+    get:
+      operationId: listProjectSSHKeys
+      tags:
+      - SSH Keys
+      summary: List SSH keys available to a project
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      responses:
+        '200':
+          description: A list of project SSH keys
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Authentication failed; missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        status:
+          type: string
+    SshKey:
+      type: object
+      properties:
+        id:
+          type: string
+        publicKey:
+          type: string
+        fingerprint:
+          type: string
+        type:
+          type: string
+        comment:
+          type: string
+        createTime:
+          type: string
+          format: date-time
+  parameters:
+    projectId:
+      name: projectId
+      in: path
+      required: true
+      description: The project identifier.
+      schema:
+        type: string
+    id:
+      name: id
+      in: path
+      required: true
+      description: The resource identifier.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'A CUDO Compute API key passed as a Bearer token in the Authorization header, e.g. `Authorization: Bearer $CUDO_API_KEY`. Create keys in the CUDO Compute dashboard. Missing or invalid keys return 401 UNAUTHENTICATED.'

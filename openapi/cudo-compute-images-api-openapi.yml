@@ -1,0 +1,165 @@
+openapi: 3.0.1
+info:
+  title: CUDO Compute Billing Images API
+  description: REST API for the CUDO Compute global GPU and cloud compute platform and marketplace. The API is versioned, resource-oriented, and speaks JSON over HTTPS. It provisions and manages virtual machines, machine types, data centers, disks and snapshots, networks and security groups, images, SSH keys, object storage, and billing. A parallel gRPC API exposes the same services. Authentication uses a Bearer API key created in the CUDO Compute dashboard; requests without a valid key return 401 UNAUTHENTICATED.
+  termsOfService: https://www.cudocompute.com/legal/terms-of-service
+  contact:
+    name: CUDO Compute Support
+    url: https://www.cudocompute.com/contact
+  version: 1.0.0
+servers:
+- url: https://rest.compute.cudo.org
+security:
+- bearerAuth: []
+tags:
+- name: Images
+paths:
+  /v1/projects/{projectId}/images:
+    get:
+      operationId: listPrivateVMImages
+      tags:
+      - Images
+      summary: List private VM images
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      responses:
+        '200':
+          description: A list of private VM images
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createPrivateVMImage
+      tags:
+      - Images
+      summary: Create a private VM image
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                vmId:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '200':
+          description: Private VM image created
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/projects/{projectId}/images/{id}:
+    get:
+      operationId: getPrivateVMImage
+      tags:
+      - Images
+      summary: Get a private VM image
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: The requested private VM image
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Image'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: deletePrivateVMImage
+      tags:
+      - Images
+      summary: Delete a private VM image
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: Private VM image deleted
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/vms/public-images:
+    get:
+      operationId: listPublicVMImages
+      tags:
+      - Images
+      summary: List public VM images
+      responses:
+        '200':
+          description: A list of public VM images
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    Image:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        displayName:
+          type: string
+        platform:
+          type: string
+        sizeGib:
+          type: integer
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        status:
+          type: string
+  responses:
+    Unauthorized:
+      description: Authentication failed; missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    projectId:
+      name: projectId
+      in: path
+      required: true
+      description: The project identifier.
+      schema:
+        type: string
+    id:
+      name: id
+      in: path
+      required: true
+      description: The resource identifier.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'A CUDO Compute API key passed as a Bearer token in the Authorization header, e.g. `Authorization: Bearer $CUDO_API_KEY`. Create keys in the CUDO Compute dashboard. Missing or invalid keys return 401 UNAUTHENTICATED.'

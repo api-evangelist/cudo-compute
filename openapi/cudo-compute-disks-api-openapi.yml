@@ -1,0 +1,252 @@
+openapi: 3.0.1
+info:
+  title: CUDO Compute Billing Disks API
+  description: REST API for the CUDO Compute global GPU and cloud compute platform and marketplace. The API is versioned, resource-oriented, and speaks JSON over HTTPS. It provisions and manages virtual machines, machine types, data centers, disks and snapshots, networks and security groups, images, SSH keys, object storage, and billing. A parallel gRPC API exposes the same services. Authentication uses a Bearer API key created in the CUDO Compute dashboard; requests without a valid key return 401 UNAUTHENTICATED.
+  termsOfService: https://www.cudocompute.com/legal/terms-of-service
+  contact:
+    name: CUDO Compute Support
+    url: https://www.cudocompute.com/contact
+  version: 1.0.0
+servers:
+- url: https://rest.compute.cudo.org
+security:
+- bearerAuth: []
+tags:
+- name: Disks
+paths:
+  /v1/projects/{projectId}/disks:
+    get:
+      operationId: listDisks
+      tags:
+      - Disks
+      summary: List storage disks
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      responses:
+        '200':
+          description: A list of disks
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createStorageDisk
+      tags:
+      - Disks
+      summary: Create a storage disk
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateStorageDiskBody'
+      responses:
+        '200':
+          description: Disk created
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/projects/{projectId}/disks/{id}:
+    get:
+      operationId: getDisk
+      tags:
+      - Disks
+      summary: Get a storage disk
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: The requested disk
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Disk'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: deleteDisk
+      tags:
+      - Disks
+      summary: Delete a storage disk
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: Disk deleted
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/projects/{projectId}/disk/{id}/attach:
+    patch:
+      operationId: attachStorageDisk
+      tags:
+      - Disks
+      summary: Attach a storage disk to a virtual machine
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                vmId:
+                  type: string
+      responses:
+        '200':
+          description: Disk attached
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/projects/{projectId}/disk/{id}/detach:
+    put:
+      operationId: detachStorageDisk
+      tags:
+      - Disks
+      summary: Detach a storage disk from a virtual machine
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: Disk detached
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/projects/{projectId}/disks/{id}/snapshots:
+    get:
+      operationId: listDiskSnapshots
+      tags:
+      - Disks
+      summary: List disk snapshots
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: A list of disk snapshots
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createDiskSnapshot
+      tags:
+      - Disks
+      summary: Create a disk snapshot
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: Snapshot created
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: deleteDiskSnapshot
+      tags:
+      - Disks
+      summary: Delete a disk snapshot
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: Snapshot deleted
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    CreateStorageDiskBody:
+      type: object
+      properties:
+        dataCenterId:
+          type: string
+        disk:
+          $ref: '#/components/schemas/Disk'
+    Disk:
+      type: object
+      properties:
+        id:
+          type: string
+        projectId:
+          type: string
+        dataCenterId:
+          type: string
+        vmId:
+          type: string
+        sizeGib:
+          type: integer
+        publicImageId:
+          type: string
+        privateImageId:
+          type: string
+        createTime:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        status:
+          type: string
+  responses:
+    Unauthorized:
+      description: Authentication failed; missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    projectId:
+      name: projectId
+      in: path
+      required: true
+      description: The project identifier.
+      schema:
+        type: string
+    id:
+      name: id
+      in: path
+      required: true
+      description: The resource identifier.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'A CUDO Compute API key passed as a Bearer token in the Authorization header, e.g. `Authorization: Bearer $CUDO_API_KEY`. Create keys in the CUDO Compute dashboard. Missing or invalid keys return 401 UNAUTHENTICATED.'
