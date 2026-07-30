@@ -8,7 +8,20 @@ description: CUDO Compute is a global GPU and cloud compute platform and marketp
   resource-oriented REST API (with a parallel gRPC surface) lets developers create
   and manage virtual machines, machine types, data centers, disks, networks, images,
   SSH keys, object storage, and billing programmatically.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: paid
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Paid · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cudo-compute.png
 tags:
 - GPU
 - Cloud Compute
@@ -19,169 +32,150 @@ created: '2026-06-21'
 modified: '2026-06-21'
 specificationVersion: '0.19'
 apis:
-- aid: cudo-compute:virtual-machines
-  name: CUDO Compute Virtual Machines API
-  tags:
-  - Virtual Machines
-  - Compute
-  - GPU
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.cudocompute.com/docs/api
-  baseURL: https://rest.compute.cudo.org
-  properties:
-  - url: https://www.cudocompute.com/docs/api
-    type: Documentation
-  - url: https://www.cudocompute.com/docs/rest-api/introduction
-    type: APIReference
-  - url: openapi/cudo-compute-openapi.yml
-    type: OpenAPI
-  - url: collections/cudo-compute.postman_collection.json
-    type: PostmanCollection
-  - url: collections/cudo-compute.opencollection.json
-    type: OpenCollection
-  description: Create, list, start, stop, reboot, resize, terminate, and monitor
-    CPU- and GPU-backed virtual machines in a project, including boot disks, NICs,
-    security groups, metadata, expiry, and password retrieval.
-- aid: cudo-compute:machine-types
-  name: CUDO Compute Machine Types API
-  tags:
-  - Machine Types
-  - GPU Models
-  - Catalog
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.cudocompute.com/docs/api
-  baseURL: https://rest.compute.cudo.org
-  properties:
-  - url: https://www.cudocompute.com/docs/api
-    type: Documentation
-  - url: openapi/cudo-compute-openapi.yml
-    type: OpenAPI
-  - url: collections/cudo-compute.postman_collection.json
-    type: PostmanCollection
-  - url: collections/cudo-compute.opencollection.json
-    type: OpenCollection
-  description: Lists available machine types, GPU models, and per-data-center
-    machine-type prices and live utilization used to size virtual machines.
-- aid: cudo-compute:data-centers
-  name: CUDO Compute Data Centers API
-  tags:
-  - Data Centers
-  - Regions
-  - Capacity
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.cudocompute.com/docs/api
-  baseURL: https://rest.compute.cudo.org
-  properties:
-  - url: https://www.cudocompute.com/docs/api
-    type: Documentation
-  - url: openapi/cudo-compute-openapi.yml
-    type: OpenAPI
-  - url: collections/cudo-compute.postman_collection.json
-    type: PostmanCollection
-  - url: collections/cudo-compute.opencollection.json
-    type: OpenCollection
-  description: Lists data centers and regions, host counts, clusters, commitment
-    schedules, and utilization across the CUDO global compute network.
-- aid: cudo-compute:disks
-  name: CUDO Compute Disks & Storage API
-  tags:
-  - Disks
-  - Storage
-  - Snapshots
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.cudocompute.com/docs/api
-  baseURL: https://rest.compute.cudo.org
-  properties:
-  - url: https://www.cudocompute.com/docs/api
-    type: Documentation
-  - url: openapi/cudo-compute-openapi.yml
-    type: OpenAPI
-  - url: collections/cudo-compute.postman_collection.json
-    type: PostmanCollection
-  - url: collections/cudo-compute.opencollection.json
-    type: OpenCollection
-  description: Create, list, attach, detach, revert, and delete storage disks, plus
-    create and delete disk snapshots, and manage object storage buckets and users.
-- aid: cudo-compute:networks
-  name: CUDO Compute Networks API
-  tags:
-  - Networks
-  - Security Groups
-  - VPC
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.cudocompute.com/docs/api
-  baseURL: https://rest.compute.cudo.org
-  properties:
-  - url: https://www.cudocompute.com/docs/api
-    type: Documentation
-  - url: openapi/cudo-compute-openapi.yml
-    type: OpenAPI
-  - url: collections/cudo-compute.postman_collection.json
-    type: PostmanCollection
-  - url: collections/cudo-compute.opencollection.json
-    type: OpenCollection
-  description: Create, list, start, stop, and delete project networks, and manage
-    security groups that control inbound and outbound traffic to virtual machines.
-- aid: cudo-compute:images
-  name: CUDO Compute Images API
-  tags:
-  - Images
-  - Boot Images
-  - Snapshots
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.cudocompute.com/docs/api
-  baseURL: https://rest.compute.cudo.org
-  properties:
-  - url: https://www.cudocompute.com/docs/api
-    type: Documentation
-  - url: openapi/cudo-compute-openapi.yml
-    type: OpenAPI
-  - url: collections/cudo-compute.postman_collection.json
-    type: PostmanCollection
-  - url: collections/cudo-compute.opencollection.json
-    type: OpenCollection
-  description: List public boot images and create, list, update, and delete private
-    VM images used to provision virtual machines.
-- aid: cudo-compute:ssh-keys
-  name: CUDO Compute SSH Keys API
-  tags:
-  - SSH Keys
-  - Access
-  - Security
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.cudocompute.com/docs/api
-  baseURL: https://rest.compute.cudo.org
-  properties:
-  - url: https://www.cudocompute.com/docs/api
-    type: Documentation
-  - url: openapi/cudo-compute-openapi.yml
-    type: OpenAPI
-  - url: collections/cudo-compute.postman_collection.json
-    type: PostmanCollection
-  - url: collections/cudo-compute.opencollection.json
-    type: OpenCollection
-  description: Create, list, get, and delete account SSH keys and list the SSH keys
-    available to a project for injection into virtual machines.
-- aid: cudo-compute:billing
+- aid: cudo-compute:cudo-compute-billing-api
   name: CUDO Compute Billing API
+  description: The Billing API from CUDO Compute — 4 operation(s) for billing.
+  humanURL: https://www.cudocompute.com/docs/api
+  baseURL: https://rest.compute.cudo.org
   tags:
   - Billing
-  - FinOps
-  - Invoices
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  properties:
+  - type: OpenAPI
+    url: openapi/cudo-compute-billing-api-openapi.yml
+  - type: Documentation
+    url: https://www.cudocompute.com/docs/api
+  - type: APIReference
+    url: https://www.cudocompute.com/docs/rest-api/introduction
+  - type: PostmanCollection
+    url: collections/cudo-compute.postman_collection.json
+  - type: OpenCollection
+    url: collections/cudo-compute.opencollection.json
+- aid: cudo-compute:cudo-compute-data-centers-api
+  name: CUDO Compute Data Centers API
+  description: The Data Centers API from CUDO Compute — 3 operation(s) for data centers.
   humanURL: https://www.cudocompute.com/docs/api
   baseURL: https://rest.compute.cudo.org
+  tags:
+  - Data Centers
   properties:
-  - url: https://www.cudocompute.com/docs/api
-    type: Documentation
-  - url: openapi/cudo-compute-openapi.yml
-    type: OpenAPI
-  - url: collections/cudo-compute.postman_collection.json
-    type: PostmanCollection
-  - url: collections/cudo-compute.opencollection.json
-    type: OpenCollection
-  description: Create and manage billing accounts, payment methods, credit, invoices
-    and outstanding balances, spend details, and credit-balance transactions.
+  - type: OpenAPI
+    url: openapi/cudo-compute-data-centers-api-openapi.yml
+  - type: Documentation
+    url: https://www.cudocompute.com/docs/api
+  - type: APIReference
+    url: https://www.cudocompute.com/docs/rest-api/introduction
+  - type: PostmanCollection
+    url: collections/cudo-compute.postman_collection.json
+  - type: OpenCollection
+    url: collections/cudo-compute.opencollection.json
+- aid: cudo-compute:cudo-compute-disks-api
+  name: CUDO Compute Disks API
+  description: The Disks API from CUDO Compute — 5 operation(s) for disks.
+  humanURL: https://www.cudocompute.com/docs/api
+  baseURL: https://rest.compute.cudo.org
+  tags:
+  - Disks
+  properties:
+  - type: OpenAPI
+    url: openapi/cudo-compute-disks-api-openapi.yml
+  - type: Documentation
+    url: https://www.cudocompute.com/docs/api
+  - type: APIReference
+    url: https://www.cudocompute.com/docs/rest-api/introduction
+  - type: PostmanCollection
+    url: collections/cudo-compute.postman_collection.json
+  - type: OpenCollection
+    url: collections/cudo-compute.opencollection.json
+- aid: cudo-compute:cudo-compute-images-api
+  name: CUDO Compute Images API
+  description: The Images API from CUDO Compute — 3 operation(s) for images.
+  humanURL: https://www.cudocompute.com/docs/api
+  baseURL: https://rest.compute.cudo.org
+  tags:
+  - Images
+  properties:
+  - type: OpenAPI
+    url: openapi/cudo-compute-images-api-openapi.yml
+  - type: Documentation
+    url: https://www.cudocompute.com/docs/api
+  - type: APIReference
+    url: https://www.cudocompute.com/docs/rest-api/introduction
+  - type: PostmanCollection
+    url: collections/cudo-compute.postman_collection.json
+  - type: OpenCollection
+    url: collections/cudo-compute.opencollection.json
+- aid: cudo-compute:cudo-compute-machine-types-api
+  name: CUDO Compute Machine Types API
+  description: The Machine Types API from CUDO Compute — 4 operation(s) for machine types.
+  humanURL: https://www.cudocompute.com/docs/api
+  baseURL: https://rest.compute.cudo.org
+  tags:
+  - Machine Types
+  properties:
+  - type: OpenAPI
+    url: openapi/cudo-compute-machine-types-api-openapi.yml
+  - type: Documentation
+    url: https://www.cudocompute.com/docs/api
+  - type: APIReference
+    url: https://www.cudocompute.com/docs/rest-api/introduction
+  - type: PostmanCollection
+    url: collections/cudo-compute.postman_collection.json
+  - type: OpenCollection
+    url: collections/cudo-compute.opencollection.json
+- aid: cudo-compute:cudo-compute-networks-api
+  name: CUDO Compute Networks API
+  description: The Networks API from CUDO Compute — 5 operation(s) for networks.
+  humanURL: https://www.cudocompute.com/docs/api
+  baseURL: https://rest.compute.cudo.org
+  tags:
+  - Networks
+  properties:
+  - type: OpenAPI
+    url: openapi/cudo-compute-networks-api-openapi.yml
+  - type: Documentation
+    url: https://www.cudocompute.com/docs/api
+  - type: APIReference
+    url: https://www.cudocompute.com/docs/rest-api/introduction
+  - type: PostmanCollection
+    url: collections/cudo-compute.postman_collection.json
+  - type: OpenCollection
+    url: collections/cudo-compute.opencollection.json
+- aid: cudo-compute:cudo-compute-ssh-keys-api
+  name: CUDO Compute SSH Keys API
+  description: The SSH Keys API from CUDO Compute — 3 operation(s) for ssh keys.
+  humanURL: https://www.cudocompute.com/docs/api
+  baseURL: https://rest.compute.cudo.org
+  tags:
+  - SSH Keys
+  properties:
+  - type: OpenAPI
+    url: openapi/cudo-compute-ssh-keys-api-openapi.yml
+  - type: Documentation
+    url: https://www.cudocompute.com/docs/api
+  - type: APIReference
+    url: https://www.cudocompute.com/docs/rest-api/introduction
+  - type: PostmanCollection
+    url: collections/cudo-compute.postman_collection.json
+  - type: OpenCollection
+    url: collections/cudo-compute.opencollection.json
+- aid: cudo-compute:cudo-compute-virtual-machines-api
+  name: CUDO Compute Virtual Machines API
+  description: The Virtual Machines API from CUDO Compute — 10 operation(s) for virtual machines.
+  humanURL: https://www.cudocompute.com/docs/api
+  baseURL: https://rest.compute.cudo.org
+  tags:
+  - Virtual Machines
+  properties:
+  - type: OpenAPI
+    url: openapi/cudo-compute-virtual-machines-api-openapi.yml
+  - type: Documentation
+    url: https://www.cudocompute.com/docs/api
+  - type: APIReference
+    url: https://www.cudocompute.com/docs/rest-api/introduction
+  - type: PostmanCollection
+    url: collections/cudo-compute.postman_collection.json
+  - type: OpenCollection
+    url: collections/cudo-compute.opencollection.json
 common:
 - type: AgenticAccess
   url: agentic-access/cudo-compute-agentic-access.yml
