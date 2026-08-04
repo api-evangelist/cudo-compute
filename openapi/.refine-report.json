@@ -1,0 +1,28 @@
+{
+  "provider": "cudo-compute",
+  "sources": [
+    "cudo-compute-billing-api-openapi.yml",
+    "cudo-compute-data-centers-api-openapi.yml",
+    "cudo-compute-disks-api-openapi.yml",
+    "cudo-compute-images-api-openapi.yml",
+    "cudo-compute-machine-types-api-openapi.yml",
+    "cudo-compute-networks-api-openapi.yml",
+    "cudo-compute-ssh-keys-api-openapi.yml",
+    "cudo-compute-virtual-machines-api-openapi.yml"
+  ],
+  "outputs": [
+    "cudo-compute-billing-api-openapi.yml",
+    "cudo-compute-data-centers-api-openapi.yml",
+    "cudo-compute-disks-api-openapi.yml",
+    "cudo-compute-images-api-openapi.yml",
+    "cudo-compute-machine-types-api-openapi.yml",
+    "cudo-compute-networks-api-openapi.yml",
+    "cudo-compute-ssh-keys-api-openapi.yml",
+    "cudo-compute-virtual-machines-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
