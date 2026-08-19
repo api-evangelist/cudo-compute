@@ -1,0 +1,245 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CUDO Compute Billing Disks API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Disks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List storage disks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest.compute.cudo.org/v1/projects/:projectId/disks",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The project identifier."
+              }
+            ]
+          },
+          "docs": "List storage disks"
+        },
+        {
+          "info": {
+            "name": "Create a storage disk",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rest.compute.cudo.org/v1/projects/:projectId/disks",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The project identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a storage disk"
+        },
+        {
+          "info": {
+            "name": "Get a storage disk",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest.compute.cudo.org/v1/projects/:projectId/disks/:id",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The project identifier."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource identifier."
+              }
+            ]
+          },
+          "docs": "Get a storage disk"
+        },
+        {
+          "info": {
+            "name": "Delete a storage disk",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rest.compute.cudo.org/v1/projects/:projectId/disks/:id",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The project identifier."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource identifier."
+              }
+            ]
+          },
+          "docs": "Delete a storage disk"
+        },
+        {
+          "info": {
+            "name": "Attach a storage disk to a virtual machine",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://rest.compute.cudo.org/v1/projects/:projectId/disk/:id/attach",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The project identifier."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Attach a storage disk to a virtual machine"
+        },
+        {
+          "info": {
+            "name": "Detach a storage disk from a virtual machine",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://rest.compute.cudo.org/v1/projects/:projectId/disk/:id/detach",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The project identifier."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource identifier."
+              }
+            ]
+          },
+          "docs": "Detach a storage disk from a virtual machine"
+        },
+        {
+          "info": {
+            "name": "List disk snapshots",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest.compute.cudo.org/v1/projects/:projectId/disks/:id/snapshots",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The project identifier."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource identifier."
+              }
+            ]
+          },
+          "docs": "List disk snapshots"
+        },
+        {
+          "info": {
+            "name": "Create a disk snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rest.compute.cudo.org/v1/projects/:projectId/disks/:id/snapshots",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The project identifier."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource identifier."
+              }
+            ]
+          },
+          "docs": "Create a disk snapshot"
+        },
+        {
+          "info": {
+            "name": "Delete a disk snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rest.compute.cudo.org/v1/projects/:projectId/disks/:id/snapshots",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The project identifier."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource identifier."
+              }
+            ]
+          },
+          "docs": "Delete a disk snapshot"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

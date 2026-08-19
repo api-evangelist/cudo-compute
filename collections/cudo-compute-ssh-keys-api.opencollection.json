@@ -1,0 +1,107 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CUDO Compute Billing SSH Keys API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "SSH Keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List SSH keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest.compute.cudo.org/v1/ssh-keys"
+          },
+          "docs": "List SSH keys"
+        },
+        {
+          "info": {
+            "name": "Create an SSH key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rest.compute.cudo.org/v1/ssh-keys",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an SSH key"
+        },
+        {
+          "info": {
+            "name": "Get an SSH key",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest.compute.cudo.org/v1/ssh-keys/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource identifier."
+              }
+            ]
+          },
+          "docs": "Get an SSH key"
+        },
+        {
+          "info": {
+            "name": "Delete an SSH key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rest.compute.cudo.org/v1/ssh-keys/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource identifier."
+              }
+            ]
+          },
+          "docs": "Delete an SSH key"
+        },
+        {
+          "info": {
+            "name": "List SSH keys available to a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest.compute.cudo.org/v1/project/:projectId/ssh-keys",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The project identifier."
+              }
+            ]
+          },
+          "docs": "List SSH keys available to a project"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

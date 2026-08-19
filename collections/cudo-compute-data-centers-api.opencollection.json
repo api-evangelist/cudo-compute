@@ -1,0 +1,65 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CUDO Compute Billing Data Centers API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Data Centers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List data centers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest.compute.cudo.org/v1/data-centers"
+          },
+          "docs": "List data centers"
+        },
+        {
+          "info": {
+            "name": "Get a data center",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest.compute.cudo.org/v1/data-centers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource identifier."
+              }
+            ]
+          },
+          "docs": "Get a data center"
+        },
+        {
+          "info": {
+            "name": "List regions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest.compute.cudo.org/v1/regions"
+          },
+          "docs": "List regions"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

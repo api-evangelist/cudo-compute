@@ -1,0 +1,280 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CUDO Compute Billing Virtual Machines API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Virtual Machines",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a virtual machine",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rest.compute.cudo.org/v1/projects/:projectId/vm",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The project identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Provisions a new CPU- or GPU-backed virtual machine in a project."
+        },
+        {
+          "info": {
+            "name": "List virtual machines",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest.compute.cudo.org/v1/projects/:projectId/vms",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The project identifier."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "startAfter",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List virtual machines"
+        },
+        {
+          "info": {
+            "name": "Get a virtual machine",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest.compute.cudo.org/v1/projects/:projectId/vms/:id",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The project identifier."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource identifier."
+              }
+            ]
+          },
+          "docs": "Get a virtual machine"
+        },
+        {
+          "info": {
+            "name": "Start a virtual machine",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rest.compute.cudo.org/v1/projects/:projectId/vms/:id/start",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The project identifier."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource identifier."
+              }
+            ]
+          },
+          "docs": "Start a virtual machine"
+        },
+        {
+          "info": {
+            "name": "Stop a virtual machine",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rest.compute.cudo.org/v1/projects/:projectId/vms/:id/stop",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The project identifier."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource identifier."
+              }
+            ]
+          },
+          "docs": "Stop a virtual machine"
+        },
+        {
+          "info": {
+            "name": "Reboot a virtual machine",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rest.compute.cudo.org/v1/projects/:projectId/vms/:id/reboot",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The project identifier."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource identifier."
+              }
+            ]
+          },
+          "docs": "Reboot a virtual machine"
+        },
+        {
+          "info": {
+            "name": "Resize a virtual machine",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rest.compute.cudo.org/v1/projects/:projectId/vms/:id/resize",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The project identifier."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Resize a virtual machine"
+        },
+        {
+          "info": {
+            "name": "Terminate a virtual machine",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rest.compute.cudo.org/v1/projects/:projectId/vms/:id/terminate",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The project identifier."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource identifier."
+              }
+            ]
+          },
+          "docs": "Terminate a virtual machine"
+        },
+        {
+          "info": {
+            "name": "Get virtual machine connection details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest.compute.cudo.org/v1/projects/:projectId/vms/:id/connect",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The project identifier."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource identifier."
+              }
+            ]
+          },
+          "docs": "Get virtual machine connection details"
+        },
+        {
+          "info": {
+            "name": "Get virtual machine monitoring metrics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest.compute.cudo.org/v1/projects/:projectId/vms/:id/monitor",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "The project identifier."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource identifier."
+              }
+            ]
+          },
+          "docs": "Get virtual machine monitoring metrics"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

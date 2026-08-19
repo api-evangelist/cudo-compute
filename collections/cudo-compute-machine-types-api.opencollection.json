@@ -1,0 +1,84 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CUDO Compute Billing Machine Types API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Machine Types",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List GPU models",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest.compute.cudo.org/v1/vms/gpu-models"
+          },
+          "docs": "List GPU models"
+        },
+        {
+          "info": {
+            "name": "List machine types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest.compute.cudo.org/v1/vms/machine-types"
+          },
+          "docs": "List machine types"
+        },
+        {
+          "info": {
+            "name": "List machine types in a data center",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest.compute.cudo.org/v1/data-centers/:dataCenterId/machine-types",
+            "params": [
+              {
+                "name": "dataCenterId",
+                "value": "",
+                "type": "path",
+                "description": "The data center identifier."
+              }
+            ]
+          },
+          "docs": "List machine types in a data center"
+        },
+        {
+          "info": {
+            "name": "List machine-type prices in a data center",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest.compute.cudo.org/v1/data-centers/:dataCenterId/machine-type-prices",
+            "params": [
+              {
+                "name": "dataCenterId",
+                "value": "",
+                "type": "path",
+                "description": "The data center identifier."
+              }
+            ]
+          },
+          "docs": "List machine-type prices in a data center"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

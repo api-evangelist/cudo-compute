@@ -1,0 +1,118 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CUDO Compute Billing API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Billing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List billing accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest.compute.cudo.org/v1/billing-accounts"
+          },
+          "docs": "List billing accounts"
+        },
+        {
+          "info": {
+            "name": "Create a billing account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rest.compute.cudo.org/v1/billing-accounts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a billing account"
+        },
+        {
+          "info": {
+            "name": "Get a billing account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest.compute.cudo.org/v1/billing-accounts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource identifier."
+              }
+            ]
+          },
+          "docs": "Get a billing account"
+        },
+        {
+          "info": {
+            "name": "Delete a billing account",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://rest.compute.cudo.org/v1/billing-accounts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource identifier."
+              }
+            ]
+          },
+          "docs": "Delete a billing account"
+        },
+        {
+          "info": {
+            "name": "Get billing account details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest.compute.cudo.org/v1/billing-accounts/:id/details",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource identifier."
+              }
+            ]
+          },
+          "docs": "Get billing account details"
+        },
+        {
+          "info": {
+            "name": "List billing account invoices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest.compute.cudo.org/v1/billing-accounts/invoices"
+          },
+          "docs": "List billing account invoices"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
