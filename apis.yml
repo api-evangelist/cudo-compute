@@ -92,6 +92,8 @@ apis:
   humanURL: https://www.cudocompute.com/docs/api
   baseURL: https://rest.compute.cudo.org
   tags:
+  - Image
+  tags_raw:
   - Images
   properties:
   - type: OpenAPI
