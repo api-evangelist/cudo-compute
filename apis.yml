@@ -8,6 +8,18 @@ description: CUDO Compute is a global GPU and cloud compute platform and marketp
   resource-oriented REST API (with a parallel gRPC surface) lets developers create
   and manage virtual machines, machine types, data centers, disks, networks, images,
   SSH keys, object storage, and billing programmatically.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
