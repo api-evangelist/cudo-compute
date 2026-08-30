@@ -191,6 +191,9 @@ apis:
   - type: OpenCollection
     url: collections/cudo-compute.opencollection.json
 common:
+- type: CapabilityMap
+  url: capabilities/cudo-compute-capability-edges.yml
+  name: CUDO Compute Business Capability Map
 - type: AgenticAccess
   url: agentic-access/cudo-compute-agentic-access.yml
 - type: DomainSecurity
