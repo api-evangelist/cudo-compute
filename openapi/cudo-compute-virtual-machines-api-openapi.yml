@@ -1,7 +1,7 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: CUDO Compute Billing Virtual Machines API
-  description: REST API for the CUDO Compute global GPU and cloud compute platform and marketplace. The API is versioned, resource-oriented, and speaks JSON over HTTPS. It provisions and manages virtual machines, machine types, data centers, disks and snapshots, networks and security groups, images, SSH keys, object storage, and billing. A parallel gRPC API exposes the same services. Authentication uses a Bearer API key created in the CUDO Compute dashboard; requests without a valid key return 401 UNAUTHENTICATED.
+  title: CUDO Compute Virtual Machines API
+  description: REST API for the CUDO Compute global GPU and cloud compute platform and marketplace.
   termsOfService: https://www.cudocompute.com/legal/terms-of-service
   contact:
     name: CUDO Compute Support
@@ -219,41 +219,14 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Authentication failed; missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    ListVMsResponse:
-      type: object
-      properties:
-        vms:
-          type: array
-          items:
-            $ref: '#/components/schemas/VM'
-    CreateVMResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        vm:
-          $ref: '#/components/schemas/VM'
-    Disk:
-      type: object
-      properties:
-        id:
-          type: string
-        projectId:
-          type: string
-        dataCenterId:
-          type: string
-        vmId:
-          type: string
-        sizeGib:
-          type: integer
-        publicImageId:
-          type: string
-        privateImageId:
-          type: string
-        createTime:
-          type: string
-          format: date-time
     VM:
       type: object
       properties:
@@ -285,15 +258,6 @@ components:
           type: string
         gpuQuantity:
           type: integer
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-        status:
-          type: string
     CreateVMBody:
       type: object
       properties:
@@ -325,26 +289,62 @@ components:
             type: string
         bootDisk:
           $ref: '#/components/schemas/Disk'
-  responses:
-    Unauthorized:
-      description: Authentication failed; missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    Disk:
+      type: object
+      properties:
+        id:
+          type: string
+        projectId:
+          type: string
+        dataCenterId:
+          type: string
+        vmId:
+          type: string
+        sizeGib:
+          type: integer
+        publicImageId:
+          type: string
+        privateImageId:
+          type: string
+        createTime:
+          type: string
+          format: date-time
+    CreateVMResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        vm:
+          $ref: '#/components/schemas/VM'
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        status:
+          type: string
+    ListVMsResponse:
+      type: object
+      properties:
+        vms:
+          type: array
+          items:
+            $ref: '#/components/schemas/VM'
   parameters:
-    projectId:
-      name: projectId
-      in: path
-      required: true
-      description: The project identifier.
-      schema:
-        type: string
     id:
       name: id
       in: path
       required: true
       description: The resource identifier.
+      schema:
+        type: string
+    projectId:
+      name: projectId
+      in: path
+      required: true
+      description: The project identifier.
       schema:
         type: string
   securitySchemes:

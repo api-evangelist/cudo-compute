@@ -1,7 +1,7 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: CUDO Compute Billing Disks API
-  description: REST API for the CUDO Compute global GPU and cloud compute platform and marketplace. The API is versioned, resource-oriented, and speaks JSON over HTTPS. It provisions and manages virtual machines, machine types, data centers, disks and snapshots, networks and security groups, images, SSH keys, object storage, and billing. A parallel gRPC API exposes the same services. Authentication uses a Bearer API key created in the CUDO Compute dashboard; requests without a valid key return 401 UNAUTHENTICATED.
+  title: CUDO Compute Disks API
+  description: REST API for the CUDO Compute global GPU and cloud compute platform and marketplace.
   termsOfService: https://www.cudocompute.com/legal/terms-of-service
   contact:
     name: CUDO Compute Support
@@ -186,14 +186,14 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Authentication failed; missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    CreateStorageDiskBody:
-      type: object
-      properties:
-        dataCenterId:
-          type: string
-        disk:
-          $ref: '#/components/schemas/Disk'
     Disk:
       type: object
       properties:
@@ -223,26 +223,26 @@ components:
           type: string
         status:
           type: string
-  responses:
-    Unauthorized:
-      description: Authentication failed; missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    CreateStorageDiskBody:
+      type: object
+      properties:
+        dataCenterId:
+          type: string
+        disk:
+          $ref: '#/components/schemas/Disk'
   parameters:
-    projectId:
-      name: projectId
-      in: path
-      required: true
-      description: The project identifier.
-      schema:
-        type: string
     id:
       name: id
       in: path
       required: true
       description: The resource identifier.
+      schema:
+        type: string
+    projectId:
+      name: projectId
+      in: path
+      required: true
+      description: The project identifier.
       schema:
         type: string
   securitySchemes:
