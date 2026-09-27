@@ -63,13 +63,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    ListDataCentersResponse:
-      type: object
-      properties:
-        dataCenters:
-          type: array
-          items:
-            $ref: '#/components/schemas/DataCenter'
     DataCenter:
       type: object
       properties:
@@ -83,6 +76,13 @@ components:
             type: string
         renewableEnergy:
           type: boolean
+    ListDataCentersResponse:
+      type: object
+      properties:
+        dataCenters:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataCenter'
     Error:
       type: object
       properties:
