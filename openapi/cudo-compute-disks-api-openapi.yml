@@ -187,13 +187,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   parameters:
-    projectId:
-      name: projectId
-      in: path
-      required: true
-      description: The project identifier.
-      schema:
-        type: string
     id:
       name: id
       in: path
@@ -201,14 +194,30 @@ components:
       description: The resource identifier.
       schema:
         type: string
-  responses:
-    Unauthorized:
-      description: Authentication failed; missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    projectId:
+      name: projectId
+      in: path
+      required: true
+      description: The project identifier.
+      schema:
+        type: string
   schemas:
+    CreateStorageDiskBody:
+      type: object
+      properties:
+        dataCenterId:
+          type: string
+        disk:
+          $ref: '#/components/schemas/Disk'
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        status:
+          type: string
     Disk:
       type: object
       properties:
@@ -229,22 +238,13 @@ components:
         createTime:
           type: string
           format: date-time
-    CreateStorageDiskBody:
-      type: object
-      properties:
-        dataCenterId:
-          type: string
-        disk:
-          $ref: '#/components/schemas/Disk'
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-        status:
-          type: string
+  responses:
+    Unauthorized:
+      description: Authentication failed; missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
