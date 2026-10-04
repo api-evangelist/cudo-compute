@@ -126,6 +126,15 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        status:
+          type: string
     BillingAccount:
       type: object
       properties:
@@ -139,15 +148,6 @@ components:
         monthlySpend:
           type: string
         creditBalance:
-          type: string
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-        status:
           type: string
   parameters:
     id:

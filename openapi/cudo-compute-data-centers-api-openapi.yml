@@ -62,14 +62,6 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  parameters:
-    id:
-      name: id
-      in: path
-      required: true
-      description: The resource identifier.
-      schema:
-        type: string
   responses:
     Unauthorized:
       description: Authentication failed; missing or invalid API key.
@@ -78,13 +70,15 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
-    ListDataCentersResponse:
+    Error:
       type: object
       properties:
-        dataCenters:
-          type: array
-          items:
-            $ref: '#/components/schemas/DataCenter'
+        code:
+          type: integer
+        message:
+          type: string
+        status:
+          type: string
     DataCenter:
       type: object
       properties:
@@ -98,15 +92,21 @@ components:
             type: string
         renewableEnergy:
           type: boolean
-    Error:
+    ListDataCentersResponse:
       type: object
       properties:
-        code:
-          type: integer
-        message:
-          type: string
-        status:
-          type: string
+        dataCenters:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataCenter'
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      description: The resource identifier.
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http
