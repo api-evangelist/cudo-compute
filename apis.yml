@@ -42,7 +42,7 @@ tags:
 - Virtual Machines
 - Marketplace
 created: '2026-06-21'
-modified: '2026-06-21'
+modified: '2026-10-06'
 specificationVersion: '0.23'
 apis:
 - aid: cudo-compute:cudo-compute-billing-api
@@ -195,6 +195,8 @@ apis:
   - type: OpenCollection
     url: collections/cudo-compute.opencollection.json
 common:
+- url: https://www.cudocompute.com/blog
+  type: Blog
 - type: CapabilityMap
   url: capabilities/cudo-compute-capability-edges.yml
   name: CUDO Compute Business Capability Map
