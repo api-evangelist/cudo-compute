@@ -187,3 +187,40 @@ plans:
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - metered
+  - subscription
+  units:
+  - compute
+  - data
+  - negotiated
+  plans:
+  - name: On-Demand
+    access: other
+    model: metered
+    model_how: stated
+    units:
+    - compute
+    - data
+    periods:
+    - hour
+    - month
+  - name: Reserved Capacity
+    access: other
+    model: subscription
+    model_how: stated
+    units:
+    - compute
+    periods:
+    - month
+  - name: Bare Metal & Clusters
+    access: enterprise
+    model: subscription
+    model_how: derived
+    units:
+    - negotiated
+    periods:
+    - month
