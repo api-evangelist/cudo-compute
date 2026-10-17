@@ -142,13 +142,21 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Authentication failed; missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+  parameters:
+    projectId:
+      name: projectId
+      in: path
+      required: true
+      description: The project identifier.
+      schema:
+        type: string
+    id:
+      name: id
+      in: path
+      required: true
+      description: The resource identifier.
+      schema:
+        type: string
   schemas:
     Error:
       type: object
@@ -158,6 +166,15 @@ components:
         message:
           type: string
         status:
+          type: string
+    CreateNetworkBody:
+      type: object
+      properties:
+        dataCenterId:
+          type: string
+        id:
+          type: string
+        cidrPrefix:
           type: string
     Network:
       type: object
@@ -179,30 +196,13 @@ components:
         createTime:
           type: string
           format: date-time
-    CreateNetworkBody:
-      type: object
-      properties:
-        dataCenterId:
-          type: string
-        id:
-          type: string
-        cidrPrefix:
-          type: string
-  parameters:
-    id:
-      name: id
-      in: path
-      required: true
-      description: The resource identifier.
-      schema:
-        type: string
-    projectId:
-      name: projectId
-      in: path
-      required: true
-      description: The project identifier.
-      schema:
-        type: string
+  responses:
+    Unauthorized:
+      description: Authentication failed; missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

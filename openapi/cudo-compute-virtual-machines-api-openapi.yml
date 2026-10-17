@@ -219,14 +219,67 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Authentication failed; missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+  parameters:
+    projectId:
+      name: projectId
+      in: path
+      required: true
+      description: The project identifier.
+      schema:
+        type: string
+    id:
+      name: id
+      in: path
+      required: true
+      description: The resource identifier.
+      schema:
+        type: string
   schemas:
+    CreateVMResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        vm:
+          $ref: '#/components/schemas/VM'
+    VM:
+      type: object
+      properties:
+        id:
+          type: string
+        datacenterId:
+          type: string
+        machineType:
+          type: string
+        regionId:
+          type: string
+        regionName:
+          type: string
+        externalIpAddress:
+          type: string
+        internalIpAddress:
+          type: string
+        publicIpAddress:
+          type: string
+        memory:
+          type: integer
+        cpuModel:
+          type: string
+        vcpus:
+          type: integer
+        gpuModel:
+          type: string
+        gpuModelId:
+          type: string
+        gpuQuantity:
+          type: integer
+    ListVMsResponse:
+      type: object
+      properties:
+        vms:
+          type: array
+          items:
+            $ref: '#/components/schemas/VM'
     Error:
       type: object
       properties:
@@ -267,51 +320,6 @@ components:
             type: string
         bootDisk:
           $ref: '#/components/schemas/Disk'
-    CreateVMResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        vm:
-          $ref: '#/components/schemas/VM'
-    ListVMsResponse:
-      type: object
-      properties:
-        vms:
-          type: array
-          items:
-            $ref: '#/components/schemas/VM'
-    VM:
-      type: object
-      properties:
-        id:
-          type: string
-        datacenterId:
-          type: string
-        machineType:
-          type: string
-        regionId:
-          type: string
-        regionName:
-          type: string
-        externalIpAddress:
-          type: string
-        internalIpAddress:
-          type: string
-        publicIpAddress:
-          type: string
-        memory:
-          type: integer
-        cpuModel:
-          type: string
-        vcpus:
-          type: integer
-        gpuModel:
-          type: string
-        gpuModelId:
-          type: string
-        gpuQuantity:
-          type: integer
     Disk:
       type: object
       properties:
@@ -332,21 +340,13 @@ components:
         createTime:
           type: string
           format: date-time
-  parameters:
-    id:
-      name: id
-      in: path
-      required: true
-      description: The resource identifier.
-      schema:
-        type: string
-    projectId:
-      name: projectId
-      in: path
-      required: true
-      description: The project identifier.
-      schema:
-        type: string
+  responses:
+    Unauthorized:
+      description: Authentication failed; missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

@@ -111,13 +111,21 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Authentication failed; missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+  parameters:
+    projectId:
+      name: projectId
+      in: path
+      required: true
+      description: The project identifier.
+      schema:
+        type: string
+    id:
+      name: id
+      in: path
+      required: true
+      description: The resource identifier.
+      schema:
+        type: string
   schemas:
     Error:
       type: object
@@ -143,21 +151,13 @@ components:
           type: string
         sizeGib:
           type: integer
-  parameters:
-    id:
-      name: id
-      in: path
-      required: true
-      description: The resource identifier.
-      schema:
-        type: string
-    projectId:
-      name: projectId
-      in: path
-      required: true
-      description: The project identifier.
-      schema:
-        type: string
+  responses:
+    Unauthorized:
+      description: Authentication failed; missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
