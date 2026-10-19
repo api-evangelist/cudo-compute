@@ -1,164 +1,1321 @@
 openapi: 3.2.0
 info:
-  title: CUDO Compute Billing API
-  description: REST API for the CUDO Compute global GPU and cloud compute platform and marketplace.
-  termsOfService: https://www.cudocompute.com/legal/terms-of-service
-  contact:
-    name: CUDO Compute Support
-    url: https://www.cudocompute.com/contact
+  description: The CUDO Compute API is organized around REST. Our API uses predictable resource-oriented URLs, accepts and returns JSON-encoded requests and responses, and uses standard HTTP response codes, authentication, and verbs where possible.
+  title: CUDO Compute service Billing API
   version: 1.0.0
 servers:
-- url: https://rest.compute.cudo.org
+- url: https://rest.compute.cudo.org/
 security:
 - bearerAuth: []
 tags:
-- name: Billing
+- description: 'Billing accounts hold all billing related information such as credit balance, payment methods & transaction history. You can use the same billing account for multiple projects.
+
+
+    Related guide: Billing'
+  name: Billing
 paths:
   /v1/billing-accounts:
     get:
-      operationId: listBillingAccounts
-      tags:
-      - Billing
-      summary: List billing accounts
+      description: Lists billing accounts that can be accessed by the current user.
+      operationId: ListBillingAccounts
+      parameters:
+      - in: query
+        name: pageToken
+        schema:
+          type: string
+      - in: query
+        name: pageSize
+        schema:
+          format: int32
+          type: integer
       responses:
         '200':
-          description: A list of billing accounts
           content:
             application/json:
               schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-    post:
-      operationId: createBillingAccount
+                $ref: '#/components/schemas/ListBillingAccountsResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: List billing accounts
       tags:
       - Billing
-      summary: Create a billing account
+    post:
+      description: Creates a new billing account.
+      operationId: CreateBillingAccount
       requestBody:
-        required: true
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                displayName:
-                  type: string
+              $ref: '#/components/schemas/CreateBillingAccountRequest'
+        required: true
+        x-originalParamName: body
       responses:
         '200':
-          description: Billing account created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BillingAccount'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-  /v1/billing-accounts/{id}:
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Create a billing account
+      tags:
+      - Billing
+  /v1/billing-accounts/{billingAccountId}/spend/details:
     get:
-      operationId: getBillingAccount
-      tags:
-      - Billing
-      summary: Get a billing account
+      description: Retrieves a detailed spend report for a billing account during a specified time period.
+      operationId: GetBillingAccountSpendDetails
       parameters:
-      - $ref: '#/components/parameters/id'
+      - in: path
+        name: billingAccountId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: startTime
+        required: true
+        schema:
+          format: date-time
+          type: string
+      - in: query
+        name: endTime
+        required: true
+        schema:
+          format: date-time
+          type: string
       responses:
         '200':
-          description: The requested billing account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBillingAccountSpendDetailsResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Get billing account spend details
+      tags:
+      - Billing
+  /v1/billing-accounts/{id}:
+    delete:
+      description: Deletes a billing account. The billing account must have no linked projects or outstanding invoices.
+      operationId: DeleteBillingAccount
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BillingAccount'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-    delete:
-      operationId: deleteBillingAccount
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Delete a billing account
       tags:
       - Billing
-      summary: Delete a billing account
+    get:
+      description: Retrieves a billing account.
+      operationId: GetBillingAccount
       parameters:
-      - $ref: '#/components/parameters/id'
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
       responses:
         '200':
-          description: Billing account deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingAccount'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Get a billing account
+      tags:
+      - Billing
+    patch:
+      description: Updates the details of a billing account. Only the display name, invoice name, email, tax ID, and billing address can be updated.
+      operationId: UpdateBillingAccount
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBillingAccountBody'
+        required: true
+        x-originalParamName: body
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingAccount'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Update a billing account
+      tags:
+      - Billing
+  /v1/billing-accounts/{id}:add-permission:
+    post:
+      description: Grants a user permission to access a billing account.
+      operationId: AddBillingAccountPermission
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPermission'
+        required: true
+        x-originalParamName: userPermission
+      responses:
+        '200':
           content:
             application/json:
               schema:
                 type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Add a billing account permission
+      tags:
+      - Billing
+  /v1/billing-accounts/{id}:list-permissions:
+    get:
+      description: Lists user permissions granted for a billing account.
+      operationId: GetBillingAccountPermissions
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBillingAccountPermissionsResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: List billing account permissions
+      tags:
+      - Billing
+  /v1/billing-accounts/{id}:remove-permission:
+    post:
+      description: Revokes a user's permission to access a billing account.
+      operationId: RemoveBillingAccountPermission
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPermission'
+        required: true
+        x-originalParamName: userPermission
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Remove a billing account permission
+      tags:
+      - Billing
+  /v1/billing-accounts/{id}:undelete:
+    post:
+      description: Cancel the deletion of a billing account.
+      operationId: UndeleteBillingAccount
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingAccount'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Undelete a billing account
+      tags:
+      - Billing
+  /v1/billing-accounts/{id}/credit:
+    post:
+      description: Adds credit to a billing account using a specified payment method.
+      operationId: CreateBillingAccountCreditPayment
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - description: "The decimal value, as a string.\n\nThe string representation consists of an optional sign, `+` (`U+002B`)\nor `-` (`U+002D`), followed by a sequence of zero or more decimal digits\n(\"the integer\"), optionally followed by a fraction, optionally followed\nby an exponent.\n\nThe fraction consists of a decimal point followed by zero or more decimal\ndigits. The string must contain at least one digit in either the integer\nor the fraction. The number formed by the sign, the integer and the\nfraction is referred to as the significand.\n\nThe exponent consists of the character `e` (`U+0065`) or `E` (`U+0045`)\nfollowed by one or more decimal digits.\n\nServices **should** normalize decimal values before storing them by:\n\n  - Removing an explicitly-provided `+` sign (`+2.5` -> `2.5`).\n  - Replacing a zero-length integer value with `0` (`.5` -> `0.5`).\n  - Coercing the exponent character to lower-case (`2.5E8` -> `2.5e8`).\n  - Removing an explicitly-provided zero exponent (`2.5e0` -> `2.5`).\n\nServices **may** perform additional normalization based on its own needs\nand the internal decimal implementation selected, such as shifting the\ndecimal point and exponent value together (example: `2.5e-1` <-> `0.25`).\nAdditionally, services **may** preserve trailing zeroes in the fraction\nto indicate increased precision, but are not required to do so.\n\nNote that only the `.` character is supported to divide the integer\nand the fraction; `,` **should not** be supported regardless of locale.\nAdditionally, thousand separators **should not** be supported. If a\nservice does support them, values **must** be normalized.\n\nThe ENBF grammar is:\n\n    DecimalString =\n      [Sign] Significand [Exponent];\n\n    Sign = '+' | '-';\n\n    Significand =\n      Digits ['.'] [Digits] | [Digits] '.' Digits;\n\n    Exponent = ('e' | 'E') [Sign] Digits;\n\n    Digits = { '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' };\n\nServices **should** clearly document the range of supported values, the\nmaximum supported precision (total number of digits), and, if applicable,\nthe scale (number of digits after the decimal point), as well as how it\nbehaves when receiving out-of-bounds values.\n\nServices **may** choose to accept values passed as input even when the\nvalue has a higher precision or scale than the service supports, and\n**should** round the value to fit the supported scale. Alternatively, the\nservice **may** error with `400 Bad Request` (`INVALID_ARGUMENT` in gRPC)\nif precision would be lost.\n\nServices **should** error with `400 Bad Request` (`INVALID_ARGUMENT` in\ngRPC) if the service receives a value outside of the supported range."
+        in: query
+        name: amount.value
+        schema:
+          type: string
+      - in: query
+        name: paymentMethod
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: radarSessionId
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateBillingAccountCreditPaymentResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Add credit to a billing account
+      tags:
+      - Billing
+  /v1/billing-accounts/{id}/credit-balance-transactions:
+    get:
+      description: Lists credit balance transactions for a billing account.
+      operationId: ListBillingAccountCreditBalanceTransactions
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: pageSize
+        schema:
+          format: int32
+          type: integer
+      - in: query
+        name: startingAfter
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListBillingAccountCreditBalanceTransactionsResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: List credit balance transactions
+      tags:
+      - Billing
+  /v1/billing-accounts/{id}/credit-checkout-session:
+    post:
+      description: Creates a checkout session for adding credit to a billing account.
+      operationId: CreateBillingAccountCreditCheckoutSession
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - description: "The decimal value, as a string.\n\nThe string representation consists of an optional sign, `+` (`U+002B`)\nor `-` (`U+002D`), followed by a sequence of zero or more decimal digits\n(\"the integer\"), optionally followed by a fraction, optionally followed\nby an exponent.\n\nThe fraction consists of a decimal point followed by zero or more decimal\ndigits. The string must contain at least one digit in either the integer\nor the fraction. The number formed by the sign, the integer and the\nfraction is referred to as the significand.\n\nThe exponent consists of the character `e` (`U+0065`) or `E` (`U+0045`)\nfollowed by one or more decimal digits.\n\nServices **should** normalize decimal values before storing them by:\n\n  - Removing an explicitly-provided `+` sign (`+2.5` -> `2.5`).\n  - Replacing a zero-length integer value with `0` (`.5` -> `0.5`).\n  - Coercing the exponent character to lower-case (`2.5E8` -> `2.5e8`).\n  - Removing an explicitly-provided zero exponent (`2.5e0` -> `2.5`).\n\nServices **may** perform additional normalization based on its own needs\nand the internal decimal implementation selected, such as shifting the\ndecimal point and exponent value together (example: `2.5e-1` <-> `0.25`).\nAdditionally, services **may** preserve trailing zeroes in the fraction\nto indicate increased precision, but are not required to do so.\n\nNote that only the `.` character is supported to divide the integer\nand the fraction; `,` **should not** be supported regardless of locale.\nAdditionally, thousand separators **should not** be supported. If a\nservice does support them, values **must** be normalized.\n\nThe ENBF grammar is:\n\n    DecimalString =\n      [Sign] Significand [Exponent];\n\n    Sign = '+' | '-';\n\n    Significand =\n      Digits ['.'] [Digits] | [Digits] '.' Digits;\n\n    Exponent = ('e' | 'E') [Sign] Digits;\n\n    Digits = { '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' };\n\nServices **should** clearly document the range of supported values, the\nmaximum supported precision (total number of digits), and, if applicable,\nthe scale (number of digits after the decimal point), as well as how it\nbehaves when receiving out-of-bounds values.\n\nServices **may** choose to accept values passed as input even when the\nvalue has a higher precision or scale than the service supports, and\n**should** round the value to fit the supported scale. Alternatively, the\nservice **may** error with `400 Bad Request` (`INVALID_ARGUMENT` in gRPC)\nif precision would be lost.\n\nServices **should** error with `400 Bad Request` (`INVALID_ARGUMENT` in\ngRPC) if the service receives a value outside of the supported range."
+        in: query
+        name: amount.value
+        schema:
+          type: string
+      - in: query
+        name: returnUrl
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckoutSession'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Create a checkout session for credit payment
+      tags:
+      - Billing
   /v1/billing-accounts/{id}/details:
     get:
-      operationId: getBillingAccountDetails
-      tags:
-      - Billing
-      summary: Get billing account details
+      description: Retrieves detailed information about a billing account.
+      operationId: GetBillingAccountDetails
       parameters:
-      - $ref: '#/components/parameters/id'
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
       responses:
         '200':
-          description: Billing account details
           content:
             application/json:
               schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-  /v1/billing-accounts/invoices:
-    get:
-      operationId: listBillingAccountInvoices
+                $ref: '#/components/schemas/GetBillingAccountDetailsResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Get billing account details
       tags:
       - Billing
-      summary: List billing account invoices
+  /v1/billing-accounts/{id}/payment-methods:
+    get:
+      description: Retrieves the payment methods associated with a billing account.
+      operationId: GetBillingAccountPaymentMethods
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
       responses:
         '200':
-          description: A list of invoices
           content:
             application/json:
               schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+                $ref: '#/components/schemas/BillingAccountPaymentMethods'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Get payment methods
+      tags:
+      - Billing
+  /v1/billing-accounts/{id}/payment-methods/{paymentMethodId}:
+    delete:
+      description: Removes a payment method from a billing account.
+      operationId: RemoveBillingAccountPaymentMethod
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: paymentMethodId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemoveBillingAccountPaymentMethodResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Remove a payment method
+      tags:
+      - Billing
+  /v1/billing-accounts/{id}/payment-methods/{paymentMethodId}/set-default:
+    post:
+      description: Sets a payment method as the default for a billing account.
+      operationId: SetBillingAccountDefaultPaymentMethod
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: paymentMethodId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetBillingAccountDefaultPaymentMethodResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Set default payment method
+      tags:
+      - Billing
+  /v1/billing-accounts/{id}/projects:
+    get:
+      description: Lists projects that are billed to a billing account.
+      operationId: ListBillingAccountProjects
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListBillingAccountProjectsResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: List billing account projects
+      tags:
+      - Billing
+  /v1/billing-accounts/{id}/setup-intent:
+    get:
+      description: Retrieves a setup intent for adding a payment method to a billing account.
+      operationId: GetBillingAccountSetupIntent
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingAccountSetupIntent'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Add a payment method
+      tags:
+      - Billing
+  /v1/billing-accounts/{id}/transactions:
+    get:
+      description: Lists transactions for a billing account.
+      operationId: ListBillingAccountTransactions
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: pageSize
+        schema:
+          format: int32
+          type: integer
+      - in: query
+        name: startingAfter
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListBillingAccountTransactionsResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: List billing account transactions
+      tags:
+      - Billing
+  /v1/billing-accounts/invoices/outstanding:
+    get:
+      description: Lists all outstanding invoices across billing accounts that the current user has access to.
+      operationId: ListOutstandingInvoices
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOutstandingInvoicesResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: List outstanding invoices
+      tags:
+      - Billing
+  /v1/invoices:
+    get:
+      description: Lists invoices for a billing account.
+      operationId: ListInvoices
+      parameters:
+      - in: query
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: pageSize
+        schema:
+          format: int32
+          type: integer
+      - in: query
+        name: startingAfter
+        schema:
+          type: string
+      - in: query
+        name: status
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListInvoicesResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: List invoices
+      tags:
+      - Billing
 components:
   schemas:
     BillingAccount:
-      type: object
       properties:
-        id:
+        billingAddress:
+          $ref: '#/components/schemas/BillingAddress'
+        billingThreshold:
+          $ref: '#/components/schemas/Decimal'
+        createBy:
+          readOnly: true
+          type: string
+        createTime:
+          format: date-time
+          readOnly: true
+          type: string
+        creditBalance:
+          $ref: '#/components/schemas/Decimal'
+        creditBalanceRecharge:
+          $ref: '#/components/schemas/CreditBalanceRecharge'
+        deleteTime:
+          format: date-time
+          readOnly: true
           type: string
         displayName:
           type: string
-        createTime:
+        hourlySpendLimit:
+          $ref: '#/components/schemas/Decimal'
+        hourlySpendRate:
+          $ref: '#/components/schemas/Decimal'
+        id:
+          readOnly: true
           type: string
+        invoiceTime:
           format: date-time
+          readOnly: true
+          type: string
         monthlySpend:
+          readOnly: true
           type: string
-        creditBalance:
+        monthlySpendLimit:
+          $ref: '#/components/schemas/Decimal'
+        nextInvoiceTotal:
+          $ref: '#/components/schemas/Decimal'
+        paymentTerms:
+          $ref: '#/components/schemas/PaymentTerms'
+        purgeTime:
+          format: date-time
+          readOnly: true
           type: string
-    Error:
+        state:
+          $ref: '#/components/schemas/BillingAccountState'
+        stripeRef:
+          type: string
+        taxId:
+          $ref: '#/components/schemas/TaxId'
       type: object
+    ListOutstandingInvoicesResponse:
+      properties:
+        invoices:
+          items:
+            $ref: '#/components/schemas/Invoice'
+          type: array
+      required:
+      - invoices
+      type: object
+    GetBillingAccountDetailsResponse:
+      properties:
+        billingAccount:
+          $ref: '#/components/schemas/BillingAccount'
+        stripeCustomer:
+          $ref: '#/components/schemas/StripeCustomer'
+      required:
+      - billingAccount
+      - stripeCustomer
+      type: object
+    CreateBillingAccountCreditPaymentResponse:
+      properties:
+        paymentIntent:
+          $ref: '#/components/schemas/PaymentIntent'
+      required:
+      - paymentIntent
+      type: object
+    PaymentMethodPaypal:
+      properties:
+        payerEmail:
+          type: string
+        payerId:
+          type: string
+      type: object
+    Any:
+      additionalProperties: {}
+      properties:
+        '@type':
+          type: string
+      type: object
+    Role:
+      default: UNKNOWN
+      enum:
+      - UNKNOWN
+      - OWNER
+      - VIEWER
+      - EDITOR
+      type: string
+    BillingAddress:
+      properties:
+        city:
+          type: string
+        country:
+          type: string
+        line1:
+          type: string
+        line2:
+          type: string
+        name:
+          type: string
+        phone:
+          type: string
+        postalCode:
+          type: string
+        state:
+          type: string
+      type: object
+    UserPermission:
+      properties:
+        permissionRole:
+          $ref: '#/components/schemas/Role'
+        role:
+          readOnly: true
+          type: string
+        userEmail:
+          type: string
+        userId:
+          type: string
+        userPicture:
+          readOnly: true
+          type: string
+      required:
+      - permissionRole
+      type: object
+    CheckoutSession:
+      properties:
+        clientSecret:
+          type: string
+      required:
+      - clientSecret
+      type: object
+    CreditBalanceRecharge:
+      properties:
+        autoRecharge:
+          type: boolean
+        high:
+          $ref: '#/components/schemas/Decimal'
+        low:
+          $ref: '#/components/schemas/Decimal'
+        transaction:
+          $ref: '#/components/schemas/Transaction'
+      required:
+      - low
+      - high
+      - autoRecharge
+      type: object
+    ListBillingAccountCreditBalanceTransactionsResponse:
+      properties:
+        creditBalanceTransactions:
+          items:
+            $ref: '#/components/schemas/CreditBalanceTransaction'
+          type: array
+        hasMore:
+          type: boolean
+      required:
+      - creditBalanceTransactions
+      - hasMore
+      type: object
+    CreateBillingAccountRequest:
+      properties:
+        billingAddress:
+          $ref: '#/components/schemas/BillingAddress'
+        displayName:
+          type: string
+        email:
+          type: string
+        invoiceName:
+          type: string
+        referral:
+          type: string
+        taxId:
+          $ref: '#/components/schemas/TaxId'
+      required:
+      - displayName
+      - email
+      type: object
+    Status:
       properties:
         code:
+          format: int32
           type: integer
+        details:
+          items:
+            $ref: '#/components/schemas/Any'
+          type: array
         message:
+          type: string
+      type: object
+    Charge:
+      properties:
+        amount:
+          $ref: '#/components/schemas/Decimal'
+        createTime:
+          format: date-time
+          type: string
+        failureCode:
+          type: string
+        paid:
+          type: boolean
+        refunded:
+          type: boolean
+        status:
+          type: string
+      required:
+      - amount
+      - createTime
+      - paid
+      - refunded
+      - status
+      type: object
+    BillingAccountPaymentMethod:
+      properties:
+        card:
+          $ref: '#/components/schemas/PaymentMethodCard'
+        id:
+          type: string
+        isDefault:
+          type: boolean
+        paypal:
+          $ref: '#/components/schemas/PaymentMethodPaypal'
+        type:
+          type: string
+      type: object
+    ListBillingAccountProjectsResponse:
+      properties:
+        projects:
+          items:
+            $ref: '#/components/schemas/BillingAccountProject'
+          type: array
+      required:
+      - projects
+      type: object
+    BillingAccountSpendRow:
+      properties:
+        amount:
+          $ref: '#/components/schemas/Decimal'
+        description:
+          type: string
+        projectId:
+          type: string
+        quantity:
+          format: float
+          type: number
+        unit:
+          $ref: '#/components/schemas/Unit'
+        unitAmount:
+          $ref: '#/components/schemas/Decimal'
+      required:
+      - projectId
+      - description
+      - quantity
+      - unit
+      - unitAmount
+      - amount
+      type: object
+    BillingAccountSetupIntent:
+      properties:
+        clientSecret:
+          type: string
+        id:
+          type: string
+      required:
+      - id
+      - clientSecret
+      type: object
+    SetBillingAccountDefaultPaymentMethodResponse:
+      properties:
+        id:
+          type: string
+        paymentMethodId:
+          type: string
+      required:
+      - id
+      - paymentMethodId
+      type: object
+    GetBillingAccountPermissionsResponse:
+      properties:
+        permissions:
+          items:
+            $ref: '#/components/schemas/UserPermission'
+          type: array
+      type: object
+    ListBillingAccountTransactionsResponse:
+      properties:
+        hasMore:
+          type: boolean
+        transactions:
+          items:
+            $ref: '#/components/schemas/Transaction'
+          type: array
+      required:
+      - transactions
+      - hasMore
+      type: object
+    BillingAccountState:
+      default: STATE_UNSPECIFIED
+      enum:
+      - STATE_UNSPECIFIED
+      - STATE_ACTIVE
+      - STATE_SUSPENDED_ABUSE
+      - STATE_SUSPENDED_PAYMENT
+      - STATE_DELETED
+      type: string
+    LastPaymentError:
+      properties:
+        code:
+          type: string
+        declineCode:
+          type: string
+      required:
+      - code
+      - declineCode
+      type: object
+    CreditBalanceTransaction:
+      properties:
+        amount:
+          $ref: '#/components/schemas/Decimal'
+        createTime:
+          format: date-time
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+      required:
+      - id
+      - amount
+      - description
+      - createTime
+      type: object
+    PaymentTerms:
+      default: PAYMENT_TERMS_UNSPECIFIED
+      enum:
+      - PAYMENT_TERMS_UNSPECIFIED
+      - PAYMENT_TERMS_PREPAID
+      - PAYMENT_TERMS_INVOICE
+      type: string
+    UpdateBillingAccountBody:
+      properties:
+        billingAccount:
+          properties:
+            billingAddress:
+              $ref: '#/components/schemas/BillingAddress'
+            billingThreshold:
+              $ref: '#/components/schemas/Decimal'
+            createBy:
+              readOnly: true
+              type: string
+            createTime:
+              format: date-time
+              readOnly: true
+              type: string
+            creditBalance:
+              $ref: '#/components/schemas/Decimal'
+            creditBalanceRecharge:
+              $ref: '#/components/schemas/CreditBalanceRecharge'
+            deleteTime:
+              format: date-time
+              readOnly: true
+              type: string
+            displayName:
+              type: string
+            hourlySpendLimit:
+              $ref: '#/components/schemas/Decimal'
+            hourlySpendRate:
+              $ref: '#/components/schemas/Decimal'
+            invoiceTime:
+              format: date-time
+              readOnly: true
+              type: string
+            monthlySpend:
+              readOnly: true
+              type: string
+            monthlySpendLimit:
+              $ref: '#/components/schemas/Decimal'
+            nextInvoiceTotal:
+              $ref: '#/components/schemas/Decimal'
+            paymentTerms:
+              $ref: '#/components/schemas/PaymentTerms'
+            purgeTime:
+              format: date-time
+              readOnly: true
+              type: string
+            state:
+              $ref: '#/components/schemas/BillingAccountState'
+            stripeRef:
+              type: string
+            taxId:
+              $ref: '#/components/schemas/TaxId'
+          title: Update billing account params
+          type: object
+        updateMask:
+          type: string
+      required:
+      - updateMask
+      type: object
+    Transaction:
+      properties:
+        amount:
+          $ref: '#/components/schemas/Decimal'
+        createTime:
+          format: date-time
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+        lastPaymentError:
+          $ref: '#/components/schemas/LastPaymentError'
+        latestCharge:
+          $ref: '#/components/schemas/Charge'
+        status:
+          type: string
+        succeeded:
+          type: boolean
+      required:
+      - id
+      - amount
+      - description
+      - createTime
+      - status
+      - succeeded
+      - latestCharge
+      - lastPaymentError
+      type: object
+    GetBillingAccountSpendDetailsResponse:
+      properties:
+        spend:
+          items:
+            $ref: '#/components/schemas/BillingAccountSpendRow'
+          type: array
+      required:
+      - spend
+      type: object
+    TaxId:
+      properties:
+        id:
+          readOnly: true
+          type: string
+        type:
+          type: string
+        value:
+          type: string
+      type: object
+    RemoveBillingAccountPaymentMethodResponse:
+      properties:
+        id:
+          type: string
+        paymentMethodId:
+          type: string
+      required:
+      - id
+      - paymentMethodId
+      type: object
+    Decimal:
+      description: 'A representation of a decimal value, such as 2.5. Clients may convert values
+
+        into language-native decimal formats, such as Java''s [BigDecimal][] or
+
+        Python''s [decimal.Decimal][].
+
+
+        [BigDecimal]:
+
+        https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html
+
+        [decimal.Decimal]: https://docs.python.org/3/library/decimal.html'
+      properties:
+        value:
+          description: "The decimal value, as a string.\n\nThe string representation consists of an optional sign, `+` (`U+002B`)\nor `-` (`U+002D`), followed by a sequence of zero or more decimal digits\n(\"the integer\"), optionally followed by a fraction, optionally followed\nby an exponent.\n\nThe fraction consists of a decimal point followed by zero or more decimal\ndigits. The string must contain at least one digit in either the integer\nor the fraction. The number formed by the sign, the integer and the\nfraction is referred to as the significand.\n\nThe exponent consists of the character `e` (`U+0065`) or `E` (`U+0045`)\nfollowed by one or more decimal digits.\n\nServices **should** normalize decimal values before storing them by:\n\n  - Removing an explicitly-provided `+` sign (`+2.5` -> `2.5`).\n  - Replacing a zero-length integer value with `0` (`.5` -> `0.5`).\n  - Coercing the exponent character to lower-case (`2.5E8` -> `2.5e8`).\n  - Removing an explicitly-provided zero exponent (`2.5e0` -> `2.5`).\n\nServices **may** perform additional normalization based on its own needs\nand the internal decimal implementation selected, such as shifting the\ndecimal point and exponent value together (example: `2.5e-1` <-> `0.25`).\nAdditionally, services **may** preserve trailing zeroes in the fraction\nto indicate increased precision, but are not required to do so.\n\nNote that only the `.` character is supported to divide the integer\nand the fraction; `,` **should not** be supported regardless of locale.\nAdditionally, thousand separators **should not** be supported. If a\nservice does support them, values **must** be normalized.\n\nThe ENBF grammar is:\n\n    DecimalString =\n      [Sign] Significand [Exponent];\n\n    Sign = '+' | '-';\n\n    Significand =\n      Digits ['.'] [Digits] | [Digits] '.' Digits;\n\n    Exponent = ('e' | 'E') [Sign] Digits;\n\n    Digits = { '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' };\n\nServices **should** clearly document the range of supported values, the\nmaximum supported precision (total number of digits), and, if applicable,\nthe scale (number of digits after the decimal point), as well as how it\nbehaves when receiving out-of-bounds values.\n\nServices **may** choose to accept values passed as input even when the\nvalue has a higher precision or scale than the service supports, and\n**should** round the value to fit the supported scale. Alternatively, the\nservice **may** error with `400 Bad Request` (`INVALID_ARGUMENT` in gRPC)\nif precision would be lost.\n\nServices **should** error with `400 Bad Request` (`INVALID_ARGUMENT` in\ngRPC) if the service receives a value outside of the supported range."
+          type: string
+      type: object
+    BillingAccountProject:
+      properties:
+        id:
+          type: string
+        resourceCount:
+          format: int32
+          type: integer
+      required:
+      - id
+      - resourceCount
+      type: object
+    PaymentMethodCard:
+      properties:
+        brand:
+          type: string
+        country:
+          type: string
+        expMonth:
+          format: int64
+          type: string
+        expYear:
+          format: int64
+          type: string
+        fingerprint:
+          type: string
+        last4:
+          type: string
+      type: object
+    Unit:
+      default: UNIT_UNKNOWN
+      enum:
+      - UNIT_UNKNOWN
+      - UNIT_GIB_HOUR
+      - UNIT_HOUR
+      type: string
+    BillingAccountPaymentMethods:
+      properties:
+        paymentMethods:
+          items:
+            $ref: '#/components/schemas/BillingAccountPaymentMethod'
+          type: array
+      type: object
+    PaymentIntent:
+      properties:
+        clientSecret:
+          type: string
+      required:
+      - clientSecret
+      type: object
+    Invoice:
+      properties:
+        amountDue:
+          format: int64
+          type: string
+        amountPaid:
+          format: int64
+          type: string
+        amountRemaining:
+          format: int64
+          type: string
+        autoAdvance:
+          type: boolean
+        billingReason:
+          type: string
+        created:
+          format: int64
+          type: string
+        currency:
+          type: string
+        description:
+          type: string
+        dueDate:
+          format: int64
+          type: string
+        hostedInvoiceUrl:
+          type: string
+        id:
+          type: string
+        number:
+          type: string
+        paidDate:
+          format: int64
+          type: string
+        periodEnd:
+          format: int64
+          type: string
+        periodStart:
+          format: int64
           type: string
         status:
           type: string
-  parameters:
-    id:
-      name: id
-      in: path
-      required: true
-      description: The resource identifier.
-      schema:
-        type: string
-  responses:
-    Unauthorized:
-      description: Authentication failed; missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+        subtotal:
+          format: int64
+          type: string
+        subtotalExcludingTax:
+          format: int64
+          type: string
+        tax:
+          format: int64
+          type: string
+        total:
+          format: int64
+          type: string
+        totalExcludingTax:
+          format: int64
+          type: string
+      type: object
+    ListInvoicesResponse:
+      properties:
+        hasMore:
+          type: boolean
+        invoices:
+          items:
+            $ref: '#/components/schemas/Invoice'
+          type: array
+      required:
+      - invoices
+      - hasMore
+      type: object
+    StripeCustomer:
+      properties:
+        balance:
+          $ref: '#/components/schemas/Decimal'
+        email:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+      type: object
+    ListBillingAccountsResponse:
+      properties:
+        billingAccounts:
+          items:
+            $ref: '#/components/schemas/BillingAccount'
+          type: array
+        pageSize:
+          format: int32
+          type: integer
+        pageToken:
+          type: string
+      required:
+      - billingAccounts
+      - pageToken
+      - pageSize
+      type: object
   securitySchemes:
     bearerAuth:
-      type: http
-      scheme: bearer
-      description: 'A CUDO Compute API key passed as a Bearer token in the Authorization header, e.g. `Authorization: Bearer $CUDO_API_KEY`. Create keys in the CUDO Compute dashboard. Missing or invalid keys return 401 UNAUTHENTICATED.'
+      description: API key authentication. API keys should be passed using the format `Bearer API_KEY`.
+      in: header
+      name: Authorization
+      type: apiKey

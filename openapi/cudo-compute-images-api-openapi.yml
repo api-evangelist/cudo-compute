@@ -1,165 +1,343 @@
 openapi: 3.2.0
 info:
-  title: CUDO Compute Images API
-  description: REST API for the CUDO Compute global GPU and cloud compute platform and marketplace.
-  termsOfService: https://www.cudocompute.com/legal/terms-of-service
-  contact:
-    name: CUDO Compute Support
-    url: https://www.cudocompute.com/contact
+  description: The CUDO Compute API is organized around REST. Our API uses predictable resource-oriented URLs, accepts and returns JSON-encoded requests and responses, and uses standard HTTP response codes, authentication, and verbs where possible.
+  title: CUDO Compute service Images API
   version: 1.0.0
 servers:
-- url: https://rest.compute.cudo.org
+- url: https://rest.compute.cudo.org/
 security:
 - bearerAuth: []
 tags:
-- name: Images
+- description: 'Images are boot disk templates used to create virtual machines.
+
+
+    Related guide: Images'
+  name: Images
 paths:
   /v1/projects/{projectId}/images:
     get:
-      operationId: listPrivateVMImages
-      tags:
-      - Images
-      summary: List private VM images
+      description: Lists private virtual machine images in a project.
+      operationId: ListPrivateVMImages
       parameters:
-      - $ref: '#/components/parameters/projectId'
-      responses:
-        '200':
-          description: A list of private VM images
-          content:
-            application/json:
-              schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-    post:
-      operationId: createPrivateVMImage
-      tags:
-      - Images
-      summary: Create a private VM image
-      parameters:
-      - $ref: '#/components/parameters/projectId'
-      requestBody:
+      - in: path
+        name: projectId
         required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: string
-                vmId:
-                  type: string
-                description:
-                  type: string
+        schema:
+          type: string
+      - in: query
+        name: pageNumber
+        schema:
+          format: int32
+          type: integer
+      - in: query
+        name: pageSize
+        schema:
+          format: int32
+          type: integer
       responses:
         '200':
-          description: Private VM image created
           content:
             application/json:
               schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+                $ref: '#/components/schemas/ListPrivateVMImagesResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: List private virtual machine images
+      tags:
+      - Images
+    post:
+      description: Creates a new private virtual machine image from an existing virtual machine's boot disk.
+      operationId: CreatePrivateVMImage
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: vmId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: description
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatePrivateVMImageResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Create a private virtual machine image
+      tags:
+      - Images
   /v1/projects/{projectId}/images/{id}:
-    get:
-      operationId: getPrivateVMImage
-      tags:
-      - Images
-      summary: Get a private VM image
-      parameters:
-      - $ref: '#/components/parameters/projectId'
-      - $ref: '#/components/parameters/id'
-      responses:
-        '200':
-          description: The requested private VM image
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Image'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
     delete:
-      operationId: deletePrivateVMImage
-      tags:
-      - Images
-      summary: Delete a private VM image
+      description: Deletes a private virtual machine image.
+      operationId: DeletePrivateVMImage
       parameters:
-      - $ref: '#/components/parameters/projectId'
-      - $ref: '#/components/parameters/id'
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
       responses:
         '200':
-          description: Private VM image deleted
           content:
             application/json:
               schema:
                 type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Delete a private virtual machine image
+      tags:
+      - Images
+    get:
+      description: Retrieves the details of a private virtual machine image.
+      operationId: GetPrivateVMImage
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPrivateVMImageResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Get a private virtual machine image
+      tags:
+      - Images
+    post:
+      description: Updates the description of a private virtual machine image.
+      operationId: UpdatePrivateVMImage
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: description
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Update a private virtual machine image
+      tags:
+      - Images
   /v1/vms/public-images:
     get:
-      operationId: listPublicVMImages
-      tags:
-      - Images
-      summary: List public VM images
+      description: Lists all public images available for virtual machines.
+      operationId: ListPublicVMImages
       responses:
         '200':
-          description: A list of public VM images
           content:
             application/json:
               schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+                $ref: '#/components/schemas/ListPublicVMImagesResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: List public virtual machine images
+      tags:
+      - Images
 components:
-  parameters:
-    projectId:
-      name: projectId
-      in: path
-      required: true
-      description: The project identifier.
-      schema:
-        type: string
-    id:
-      name: id
-      in: path
-      required: true
-      description: The resource identifier.
-      schema:
-        type: string
   schemas:
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-        status:
-          type: string
     Image:
-      type: object
       properties:
-        id:
-          type: string
-        name:
-          type: string
         description:
           type: string
         displayName:
           type: string
+        id:
+          type: string
+        installedPackages:
+          items:
+            $ref: '#/components/schemas/Package'
+          type: array
+        name:
+          type: string
         platform:
           type: string
         sizeGib:
+          format: int32
           type: integer
-  responses:
-    Unauthorized:
-      description: Authentication failed; missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+      required:
+      - id
+      - name
+      - description
+      - displayName
+      - platform
+      - sizeGib
+      - installedPackages
+      type: object
+    Package:
+      properties:
+        description:
+          type: string
+        name:
+          type: string
+        version:
+          type: string
+      required:
+      - name
+      - description
+      - version
+      type: object
+    PrivateImage:
+      properties:
+        dataCenterId:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+        platform:
+          type: string
+        projectId:
+          type: string
+        sizeGib:
+          format: int32
+          type: integer
+        state:
+          $ref: '#/components/schemas/PrivateImageState'
+      type: object
+    GetPrivateVMImageResponse:
+      properties:
+        image:
+          $ref: '#/components/schemas/PrivateImage'
+      type: object
+    ListPrivateVMImagesResponse:
+      properties:
+        images:
+          items:
+            $ref: '#/components/schemas/PrivateImage'
+          type: array
+        pageNumber:
+          format: int32
+          type: integer
+        pageSize:
+          format: int32
+          type: integer
+        totalCount:
+          format: int32
+          type: integer
+      required:
+      - totalCount
+      - pageNumber
+      - pageSize
+      type: object
+    Status:
+      properties:
+        code:
+          format: int32
+          type: integer
+        details:
+          items:
+            $ref: '#/components/schemas/Any'
+          type: array
+        message:
+          type: string
+      type: object
+    PrivateImageState:
+      default: UNKNOWN
+      enum:
+      - UNKNOWN
+      - ATTACHED
+      - CLONING
+      - CREATING
+      - DELETING
+      - DISABLED
+      - FAILED
+      - READY
+      - UPDATING
+      type: string
+    ListPublicVMImagesResponse:
+      properties:
+        images:
+          items:
+            $ref: '#/components/schemas/Image'
+          type: array
+      required:
+      - images
+      type: object
+    Any:
+      additionalProperties: {}
+      properties:
+        '@type':
+          type: string
+      type: object
+    CreatePrivateVMImageResponse:
+      properties:
+        image:
+          $ref: '#/components/schemas/PrivateImage'
+      type: object
   securitySchemes:
     bearerAuth:
-      type: http
-      scheme: bearer
-      description: 'A CUDO Compute API key passed as a Bearer token in the Authorization header, e.g. `Authorization: Bearer $CUDO_API_KEY`. Create keys in the CUDO Compute dashboard. Missing or invalid keys return 401 UNAUTHENTICATED.'
+      description: API key authentication. API keys should be passed using the format `Bearer API_KEY`.
+      in: header
+      name: Authorization
+      type: apiKey

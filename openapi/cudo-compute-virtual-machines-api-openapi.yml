@@ -1,354 +1,1800 @@
 openapi: 3.2.0
 info:
-  title: CUDO Compute Virtual Machines API
-  description: REST API for the CUDO Compute global GPU and cloud compute platform and marketplace.
-  termsOfService: https://www.cudocompute.com/legal/terms-of-service
-  contact:
-    name: CUDO Compute Support
-    url: https://www.cudocompute.com/contact
+  description: The CUDO Compute API is organized around REST. Our API uses predictable resource-oriented URLs, accepts and returns JSON-encoded requests and responses, and uses standard HTTP response codes, authentication, and verbs where possible.
+  title: CUDO Compute service Virtual machines API
   version: 1.0.0
 servers:
-- url: https://rest.compute.cudo.org
+- url: https://rest.compute.cudo.org/
 security:
 - bearerAuth: []
 tags:
-- name: Virtual Machines
+- description: 'A virtual machine (VM) is a software emulation of a physical computer.
+
+
+    Related guide: Virtual machines'
+  name: Virtual machines
 paths:
+  /v1/projects/{projectId}/count-vms:
+    get:
+      description: Returns the total number of virtual machines in a project.
+      operationId: CountVMs
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountVMsResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Count virtual machines in a project
+      tags:
+      - Virtual machines
+  /v1/projects/{projectId}/disk/{id}/attach:
+    patch:
+      description: Attaches a virtual machine disk to a virtual machine.
+      operationId: AttachStorageDisk
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: vmId
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Attach a disk to a virtual machine
+      tags:
+      - Virtual machines
+  /v1/projects/{projectId}/disk/{id}/detach:
+    put:
+      description: Detaches a virtual machine disk from a virtual machine.
+      operationId: DetachStorageDisk
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Detach a disk from a virtual machine
+      tags:
+      - Virtual machines
   /v1/projects/{projectId}/vm:
     post:
-      operationId: createVM
-      tags:
-      - Virtual Machines
-      summary: Create a virtual machine
-      description: Provisions a new CPU- or GPU-backed virtual machine in a project.
+      description: Creates and starts a new virtual machine.
+      operationId: CreateVM
       parameters:
-      - $ref: '#/components/parameters/projectId'
-      requestBody:
+      - in: path
+        name: projectId
         required: true
+        schema:
+          type: string
+      requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/CreateVMBody'
+        required: true
+        x-originalParamName: body
       responses:
         '200':
-          description: Virtual machine created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateVMResponse'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-  /v1/projects/{projectId}/vms:
-    get:
-      operationId: listVMs
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Create a virtual machine
       tags:
-      - Virtual Machines
-      summary: List virtual machines
+      - Virtual machines
+  /v1/projects/{projectId}/vm/{id}/authorized-ssh-keys:
+    post:
+      description: Updates the authorized SSH keys of a virtual machine.
+      operationId: UpdateVMAuthorizedSSHKeys
       parameters:
-      - $ref: '#/components/parameters/projectId'
-      - name: pageSize
-        in: query
+      - in: path
+        name: projectId
+        required: true
         schema:
-          type: integer
-      - name: startAfter
-        in: query
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateVMAuthorizedSSHKeysBody'
+        required: true
+        x-originalParamName: body
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Update virtual machine authorized SSH keys
+      tags:
+      - Virtual machines
+  /v1/projects/{projectId}/vm/{id}/commit:
+    post:
+      description: Commits a virtual machine to a longer-term plan in exchange for a lower hourly rate. The virtual machine must not already be in a committed term.
+      operationId: CommitVM
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommitVMBody'
+        required: true
+        x-originalParamName: body
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Purchase a commitment for a virtual machine
+      tags:
+      - Virtual machines
+  /v1/projects/{projectId}/vm/{id}/expire-time:
+    post:
+      description: Updates the expiration time of a virtual machine. The virtual machine will be automatically deleted when it reaches its expiration time.
+      operationId: UpdateVMExpireTime
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateVMExpireTimeBody'
+        required: true
+        x-originalParamName: body
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateVMExpireTimeResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Update virtual machine expiration time
+      tags:
+      - Virtual machines
+  /v1/projects/{projectId}/vm/{id}/metadata:
+    post:
+      description: Updates the metadata of a virtual machine.
+      operationId: UpdateVMMetadata
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateVMMetadataBody'
+        required: true
+        x-originalParamName: body
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateVMMetadataResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Update virtual machine metadata
+      tags:
+      - Virtual machines
+  /v1/projects/{projectId}/vm/{id}/password:
+    post:
+      description: Updates the root or administrator password of a virtual machine.
+      operationId: UpdateVMPassword
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateVMPasswordBody'
+        required: true
+        x-originalParamName: body
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Update virtual machine password
+      tags:
+      - Virtual machines
+  /v1/projects/{projectId}/vm/{id}/security-group/attach:
+    patch:
+      description: Attaches a security group to a virtual machine.
+      operationId: AttachSecurityGroup
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: securityGroupId
         schema:
           type: string
       responses:
         '200':
-          description: A list of virtual machines
+          content:
+            application/json:
+              schema:
+                type: object
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Attach a security group to a virtual machine
+      tags:
+      - Virtual machines
+  /v1/projects/{projectId}/vm/{id}/security-group/detach:
+    patch:
+      description: Detaches a security group from a virtual machine.
+      operationId: DetachSecurityGroup
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: securityGroupId
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Detach a security group from a virtual machine
+      tags:
+      - Virtual machines
+  /v1/projects/{projectId}/vms:
+    get:
+      description: Lists all virtual machines in a project.
+      operationId: ListVMs
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: networkId
+        schema:
+          type: string
+      responses:
+        '200':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListVMsResponse'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: List virtual machines
+      tags:
+      - Virtual machines
   /v1/projects/{projectId}/vms/{id}:
     get:
-      operationId: getVM
-      tags:
-      - Virtual Machines
-      summary: Get a virtual machine
+      description: Retrieves the details of a virtual machine.
+      operationId: GetVM
       parameters:
-      - $ref: '#/components/parameters/projectId'
-      - $ref: '#/components/parameters/id'
-      responses:
-        '200':
-          description: The requested virtual machine
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/VM'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-  /v1/projects/{projectId}/vms/{id}/start:
-    post:
-      operationId: startVM
-      tags:
-      - Virtual Machines
-      summary: Start a virtual machine
-      parameters:
-      - $ref: '#/components/parameters/projectId'
-      - $ref: '#/components/parameters/id'
-      responses:
-        '200':
-          description: Start acknowledged
-          content:
-            application/json:
-              schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-  /v1/projects/{projectId}/vms/{id}/stop:
-    post:
-      operationId: stopVM
-      tags:
-      - Virtual Machines
-      summary: Stop a virtual machine
-      parameters:
-      - $ref: '#/components/parameters/projectId'
-      - $ref: '#/components/parameters/id'
-      responses:
-        '200':
-          description: Stop acknowledged
-          content:
-            application/json:
-              schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-  /v1/projects/{projectId}/vms/{id}/reboot:
-    post:
-      operationId: rebootVM
-      tags:
-      - Virtual Machines
-      summary: Reboot a virtual machine
-      parameters:
-      - $ref: '#/components/parameters/projectId'
-      - $ref: '#/components/parameters/id'
-      responses:
-        '200':
-          description: Reboot acknowledged
-          content:
-            application/json:
-              schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-  /v1/projects/{projectId}/vms/{id}/resize:
-    post:
-      operationId: resizeVM
-      tags:
-      - Virtual Machines
-      summary: Resize a virtual machine
-      parameters:
-      - $ref: '#/components/parameters/projectId'
-      - $ref: '#/components/parameters/id'
-      requestBody:
+      - in: path
+        name: projectId
         required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                vcpus:
-                  type: integer
-                memoryGib:
-                  type: integer
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
       responses:
         '200':
-          description: Resize acknowledged
           content:
             application/json:
               schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-  /v1/projects/{projectId}/vms/{id}/terminate:
-    post:
-      operationId: terminateVM
+                $ref: '#/components/schemas/GetVMResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Get a virtual machine
       tags:
-      - Virtual Machines
-      summary: Terminate a virtual machine
-      parameters:
-      - $ref: '#/components/parameters/projectId'
-      - $ref: '#/components/parameters/id'
-      responses:
-        '200':
-          description: Terminate acknowledged
-          content:
-            application/json:
-              schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+      - Virtual machines
   /v1/projects/{projectId}/vms/{id}/connect:
     get:
-      operationId: connectVM
-      tags:
-      - Virtual Machines
-      summary: Get virtual machine connection details
+      description: Provides a URL and token to connect to the virtual machine via a web-based VNC console.
+      operationId: ConnectVM
       parameters:
-      - $ref: '#/components/parameters/projectId'
-      - $ref: '#/components/parameters/id'
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: connectionId
+        schema:
+          type: string
       responses:
         '200':
-          description: Connection details
           content:
             application/json:
               schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+                $ref: '#/components/schemas/ConnectVMResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Connect to a virtual machine
+      tags:
+      - Virtual machines
   /v1/projects/{projectId}/vms/{id}/monitor:
     get:
-      operationId: monitorVM
-      tags:
-      - Virtual Machines
-      summary: Get virtual machine monitoring metrics
+      description: Returns live monitoring metrics for a virtual machine.
+      operationId: MonitorVM
       parameters:
-      - $ref: '#/components/parameters/projectId'
-      - $ref: '#/components/parameters/id'
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
       responses:
         '200':
-          description: Monitoring metrics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorVMResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Monitor a virtual machine
+      tags:
+      - Virtual machines
+  /v1/projects/{projectId}/vms/{id}/reboot:
+    post:
+      description: Performs a soft reboot of a virtual machine. The operating system is instructed to reboot. If the OS does not respond, use StopVM and then StartVM.
+      operationId: RebootVM
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
           content:
             application/json:
               schema:
                 type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-components:
-  parameters:
-    projectId:
-      name: projectId
-      in: path
-      required: true
-      description: The project identifier.
-      schema:
-        type: string
-    id:
-      name: id
-      in: path
-      required: true
-      description: The resource identifier.
-      schema:
-        type: string
-  schemas:
-    CreateVMResponse:
-      type: object
-      properties:
-        id:
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Reboot a virtual machine
+      tags:
+      - Virtual machines
+  /v1/projects/{projectId}/vms/{id}/resize:
+    post:
+      description: Resizes a virtual machine. The size of the virtual machine cannot be reduced while it is in a committed term.
+      operationId: ResizeVM
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
           type: string
-        vm:
-          $ref: '#/components/schemas/VM'
-    VM:
-      type: object
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: vcpus
+        schema:
+          format: int64
+          type: integer
+      - in: query
+        name: memoryGib
+        schema:
+          format: int64
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResizeVMResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Resize a virtual machine
+      tags:
+      - Virtual machines
+  /v1/projects/{projectId}/vms/{id}/start:
+    post:
+      description: Starts a stopped virtual machine.
+      operationId: StartVM
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Start a virtual machine
+      tags:
+      - Virtual machines
+  /v1/projects/{projectId}/vms/{id}/stop:
+    post:
+      description: Stops a running virtual machine. The virtual machine can be started again later.
+      operationId: StopVM
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Stop a virtual machine
+      tags:
+      - Virtual machines
+  /v1/projects/{projectId}/vms/{id}/terminate:
+    post:
+      description: Permanently deletes a virtual machine. All data on the virtual machine's boot disk will be lost. Any attached storage disks will be detached but not deleted.
+      operationId: TerminateVM
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Delete a virtual machine
+      tags:
+      - Virtual machines
+  /v1/vms/data-centers:
+    get:
+      description: Lists all data centers available for virtual machines.
+      operationId: ListVMDataCenters
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListVMDataCentersResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: List virtual machine data centers
+      tags:
+      - Virtual machines
+  /v1/vms/data-centers/{dataCenterId}/machine_types/{machineTypeId}:
+    get:
+      description: Retrieves the details of a virtual machine type.
+      operationId: GetVMMachineType
+      parameters:
+      - in: path
+        name: dataCenterId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: machineTypeId
+        required: true
+        schema:
+          type: string
+      - description: Return custom prices for a specific project.
+        in: query
+        name: projectId
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetVMMachineTypeResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Get a virtual machine type
+      tags:
+      - Virtual machines
+  /v1/vms/gpu-models:
+    get:
+      description: Lists all GPU models available for virtual machines.
+      operationId: ListVMGpuModels
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListVMGpuModelsResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: List virtual machine GPU models
+      tags:
+      - Virtual machines
+  /v1/vms/machine-types:
+    get:
+      description: Lists all virtual machine types available.
+      operationId: ListVMMachineTypes
+      parameters:
+      - description: Return custom prices for a specific project.
+        in: query
+        name: projectId
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListVMMachineTypesResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: List virtual machine types
+      tags:
+      - Virtual machines
+  /v1/vms/machine-types-2:
+    get:
+      deprecated: true
+      description: Lists all virtual machine types available.
+      operationId: ListVMMachineTypes2
+      parameters:
+      - description: Return custom prices for a specific project.
+        in: query
+        name: projectId
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListVMMachineTypesResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Lists virtual machine types (deprecated)
+      tags:
+      - Virtual machines
+components:
+  schemas:
+    ListVMMachineTypesResponse:
       properties:
-        id:
+        machineTypes:
+          items:
+            $ref: '#/components/schemas/VMMachineType'
+          type: array
+      required:
+      - machineTypes
+      type: object
+    VM:
+      properties:
+        authorizedSshKeys:
+          type: string
+        bootDisk:
+          $ref: '#/components/schemas/Disk'
+        bootDiskSizeGib:
+          format: int64
+          type: integer
+        commitmentEndTime:
+          format: date-time
+          readOnly: true
+          type: string
+        commitmentTerm:
+          $ref: '#/components/schemas/CommitmentTerm'
+        cpuModel:
+          type: string
+        createBy:
+          readOnly: true
+          type: string
+        createTime:
+          format: date-time
+          readOnly: true
           type: string
         datacenterId:
+          readOnly: true
           type: string
-        machineType:
-          type: string
-        regionId:
-          type: string
-        regionName:
+        expireTime:
+          format: date-time
+          readOnly: true
           type: string
         externalIpAddress:
           type: string
-        internalIpAddress:
-          type: string
-        publicIpAddress:
-          type: string
-        memory:
-          type: integer
-        cpuModel:
-          type: string
-        vcpus:
-          type: integer
         gpuModel:
           type: string
         gpuModelId:
           type: string
         gpuQuantity:
+          format: int64
           type: integer
-    ListVMsResponse:
-      type: object
-      properties:
-        vms:
-          type: array
-          items:
-            $ref: '#/components/schemas/VM'
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
+        id:
           type: string
-        status:
+        imageId:
           type: string
-    CreateVMBody:
-      type: object
-      properties:
-        dataCenterId:
+        imageName:
+          type: string
+        internalIpAddress:
           type: string
         machineType:
           type: string
-        vmId:
-          type: string
-        startScript:
-          type: string
-        password:
-          type: string
-        bootDiskImageId:
-          type: string
-        vcpus:
+        memory:
+          format: int64
           type: integer
-        memoryGib:
-          type: integer
-        gpus:
-          type: integer
-        cpuModel:
-          type: string
-        gpuModel:
-          type: string
-        customSshKeys:
+        metadata:
+          additionalProperties:
+            type: string
+          type: object
+        nics:
+          items:
+            $ref: '#/components/schemas/VM.NIC'
           type: array
+        price:
+          $ref: '#/components/schemas/VMPrice'
+        privateImageId:
+          type: string
+        projectId:
+          type: string
+        publicImageId:
+          type: string
+        publicImageName:
+          type: string
+        publicIpAddress:
+          type: string
+        renewableEnergy:
+          type: boolean
+        rules:
+          items:
+            $ref: '#/components/schemas/SecurityGroupRule'
+          type: array
+        securityGroupIds:
           items:
             type: string
-        bootDisk:
-          $ref: '#/components/schemas/Disk'
-    Disk:
+          type: array
+        securityGroups:
+          items:
+            $ref: '#/components/schemas/SecurityGroup'
+          type: array
+        shortState:
+          type: string
+        sshKeySource:
+          $ref: '#/components/schemas/SshKeySource'
+        state:
+          $ref: '#/components/schemas/VmState'
+        storageDisks:
+          items:
+            $ref: '#/components/schemas/Disk'
+          type: array
+        vcpus:
+          format: int64
+          type: integer
+      required:
+      - commitmentTerm
+      - projectId
       type: object
+    VMDataCenter:
       properties:
+        diskPoolPricing:
+          items:
+            $ref: '#/components/schemas/DiskStoragePriceHr'
+          type: array
+        id:
+          type: string
+        ipv4Free:
+          format: int32
+          type: integer
+        ipv4PriceHr:
+          $ref: '#/components/schemas/Decimal'
+        location:
+          $ref: '#/components/schemas/LatLng'
+        networkPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        networkPricing:
+          items:
+            $ref: '#/components/schemas/NetworkPriceHr'
+          type: array
+        objectStorageGibPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        renewableEnergy:
+          type: boolean
+        s3Endpoint:
+          type: string
+        supplierName:
+          type: string
+      required:
+      - id
+      - supplierName
+      - renewableEnergy
+      - ipv4Free
+      - s3Endpoint
+      - location
+      type: object
+    VMPrice:
+      properties:
+        gpuPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        ipv4AddressPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        memoryGibPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        storageGibPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        totalGpuPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        totalMemoryPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        totalPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        totalStoragePriceHr:
+          $ref: '#/components/schemas/Decimal'
+        totalVcpuPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        vcpuPriceHr:
+          $ref: '#/components/schemas/Decimal'
+      required:
+      - vcpuPriceHr
+      - totalVcpuPriceHr
+      - memoryGibPriceHr
+      - totalMemoryPriceHr
+      - gpuPriceHr
+      - totalGpuPriceHr
+      - storageGibPriceHr
+      - totalStoragePriceHr
+      - ipv4AddressPriceHr
+      - totalPriceHr
+      type: object
+    GpuModel:
+      properties:
+        id:
+          type: string
+        memoryGib:
+          format: int32
+          type: integer
+        modelName:
+          type: string
+        vendorName:
+          type: string
+      required:
+      - id
+      - vendorName
+      - modelName
+      - memoryGib
+      type: object
+    DiskStoragePriceHr:
+      properties:
+        diskGibPriceHr:
+          $ref: '#/components/schemas/Decimal'
+      type: object
+    SecurityGroupRule:
+      properties:
+        icmpType:
+          type: string
+        id:
+          type: string
+        ipRangeCidr:
+          title: single IP or CIDR format range to apply rule to
+          type: string
+        ports:
+          type: string
+        protocol:
+          $ref: '#/components/schemas/SecurityGroupRule.Protocol'
+        ruleType:
+          $ref: '#/components/schemas/SecurityGroupRule.RuleType'
+      type: object
+    SecurityGroupRule.Protocol:
+      default: PROTOCOL_UNKNOWN
+      enum:
+      - PROTOCOL_UNKNOWN
+      - PROTOCOL_ALL
+      - PROTOCOL_TCP
+      - PROTOCOL_UDP
+      - PROTOCOL_ICMP
+      - PROTOCOL_ICMPv6
+      - PROTOCOL_IPSEC
+      type: string
+    UpdateVMPasswordBody:
+      properties:
+        password:
+          type: string
+      required:
+      - password
+      type: object
+    UpdateVMMetadataResponse:
+      properties:
+        metadata:
+          additionalProperties:
+            type: string
+          type: object
+      type: object
+    SecurityGroup:
+      properties:
+        dataCenterId:
+          type: string
+        description:
+          type: string
         id:
           type: string
         projectId:
           type: string
+        rules:
+          items:
+            $ref: '#/components/schemas/Rule'
+          type: array
+      required:
+      - dataCenterId
+      - id
+      type: object
+    Any:
+      additionalProperties: {}
+      properties:
+        '@type':
+          type: string
+      type: object
+    UpdateVMMetadataBody:
+      properties:
+        merge:
+          type: boolean
+        metadata:
+          additionalProperties:
+            type: string
+          type: object
+      type: object
+    LatLng:
+      description: 'An object that represents a latitude/longitude pair. This is expressed as a
+
+        pair of doubles to represent degrees latitude and degrees longitude. Unless
+
+        specified otherwise, this must conform to the
+
+        <a href="http://www.unoosa.org/pdf/icg/2012/template/WGS_84.pdf">WGS84
+
+        standard</a>. Values must be within normalized ranges.'
+      properties:
+        latitude:
+          description: The latitude in degrees. It must be in the range [-90.0, +90.0].
+          format: double
+          type: number
+        longitude:
+          description: The longitude in degrees. It must be in the range [-180.0, +180.0].
+          format: double
+          type: number
+      type: object
+    DiskType:
+      default: DISK_TYPE_UNKNOWN
+      enum:
+      - DISK_TYPE_UNKNOWN
+      - DISK_TYPE_BOOT
+      - DISK_TYPE_STORAGE
+      type: string
+    MonitorVMResponse:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/VMMonitoringItem'
+          type: array
+      required:
+      - items
+      type: object
+    VmState:
+      default: CLONING
+      enum:
+      - CLONING
+      - CREATING_SNAPSHOT
+      - DELETED
+      - DELETING
+      - DELETING_SNAPSHOT
+      - FAILED
+      - HOTPLUGGING
+      - MIGRATING
+      - RECREATING
+      - REVERTING_SNAPSHOT
+      - RESIZING
+      - RESIZING_DISK
+      - ACTIVE
+      - STARTING
+      - STOPPED
+      - STOPPING
+      - SUSPENDED
+      - SUSPENDING
+      - UNKNOWN
+      - PENDING
+      type: string
+    CommitVMBody:
+      properties:
+        commitmentTerm:
+          $ref: '#/components/schemas/CommitmentTerm'
+      type: object
+    Rule.RuleType:
+      default: RULE_TYPE_UNKNOWN
+      enum:
+      - RULE_TYPE_UNKNOWN
+      - RULE_TYPE_INBOUND
+      - RULE_TYPE_OUTBOUND
+      type: string
+    Disk:
+      properties:
+        createTime:
+          format: date-time
+          readOnly: true
+          type: string
         dataCenterId:
           type: string
-        vmId:
-          type: string
-        sizeGib:
-          type: integer
-        publicImageId:
+        diskState:
+          $ref: '#/components/schemas/DiskState'
+        diskType:
+          $ref: '#/components/schemas/DiskType'
+        id:
           type: string
         privateImageId:
+          readOnly: true
           type: string
-        createTime:
+        projectId:
           type: string
+        publicImageId:
+          readOnly: true
+          type: string
+        sizeGib:
+          format: int32
+          type: integer
+        vmId:
+          readOnly: true
+          type: string
+      required:
+      - id
+      - projectId
+      - dataCenterId
+      - sizeGib
+      type: object
+    DiskState:
+      default: UNKNOWN
+      enum:
+      - UNKNOWN
+      - ATTACHED
+      - CLONING
+      - CREATING
+      - DELETING
+      - DISABLED
+      - FAILED
+      - READY
+      - UPDATING
+      type: string
+    ConnectVMResponse:
+      properties:
+        connectUrl:
+          type: string
+        token:
+          type: string
+      required:
+      - connectUrl
+      - token
+      type: object
+    ListVMsResponse:
+      properties:
+        VMs:
+          items:
+            $ref: '#/components/schemas/VM'
+          type: array
+      type: object
+    Status:
+      properties:
+        code:
+          format: int32
+          type: integer
+        details:
+          items:
+            $ref: '#/components/schemas/Any'
+          type: array
+        message:
+          type: string
+      type: object
+    ListVMDataCentersResponse:
+      properties:
+        dataCenters:
+          items:
+            $ref: '#/components/schemas/VMDataCenter'
+          type: array
+      required:
+      - dataCenters
+      type: object
+    VirtualMachineTypePrice:
+      properties:
+        commitmentTerm:
+          $ref: '#/components/schemas/CommitmentTerm'
+        gpuPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        memoryGibPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        vcpuPriceHr:
+          $ref: '#/components/schemas/Decimal'
+      required:
+      - vcpuPriceHr
+      - memoryGibPriceHr
+      - gpuPriceHr
+      - commitmentTerm
+      type: object
+    CountVMsResponse:
+      properties:
+        count:
+          format: int32
+          type: integer
+      required:
+      - count
+      type: object
+    CreateVMRequest.NIC:
+      properties:
+        assignPublicIp:
+          type: boolean
+        networkId:
+          type: string
+        securityGroupIds:
+          items:
+            type: string
+          type: array
+      type: object
+    Rule:
+      properties:
+        icmpType:
+          type: string
+        id:
+          type: string
+        ipRangeCidr:
+          title: single IP or CIDR format range to apply rule to
+          type: string
+        ports:
+          type: string
+        protocol:
+          $ref: '#/components/schemas/Rule.Protocol'
+        ruleType:
+          $ref: '#/components/schemas/Rule.RuleType'
+      type: object
+    GetVMMachineTypeResponse:
+      properties:
+        cpuModel:
+          type: string
+        dataCenterId:
+          type: string
+        gpuModel:
+          type: string
+        gpuModelId:
+          type: string
+        gpuPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        ipv4PriceHr:
+          $ref: '#/components/schemas/Decimal'
+        machineType:
+          type: string
+        maxGpuFree:
+          format: int32
+          type: integer
+        maxMemoryGibFree:
+          format: int32
+          type: integer
+        maxStorageGibFree:
+          format: int32
+          type: integer
+        maxVcpuFree:
+          format: int32
+          type: integer
+        maxVcpuPerGpu:
+          format: double
+          type: number
+        maxVcpuPerMemoryGib:
+          format: double
+          type: number
+        memoryGibPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        minMemoryGib:
+          format: double
+          type: number
+        minStorageGibPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        minVcpu:
+          format: double
+          type: number
+        minVcpuPerGpu:
+          format: double
+          type: number
+        minVcpuPerMemoryGib:
+          format: double
+          type: number
+        prices:
+          items:
+            $ref: '#/components/schemas/VirtualMachineTypePrice'
+          type: array
+        renewableEnergy:
+          type: boolean
+        totalGpuFree:
+          format: int32
+          type: integer
+        totalMemoryGibFree:
+          format: int32
+          type: integer
+        totalStorageGibFree:
+          format: int32
+          type: integer
+        totalVcpuFree:
+          format: int32
+          type: integer
+        vcpuPriceHr:
+          $ref: '#/components/schemas/Decimal'
+      required:
+      - dataCenterId
+      - machineType
+      - cpuModel
+      - gpuModel
+      - gpuModelId
+      - minVcpuPerMemoryGib
+      - maxVcpuPerMemoryGib
+      - minVcpuPerGpu
+      - maxVcpuPerGpu
+      - vcpuPriceHr
+      - memoryGibPriceHr
+      - gpuPriceHr
+      - minStorageGibPriceHr
+      - ipv4PriceHr
+      - renewableEnergy
+      - maxVcpuFree
+      - totalVcpuFree
+      - maxMemoryGibFree
+      - totalMemoryGibFree
+      - maxGpuFree
+      - totalGpuFree
+      - maxStorageGibFree
+      - totalStorageGibFree
+      - minVcpu
+      - minMemoryGib
+      - prices
+      type: object
+    SecurityGroupRule.RuleType:
+      default: RULE_TYPE_UNKNOWN
+      enum:
+      - RULE_TYPE_UNKNOWN
+      - RULE_TYPE_INBOUND
+      - RULE_TYPE_OUTBOUND
+      type: string
+    NetworkPriceHr:
+      properties:
+        priceHr:
+          $ref: '#/components/schemas/Decimal'
+      type: object
+    VMMachineType:
+      properties:
+        cpuModel:
+          type: string
+        dataCenterId:
+          type: string
+        gpuModel:
+          type: string
+        gpuModelId:
+          type: string
+        gpuPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        ipv4PriceHr:
+          $ref: '#/components/schemas/Decimal'
+        machineType:
+          type: string
+        maxGpuFree:
+          format: int32
+          type: integer
+        maxMemoryGibFree:
+          format: int32
+          type: integer
+        maxStorageGibFree:
+          format: int32
+          type: integer
+        maxVcpuFree:
+          format: int32
+          type: integer
+        maxVcpuPerGpu:
+          format: double
+          type: number
+        maxVcpuPerMemoryGib:
+          format: double
+          type: number
+        memoryGibPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        minMemoryGib:
+          format: double
+          type: number
+        minStorageGibPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        minVcpu:
+          format: double
+          type: number
+        minVcpuPerGpu:
+          format: double
+          type: number
+        minVcpuPerMemoryGib:
+          format: double
+          type: number
+        prices:
+          items:
+            $ref: '#/components/schemas/VirtualMachineTypePrice'
+          type: array
+        renewableEnergy:
+          type: boolean
+        totalGpuFree:
+          format: int32
+          type: integer
+        totalMemoryGibFree:
+          format: int32
+          type: integer
+        totalStorageGibFree:
+          format: int32
+          type: integer
+        totalVcpuFree:
+          format: int32
+          type: integer
+        vcpuPriceHr:
+          $ref: '#/components/schemas/Decimal'
+      required:
+      - dataCenterId
+      - machineType
+      - cpuModel
+      - gpuModel
+      - gpuModelId
+      - minVcpuPerMemoryGib
+      - maxVcpuPerMemoryGib
+      - minVcpuPerGpu
+      - maxVcpuPerGpu
+      - vcpuPriceHr
+      - memoryGibPriceHr
+      - gpuPriceHr
+      - minStorageGibPriceHr
+      - ipv4PriceHr
+      - renewableEnergy
+      - maxVcpuFree
+      - totalVcpuFree
+      - maxMemoryGibFree
+      - totalMemoryGibFree
+      - maxGpuFree
+      - totalGpuFree
+      - maxStorageGibFree
+      - totalStorageGibFree
+      - minVcpu
+      - minMemoryGib
+      - prices
+      type: object
+    VM.NIC:
+      properties:
+        externalIpAddress:
+          type: string
+        internalIpAddress:
+          type: string
+        networkAddress:
+          type: string
+        networkId:
+          type: string
+        securityGroupIds:
+          items:
+            type: string
+          type: array
+      type: object
+    CpuTopology:
+      properties:
+        cores:
+          format: int32
+          type: integer
+        sockets:
+          format: int32
+          type: integer
+        threads:
+          format: int32
+          type: integer
+      type: object
+    BootDisk:
+      description: 'DEPRECATED: use `bootDiskSizeGib` on `CreateVMBody` instead'
+      properties:
+        sizeGib:
+          format: int32
+          type: integer
+      required:
+      - sizeGib
+      title: BootDisk
+      type: object
+      deprecated: true
+    UpdateVMAuthorizedSSHKeysBody:
+      properties:
+        customSshKeys:
+          items:
+            type: string
+          type: array
+        sshKeySource:
+          $ref: '#/components/schemas/SshKeySource'
+      type: object
+    ResizeVMResponse:
+      properties:
+        vm:
+          $ref: '#/components/schemas/VM'
+      required:
+      - vm
+      type: object
+    CreateVMResponse:
+      properties:
+        id:
+          type: string
+        vm:
+          $ref: '#/components/schemas/VM'
+      required:
+      - id
+      type: object
+    GetVMResponse:
+      properties:
+        VM:
+          $ref: '#/components/schemas/VM'
+        gpuPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        ipv4PriceHr:
+          $ref: '#/components/schemas/Decimal'
+        memoryGibPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        storageGibPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        totalGpuPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        totalMemoryPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        totalPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        totalStoragePriceHr:
+          $ref: '#/components/schemas/Decimal'
+        totalVcpuPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        vcpuPriceHr:
+          $ref: '#/components/schemas/Decimal'
+      required:
+      - VM
+      - vcpuPriceHr
+      - totalVcpuPriceHr
+      - memoryGibPriceHr
+      - totalMemoryPriceHr
+      - gpuPriceHr
+      - totalGpuPriceHr
+      - storageGibPriceHr
+      - totalStoragePriceHr
+      - ipv4PriceHr
+      - totalPriceHr
+      type: object
+    UpdateVMExpireTimeResponse:
+      properties:
+        expireTime:
           format: date-time
-  responses:
-    Unauthorized:
-      description: Authentication failed; missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+          type: string
+      type: object
+    SshKeySource:
+      default: SSH_KEY_SOURCE_UNKNOWN
+      enum:
+      - SSH_KEY_SOURCE_UNKNOWN
+      - SSH_KEY_SOURCE_PROJECT
+      - SSH_KEY_SOURCE_USER
+      - SSH_KEY_SOURCE_NONE
+      type: string
+    Decimal:
+      description: 'A representation of a decimal value, such as 2.5. Clients may convert values
+
+        into language-native decimal formats, such as Java''s [BigDecimal][] or
+
+        Python''s [decimal.Decimal][].
+
+
+        [BigDecimal]:
+
+        https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html
+
+        [decimal.Decimal]: https://docs.python.org/3/library/decimal.html'
+      properties:
+        value:
+          description: "The decimal value, as a string.\n\nThe string representation consists of an optional sign, `+` (`U+002B`)\nor `-` (`U+002D`), followed by a sequence of zero or more decimal digits\n(\"the integer\"), optionally followed by a fraction, optionally followed\nby an exponent.\n\nThe fraction consists of a decimal point followed by zero or more decimal\ndigits. The string must contain at least one digit in either the integer\nor the fraction. The number formed by the sign, the integer and the\nfraction is referred to as the significand.\n\nThe exponent consists of the character `e` (`U+0065`) or `E` (`U+0045`)\nfollowed by one or more decimal digits.\n\nServices **should** normalize decimal values before storing them by:\n\n  - Removing an explicitly-provided `+` sign (`+2.5` -> `2.5`).\n  - Replacing a zero-length integer value with `0` (`.5` -> `0.5`).\n  - Coercing the exponent character to lower-case (`2.5E8` -> `2.5e8`).\n  - Removing an explicitly-provided zero exponent (`2.5e0` -> `2.5`).\n\nServices **may** perform additional normalization based on its own needs\nand the internal decimal implementation selected, such as shifting the\ndecimal point and exponent value together (example: `2.5e-1` <-> `0.25`).\nAdditionally, services **may** preserve trailing zeroes in the fraction\nto indicate increased precision, but are not required to do so.\n\nNote that only the `.` character is supported to divide the integer\nand the fraction; `,` **should not** be supported regardless of locale.\nAdditionally, thousand separators **should not** be supported. If a\nservice does support them, values **must** be normalized.\n\nThe ENBF grammar is:\n\n    DecimalString =\n      [Sign] Significand [Exponent];\n\n    Sign = '+' | '-';\n\n    Significand =\n      Digits ['.'] [Digits] | [Digits] '.' Digits;\n\n    Exponent = ('e' | 'E') [Sign] Digits;\n\n    Digits = { '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' };\n\nServices **should** clearly document the range of supported values, the\nmaximum supported precision (total number of digits), and, if applicable,\nthe scale (number of digits after the decimal point), as well as how it\nbehaves when receiving out-of-bounds values.\n\nServices **may** choose to accept values passed as input even when the\nvalue has a higher precision or scale than the service supports, and\n**should** round the value to fit the supported scale. Alternatively, the\nservice **may** error with `400 Bad Request` (`INVALID_ARGUMENT` in gRPC)\nif precision would be lost.\n\nServices **should** error with `400 Bad Request` (`INVALID_ARGUMENT` in\ngRPC) if the service receives a value outside of the supported range."
+          type: string
+      type: object
+    ListVMGpuModelsResponse:
+      properties:
+        gpuModels:
+          items:
+            $ref: '#/components/schemas/GpuModel'
+          type: array
+      type: object
+    CommitmentTerm:
+      default: COMMITMENT_TERM_NONE
+      enum:
+      - COMMITMENT_TERM_NONE
+      - COMMITMENT_TERM_1_MONTH
+      - COMMITMENT_TERM_3_MONTHS
+      - COMMITMENT_TERM_6_MONTHS
+      - COMMITMENT_TERM_12_MONTHS
+      - COMMITMENT_TERM_24_MONTHS
+      - COMMITMENT_TERM_36_MONTHS
+      - COMMITMENT_TERM_60_MONTHS
+      type: string
+    VMMonitoringItem:
+      properties:
+        cpu:
+          format: float
+          type: number
+        diskRdBytes:
+          format: int64
+          type: string
+        diskRdIops:
+          format: int64
+          type: string
+        diskWrBytes:
+          format: int64
+          type: string
+        diskWrIops:
+          format: int64
+          type: string
+        guestPing:
+          format: int64
+          type: string
+        memory:
+          format: int64
+          type: string
+        netRx:
+          format: int64
+          type: string
+        netTx:
+          format: int64
+          type: string
+        timestamp:
+          format: int64
+          type: string
+      type: object
+    Rule.Protocol:
+      default: PROTOCOL_UNKNOWN
+      enum:
+      - PROTOCOL_UNKNOWN
+      - PROTOCOL_ALL
+      - PROTOCOL_TCP
+      - PROTOCOL_UDP
+      - PROTOCOL_ICMP
+      - PROTOCOL_ICMPv6
+      - PROTOCOL_IPSEC
+      type: string
+    UpdateVMExpireTimeBody:
+      properties:
+        expireTime:
+          format: date-time
+          type: string
+        ttl:
+          type: string
+      type: object
+    CreateVMBody:
+      properties:
+        bootDisk:
+          $ref: '#/components/schemas/BootDisk'
+        bootDiskImageId:
+          type: string
+        bootDiskSizeGib:
+          format: int32
+          type: integer
+        commitmentTerm:
+          $ref: '#/components/schemas/CommitmentTerm'
+        customSshKeys:
+          items:
+            type: string
+          type: array
+        dataCenterId:
+          type: string
+        expireTime:
+          format: date-time
+          type: string
+        gpus:
+          format: int32
+          type: integer
+        machineType:
+          type: string
+        memoryGib:
+          format: int32
+          type: integer
+        metadata:
+          additionalProperties:
+            type: string
+          type: object
+        nics:
+          items:
+            $ref: '#/components/schemas/CreateVMRequest.NIC'
+          type: array
+        password:
+          type: string
+        securityGroupIds:
+          items:
+            type: string
+          title: ignored if any nics are provided
+          type: array
+        sshKeySource:
+          $ref: '#/components/schemas/SshKeySource'
+        startScript:
+          type: string
+        storageDiskIds:
+          items:
+            type: string
+          type: array
+        topology:
+          $ref: '#/components/schemas/CpuTopology'
+        ttl:
+          type: string
+        validateOnly:
+          type: boolean
+        vcpus:
+          format: int32
+          type: integer
+        vmId:
+          type: string
+      required:
+      - dataCenterId
+      - machineType
+      - vmId
+      - bootDiskImageId
+      - vcpus
+      - memoryGib
+      - gpus
+      type: object
   securitySchemes:
     bearerAuth:
-      type: http
-      scheme: bearer
-      description: 'A CUDO Compute API key passed as a Bearer token in the Authorization header, e.g. `Authorization: Bearer $CUDO_API_KEY`. Create keys in the CUDO Compute dashboard. Missing or invalid keys return 401 UNAUTHENTICATED.'
+      description: API key authentication. API keys should be passed using the format `Bearer API_KEY`.
+      in: header
+      name: Authorization
+      type: apiKey

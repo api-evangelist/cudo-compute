@@ -63,27 +63,6 @@ apis:
     url: collections/cudo-compute.postman_collection.json
   - type: OpenCollection
     url: collections/cudo-compute.opencollection.json
-- aid: cudo-compute:cudo-compute-data-centers-api
-  name: CUDO Compute Data Centers API
-  description: The Data Centers API from CUDO Compute — 3 operation(s) for data centers.
-  humanURL: https://www.cudocompute.com/docs/api
-  baseURL: https://rest.compute.cudo.org
-  tags:
-  - Data Center
-  tags_raw:
-  - Data Centers
-  - Data-Center
-  properties:
-  - type: OpenAPI
-    url: openapi/cudo-compute-data-centers-api-openapi.yml
-  - type: Documentation
-    url: https://www.cudocompute.com/docs/api
-  - type: APIReference
-    url: https://www.cudocompute.com/docs/rest-api/introduction
-  - type: PostmanCollection
-    url: collections/cudo-compute.postman_collection.json
-  - type: OpenCollection
-    url: collections/cudo-compute.opencollection.json
 - aid: cudo-compute:cudo-compute-disks-api
   name: CUDO Compute Disks API
   description: The Disks API from CUDO Compute — 5 operation(s) for disks.
@@ -114,24 +93,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/cudo-compute-images-api-openapi.yml
-  - type: Documentation
-    url: https://www.cudocompute.com/docs/api
-  - type: APIReference
-    url: https://www.cudocompute.com/docs/rest-api/introduction
-  - type: PostmanCollection
-    url: collections/cudo-compute.postman_collection.json
-  - type: OpenCollection
-    url: collections/cudo-compute.opencollection.json
-- aid: cudo-compute:cudo-compute-machine-types-api
-  name: CUDO Compute Machine Types API
-  description: The Machine Types API from CUDO Compute — 4 operation(s) for machine types.
-  humanURL: https://www.cudocompute.com/docs/api
-  baseURL: https://rest.compute.cudo.org
-  tags:
-  - Machine Types
-  properties:
-  - type: OpenAPI
-    url: openapi/cudo-compute-machine-types-api-openapi.yml
   - type: Documentation
     url: https://www.cudocompute.com/docs/api
   - type: APIReference
@@ -186,6 +147,169 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/cudo-compute-virtual-machines-api-openapi.yml
+  - type: Documentation
+    url: https://www.cudocompute.com/docs/api
+  - type: APIReference
+    url: https://www.cudocompute.com/docs/rest-api/introduction
+  - type: PostmanCollection
+    url: collections/cudo-compute.postman_collection.json
+  - type: OpenCollection
+    url: collections/cudo-compute.opencollection.json
+- aid: cudo-compute:cudo-compute-api-keys-api
+  name: CUDO Compute API keys API
+  description: API keys allow you to authenticate requests with the CUDO Compute API.
+  humanURL: https://www.cudocompute.com/docs/api
+  baseURL: https://rest.compute.cudo.org
+  tags:
+  - API keys
+  properties:
+  - type: OpenAPI
+    url: openapi/cudo-compute-api-keys-api-openapi.yml
+  - type: Documentation
+    url: https://www.cudocompute.com/docs/api
+  - type: APIReference
+    url: https://www.cudocompute.com/docs/rest-api/introduction
+  - type: PostmanCollection
+    url: collections/cudo-compute.postman_collection.json
+  - type: OpenCollection
+    url: collections/cudo-compute.opencollection.json
+- aid: cudo-compute:cudo-compute-clusters-api
+  name: CUDO Compute Clusters API
+  description: >-
+    Clusters are high-performance computing environments that can be used to run large-scale parallel
+    and distributed applications.
+
+
+    Related guide: [Clusters](https://www.cudocompute.com/docs/clusters)
+  humanURL: https://www.cudocompute.com/docs/api
+  baseURL: https://rest.compute.cudo.org
+  tags:
+  - Clusters
+  properties:
+  - type: OpenAPI
+    url: openapi/cudo-compute-clusters-api-openapi.yml
+  - type: Documentation
+    url: https://www.cudocompute.com/docs/api
+  - type: APIReference
+    url: https://www.cudocompute.com/docs/rest-api/introduction
+  - type: PostmanCollection
+    url: collections/cudo-compute.postman_collection.json
+  - type: OpenCollection
+    url: collections/cudo-compute.opencollection.json
+- aid: cudo-compute:cudo-compute-machines-api
+  name: CUDO Compute Machines API
+  description: >-
+    Bare-metal machines are dedicated physical servers for high-performance computing, offering full control
+    and isolation from other users.
+
+
+    Related guide: [Bare metal](https://www.cudocompute.com/docs/bare-metal)
+  humanURL: https://www.cudocompute.com/docs/api
+  baseURL: https://rest.compute.cudo.org
+  tags:
+  - Machines
+  properties:
+  - type: OpenAPI
+    url: openapi/cudo-compute-machines-api-openapi.yml
+  - type: Documentation
+    url: https://www.cudocompute.com/docs/api
+  - type: APIReference
+    url: https://www.cudocompute.com/docs/rest-api/introduction
+  - type: PostmanCollection
+    url: collections/cudo-compute.postman_collection.json
+  - type: OpenCollection
+    url: collections/cudo-compute.opencollection.json
+- aid: cudo-compute:cudo-compute-object-storage-api
+  name: CUDO Compute Object storage API
+  description: >-
+    Store large amounts of unstructured data, including audio, video and user uploaded files.
+
+
+    Related guide: [Object storage](https://www.cudocompute.com/docs/object-storage)
+  humanURL: https://www.cudocompute.com/docs/api
+  baseURL: https://rest.compute.cudo.org
+  tags:
+  - Object storage
+  properties:
+  - type: OpenAPI
+    url: openapi/cudo-compute-object-storage-api-openapi.yml
+  - type: Documentation
+    url: https://www.cudocompute.com/docs/api
+  - type: APIReference
+    url: https://www.cudocompute.com/docs/rest-api/introduction
+  - type: PostmanCollection
+    url: collections/cudo-compute.postman_collection.json
+  - type: OpenCollection
+    url: collections/cudo-compute.opencollection.json
+- aid: cudo-compute:cudo-compute-projects-api
+  name: CUDO Compute Projects API
+  description: Projects are containers for cloud resources, such as virtual machines & clusters.
+  humanURL: https://www.cudocompute.com/docs/api
+  baseURL: https://rest.compute.cudo.org
+  tags:
+  - Projects
+  properties:
+  - type: OpenAPI
+    url: openapi/cudo-compute-projects-api-openapi.yml
+  - type: Documentation
+    url: https://www.cudocompute.com/docs/api
+  - type: APIReference
+    url: https://www.cudocompute.com/docs/rest-api/introduction
+  - type: PostmanCollection
+    url: collections/cudo-compute.postman_collection.json
+  - type: OpenCollection
+    url: collections/cudo-compute.opencollection.json
+- aid: cudo-compute:cudo-compute-resources-api
+  name: CUDO Compute Resources API
+  description: Operations for searching available compute resources.
+  humanURL: https://www.cudocompute.com/docs/api
+  baseURL: https://rest.compute.cudo.org
+  tags:
+  - Resources
+  properties:
+  - type: OpenAPI
+    url: openapi/cudo-compute-resources-api-openapi.yml
+  - type: Documentation
+    url: https://www.cudocompute.com/docs/api
+  - type: APIReference
+    url: https://www.cudocompute.com/docs/rest-api/introduction
+  - type: PostmanCollection
+    url: collections/cudo-compute.postman_collection.json
+  - type: OpenCollection
+    url: collections/cudo-compute.opencollection.json
+- aid: cudo-compute:cudo-compute-users-api
+  name: CUDO Compute Users API
+  description: Operations related to user accounts and identity verification.
+  humanURL: https://www.cudocompute.com/docs/api
+  baseURL: https://rest.compute.cudo.org
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/cudo-compute-users-api-openapi.yml
+  - type: Documentation
+    url: https://www.cudocompute.com/docs/api
+  - type: APIReference
+    url: https://www.cudocompute.com/docs/rest-api/introduction
+  - type: PostmanCollection
+    url: collections/cudo-compute.postman_collection.json
+  - type: OpenCollection
+    url: collections/cudo-compute.opencollection.json
+- aid: cudo-compute:cudo-compute-volumes-api
+  name: CUDO Compute Volumes API
+  description: >-
+    Volumes are high-performance Network File Systems that allow cluster machines to share training data
+    and model checkpoints.
+
+
+    Related guide: [Volumes](https://www.cudocompute.com/docs/volumes)
+  humanURL: https://www.cudocompute.com/docs/api
+  baseURL: https://rest.compute.cudo.org
+  tags:
+  - Volumes
+  properties:
+  - type: OpenAPI
+    url: openapi/cudo-compute-volumes-api-openapi.yml
   - type: Documentation
     url: https://www.cudocompute.com/docs/api
   - type: APIReference

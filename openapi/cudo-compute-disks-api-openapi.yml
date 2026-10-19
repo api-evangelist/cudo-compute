@@ -1,252 +1,325 @@
 openapi: 3.2.0
 info:
-  title: CUDO Compute Disks API
-  description: REST API for the CUDO Compute global GPU and cloud compute platform and marketplace.
-  termsOfService: https://www.cudocompute.com/legal/terms-of-service
-  contact:
-    name: CUDO Compute Support
-    url: https://www.cudocompute.com/contact
+  description: The CUDO Compute API is organized around REST. Our API uses predictable resource-oriented URLs, accepts and returns JSON-encoded requests and responses, and uses standard HTTP response codes, authentication, and verbs where possible.
+  title: CUDO Compute service Disks API
   version: 1.0.0
 servers:
-- url: https://rest.compute.cudo.org
+- url: https://rest.compute.cudo.org/
 security:
 - bearerAuth: []
 tags:
-- name: Disks
+- description: 'Storage disks are virtual disks that operate just like physical disks. You can attach & detach created storage disks to and from virtual machines in the same data center.
+
+
+    Related guide: Disks'
+  name: Disks
 paths:
   /v1/projects/{projectId}/disks:
     get:
-      operationId: listDisks
-      tags:
-      - Disks
-      summary: List storage disks
+      description: Lists virtual machine disks in a project.
+      operationId: ListDisks
       parameters:
-      - $ref: '#/components/parameters/projectId'
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: pageNumber
+        schema:
+          format: int32
+          type: integer
+      - in: query
+        name: pageSize
+        schema:
+          format: int32
+          type: integer
+      - in: query
+        name: dataCenterId
+        schema:
+          type: string
       responses:
         '200':
-          description: A list of disks
           content:
             application/json:
               schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+                $ref: '#/components/schemas/ListDisksResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: List disks
+      tags:
+      - Disks
     post:
-      operationId: createStorageDisk
-      tags:
-      - Disks
-      summary: Create a storage disk
+      description: Creates a new virtual machine disk.
+      operationId: CreateStorageDisk
       parameters:
-      - $ref: '#/components/parameters/projectId'
-      requestBody:
+      - in: path
+        name: projectId
         required: true
+        schema:
+          type: string
+      requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateStorageDiskBody'
-      responses:
-        '200':
-          description: Disk created
-          content:
-            application/json:
-              schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-  /v1/projects/{projectId}/disks/{id}:
-    get:
-      operationId: getDisk
-      tags:
-      - Disks
-      summary: Get a storage disk
-      parameters:
-      - $ref: '#/components/parameters/projectId'
-      - $ref: '#/components/parameters/id'
-      responses:
-        '200':
-          description: The requested disk
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Disk'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-    delete:
-      operationId: deleteDisk
-      tags:
-      - Disks
-      summary: Delete a storage disk
-      parameters:
-      - $ref: '#/components/parameters/projectId'
-      - $ref: '#/components/parameters/id'
-      responses:
-        '200':
-          description: Disk deleted
-          content:
-            application/json:
-              schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-  /v1/projects/{projectId}/disk/{id}/attach:
-    patch:
-      operationId: attachStorageDisk
-      tags:
-      - Disks
-      summary: Attach a storage disk to a virtual machine
-      parameters:
-      - $ref: '#/components/parameters/projectId'
-      - $ref: '#/components/parameters/id'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
               properties:
-                vmId:
+                createTime:
+                  format: date-time
+                  readOnly: true
                   type: string
+                dataCenterId:
+                  type: string
+                diskState:
+                  $ref: '#/components/schemas/DiskState'
+                diskType:
+                  $ref: '#/components/schemas/DiskType'
+                id:
+                  type: string
+                privateImageId:
+                  readOnly: true
+                  type: string
+                publicImageId:
+                  readOnly: true
+                  type: string
+                sizeGib:
+                  format: int32
+                  type: integer
+                vmId:
+                  readOnly: true
+                  type: string
+              required:
+              - id
+              - dataCenterId
+              - sizeGib
+              title: Create disk params
+              type: object
+        description: Create disk params
+        required: true
+        x-originalParamName: disk
       responses:
         '200':
-          description: Disk attached
           content:
             application/json:
               schema:
                 type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-  /v1/projects/{projectId}/disk/{id}/detach:
-    put:
-      operationId: detachStorageDisk
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Create a disk
       tags:
       - Disks
-      summary: Detach a storage disk from a virtual machine
-      parameters:
-      - $ref: '#/components/parameters/projectId'
-      - $ref: '#/components/parameters/id'
-      responses:
-        '200':
-          description: Disk detached
-          content:
-            application/json:
-              schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-  /v1/projects/{projectId}/disks/{id}/snapshots:
-    get:
-      operationId: listDiskSnapshots
-      tags:
-      - Disks
-      summary: List disk snapshots
-      parameters:
-      - $ref: '#/components/parameters/projectId'
-      - $ref: '#/components/parameters/id'
-      responses:
-        '200':
-          description: A list of disk snapshots
-          content:
-            application/json:
-              schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-    post:
-      operationId: createDiskSnapshot
-      tags:
-      - Disks
-      summary: Create a disk snapshot
-      parameters:
-      - $ref: '#/components/parameters/projectId'
-      - $ref: '#/components/parameters/id'
-      responses:
-        '200':
-          description: Snapshot created
-          content:
-            application/json:
-              schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+  /v1/projects/{projectId}/disks/{id}:
     delete:
-      operationId: deleteDiskSnapshot
-      tags:
-      - Disks
-      summary: Delete a disk snapshot
+      description: Deletes a virtual machine disk. The disk must be detached from any virtual machines before it can be deleted.
+      operationId: DeleteStorageDisk
       parameters:
-      - $ref: '#/components/parameters/projectId'
-      - $ref: '#/components/parameters/id'
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
       responses:
         '200':
-          description: Snapshot deleted
           content:
             application/json:
               schema:
                 type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Delete a disk
+      tags:
+      - Disks
+    get:
+      description: Retrieves the details of a virtual machine disk.
+      operationId: GetDisk
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDiskResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Get a disk
+      tags:
+      - Disks
+  /v1/projects/{projectId}/vms/{id}/disks:
+    patch:
+      description: Resizes a disk attached to a virtual machine. The new size must be larger than the current size.
+      operationId: ResizeVMDisk
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: diskId
+        schema:
+          type: string
+      - in: query
+        name: sizeGib
+        schema:
+          format: int32
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Resize a virtual machine disk
+      tags:
+      - Disks
 components:
   schemas:
-    CreateStorageDiskBody:
-      type: object
+    Disk:
       properties:
+        createTime:
+          format: date-time
+          readOnly: true
+          type: string
         dataCenterId:
           type: string
-        disk:
-          $ref: '#/components/schemas/Disk'
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-        status:
-          type: string
-    Disk:
-      type: object
-      properties:
+        diskState:
+          $ref: '#/components/schemas/DiskState'
+        diskType:
+          $ref: '#/components/schemas/DiskType'
         id:
+          type: string
+        privateImageId:
+          readOnly: true
           type: string
         projectId:
           type: string
-        dataCenterId:
-          type: string
-        vmId:
+        publicImageId:
+          readOnly: true
           type: string
         sizeGib:
+          format: int32
           type: integer
-        publicImageId:
+        vmId:
+          readOnly: true
           type: string
-        privateImageId:
+      required:
+      - id
+      - projectId
+      - dataCenterId
+      - sizeGib
+      type: object
+    DiskState:
+      default: UNKNOWN
+      enum:
+      - UNKNOWN
+      - ATTACHED
+      - CLONING
+      - CREATING
+      - DELETING
+      - DISABLED
+      - FAILED
+      - READY
+      - UPDATING
+      type: string
+    GetDiskResponse:
+      properties:
+        disk:
+          $ref: '#/components/schemas/Disk'
+      type: object
+    Status:
+      properties:
+        code:
+          format: int32
+          type: integer
+        details:
+          items:
+            $ref: '#/components/schemas/Any'
+          type: array
+        message:
           type: string
-        createTime:
+      type: object
+    ListDisksResponse:
+      properties:
+        disks:
+          items:
+            $ref: '#/components/schemas/Disk'
+          type: array
+        pageNumber:
+          format: int32
+          type: integer
+        pageSize:
+          format: int32
+          type: integer
+        totalCount:
+          format: int32
+          type: integer
+      required:
+      - totalCount
+      - pageNumber
+      - pageSize
+      type: object
+    Any:
+      additionalProperties: {}
+      properties:
+        '@type':
           type: string
-          format: date-time
-  parameters:
-    projectId:
-      name: projectId
-      in: path
-      required: true
-      description: The project identifier.
-      schema:
-        type: string
-    id:
-      name: id
-      in: path
-      required: true
-      description: The resource identifier.
-      schema:
-        type: string
-  responses:
-    Unauthorized:
-      description: Authentication failed; missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+      type: object
+    DiskType:
+      default: DISK_TYPE_UNKNOWN
+      enum:
+      - DISK_TYPE_UNKNOWN
+      - DISK_TYPE_BOOT
+      - DISK_TYPE_STORAGE
+      type: string
   securitySchemes:
     bearerAuth:
-      type: http
-      scheme: bearer
-      description: 'A CUDO Compute API key passed as a Bearer token in the Authorization header, e.g. `Authorization: Bearer $CUDO_API_KEY`. Create keys in the CUDO Compute dashboard. Missing or invalid keys return 401 UNAUTHENTICATED.'
+      description: API key authentication. API keys should be passed using the format `Bearer API_KEY`.
+      in: header
+      name: Authorization
+      type: apiKey

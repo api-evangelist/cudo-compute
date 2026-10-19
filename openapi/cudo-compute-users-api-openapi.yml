@@ -1,0 +1,89 @@
+openapi: 3.2.0
+info:
+  description: The CUDO Compute API is organized around REST. Our API uses predictable resource-oriented URLs, accepts and returns JSON-encoded requests and responses, and uses standard HTTP response codes, authentication, and verbs where possible.
+  title: CUDO Compute service Users API
+  version: 1.0.0
+servers:
+- url: https://rest.compute.cudo.org/
+security:
+- bearerAuth: []
+tags:
+- description: Operations related to user accounts and identity verification.
+  name: Users
+paths:
+  /v1/auth:
+    delete:
+      description: Deletes the current user, revoking access to every resource.
+      operationId: DeleteUser
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Delete the current user
+      tags:
+      - Users
+    get:
+      description: Returns details of the current user when suitable authentication credentials are sent with the request.
+      operationId: Get
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Get the current user
+      tags:
+      - Users
+components:
+  schemas:
+    Any:
+      additionalProperties: {}
+      properties:
+        '@type':
+          type: string
+      type: object
+    Status:
+      properties:
+        code:
+          format: int32
+          type: integer
+        details:
+          items:
+            $ref: '#/components/schemas/Any'
+          type: array
+        message:
+          type: string
+      type: object
+    Profile:
+      properties:
+        emailAddress:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        picture:
+          type: string
+      type: object
+  securitySchemes:
+    bearerAuth:
+      description: API key authentication. API keys should be passed using the format `Bearer API_KEY`.
+      in: header
+      name: Authorization
+      type: apiKey

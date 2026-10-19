@@ -1,0 +1,518 @@
+openapi: 3.2.0
+info:
+  description: The CUDO Compute API is organized around REST. Our API uses predictable resource-oriented URLs, accepts and returns JSON-encoded requests and responses, and uses standard HTTP response codes, authentication, and verbs where possible.
+  title: CUDO Compute service Object storage API
+  version: 1.0.0
+servers:
+- url: https://rest.compute.cudo.org/
+security:
+- bearerAuth: []
+tags:
+- description: 'Store large amounts of unstructured data, including audio, video and user uploaded files.
+
+
+    Related guide: Object storage'
+  name: Object storage
+paths:
+  /v1/projects/{projectId}/object-storage/buckets:
+    get:
+      description: Lists object storage buckets within a project.
+      operationId: ListObjectStorageBuckets
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: pageNumber
+        schema:
+          format: int32
+          type: integer
+      - in: query
+        name: pageSize
+        schema:
+          format: int32
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListObjectStorageBucketsResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: List buckets
+      tags:
+      - Object storage
+  /v1/projects/{projectId}/object-storage/buckets/{dataCenterId}/{id}:
+    get:
+      description: Retrieves the details of an object storage bucket.
+      operationId: GetObjectStorageBucket
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: dataCenterId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectStorageBucket'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Get a bucket
+      tags:
+      - Object storage
+  /v1/projects/{projectId}/object-storage/session-key/{dataCenterId}:
+    get:
+      description: Retrieves temporary session credentials for object storage access.
+      operationId: GetObjectStorageSessionKey
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: dataCenterId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetObjectStorageSessionKeyResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Get an object storage session key
+      tags:
+      - Object storage
+  /v1/projects/{projectId}/object-storage/users:
+    get:
+      description: Lists object storage users within a project.
+      operationId: ListObjectStorageUsers
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: pageNumber
+        schema:
+          format: int32
+          type: integer
+      - in: query
+        name: pageSize
+        schema:
+          format: int32
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListObjectStorageUsersResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: List object storage users
+      tags:
+      - Object storage
+  /v1/projects/{projectId}/object-storage/users/{dataCenterId}:
+    post:
+      description: Creates a new object storage user.
+      operationId: CreateObjectStorageUser
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: dataCenterId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                createBy:
+                  readOnly: true
+                  type: string
+                createTime:
+                  format: date-time
+                  readOnly: true
+                  type: string
+                id:
+                  type: string
+                keys:
+                  items:
+                    $ref: '#/components/schemas/ObjectStorageKey'
+                  type: array
+              required:
+              - id
+              title: Create object storage user params
+              type: object
+        description: Create object storage user params
+        required: true
+        x-originalParamName: objectStorageUser
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectStorageUser'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Create an object storage user
+      tags:
+      - Object storage
+  /v1/projects/{projectId}/object-storage/users/{dataCenterId}/{id}:
+    delete:
+      description: Deletes an object storage user.
+      operationId: DeleteObjectStorageUser
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: dataCenterId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Delete an object storage user
+      tags:
+      - Object storage
+    get:
+      description: Retrieves the details of an object storage user.
+      operationId: GetObjectStorageUser
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: dataCenterId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectStorageUser'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Get an object storage user
+      tags:
+      - Object storage
+    post:
+      description: Generates a new key for an object storage user.
+      operationId: GenerateObjectStorageKey
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: dataCenterId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectStorageKey'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Generate an object storage key
+      tags:
+      - Object storage
+  /v1/projects/{projectId}/object-storage/users/{dataCenterId}/{id}/keys/{accessKey}:
+    delete:
+      description: Deletes an object storage key.
+      operationId: DeleteObjectStorageKey
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: dataCenterId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: accessKey
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Delete an object storage key
+      tags:
+      - Object storage
+components:
+  schemas:
+    ListObjectStorageBucketsResponse:
+      properties:
+        buckets:
+          items:
+            $ref: '#/components/schemas/ObjectStorageBucket'
+          type: array
+        pageNumber:
+          format: int32
+          type: integer
+        pageSize:
+          format: int32
+          type: integer
+        totalCount:
+          format: int32
+          type: integer
+      required:
+      - buckets
+      - totalCount
+      - pageNumber
+      - pageSize
+      type: object
+    Decimal:
+      description: 'A representation of a decimal value, such as 2.5. Clients may convert values
+
+        into language-native decimal formats, such as Java''s [BigDecimal][] or
+
+        Python''s [decimal.Decimal][].
+
+
+        [BigDecimal]:
+
+        https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html
+
+        [decimal.Decimal]: https://docs.python.org/3/library/decimal.html'
+      properties:
+        value:
+          description: "The decimal value, as a string.\n\nThe string representation consists of an optional sign, `+` (`U+002B`)\nor `-` (`U+002D`), followed by a sequence of zero or more decimal digits\n(\"the integer\"), optionally followed by a fraction, optionally followed\nby an exponent.\n\nThe fraction consists of a decimal point followed by zero or more decimal\ndigits. The string must contain at least one digit in either the integer\nor the fraction. The number formed by the sign, the integer and the\nfraction is referred to as the significand.\n\nThe exponent consists of the character `e` (`U+0065`) or `E` (`U+0045`)\nfollowed by one or more decimal digits.\n\nServices **should** normalize decimal values before storing them by:\n\n  - Removing an explicitly-provided `+` sign (`+2.5` -> `2.5`).\n  - Replacing a zero-length integer value with `0` (`.5` -> `0.5`).\n  - Coercing the exponent character to lower-case (`2.5E8` -> `2.5e8`).\n  - Removing an explicitly-provided zero exponent (`2.5e0` -> `2.5`).\n\nServices **may** perform additional normalization based on its own needs\nand the internal decimal implementation selected, such as shifting the\ndecimal point and exponent value together (example: `2.5e-1` <-> `0.25`).\nAdditionally, services **may** preserve trailing zeroes in the fraction\nto indicate increased precision, but are not required to do so.\n\nNote that only the `.` character is supported to divide the integer\nand the fraction; `,` **should not** be supported regardless of locale.\nAdditionally, thousand separators **should not** be supported. If a\nservice does support them, values **must** be normalized.\n\nThe ENBF grammar is:\n\n    DecimalString =\n      [Sign] Significand [Exponent];\n\n    Sign = '+' | '-';\n\n    Significand =\n      Digits ['.'] [Digits] | [Digits] '.' Digits;\n\n    Exponent = ('e' | 'E') [Sign] Digits;\n\n    Digits = { '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' };\n\nServices **should** clearly document the range of supported values, the\nmaximum supported precision (total number of digits), and, if applicable,\nthe scale (number of digits after the decimal point), as well as how it\nbehaves when receiving out-of-bounds values.\n\nServices **may** choose to accept values passed as input even when the\nvalue has a higher precision or scale than the service supports, and\n**should** round the value to fit the supported scale. Alternatively, the\nservice **may** error with `400 Bad Request` (`INVALID_ARGUMENT` in gRPC)\nif precision would be lost.\n\nServices **should** error with `400 Bad Request` (`INVALID_ARGUMENT` in\ngRPC) if the service receives a value outside of the supported range."
+          type: string
+      type: object
+    ObjectStorageKey:
+      properties:
+        accessKey:
+          type: string
+        secretKey:
+          type: string
+      type: object
+    ListObjectStorageUsersResponse:
+      properties:
+        pageNumber:
+          format: int32
+          type: integer
+        pageSize:
+          format: int32
+          type: integer
+        totalCount:
+          format: int32
+          type: integer
+        users:
+          items:
+            $ref: '#/components/schemas/ObjectStorageUser'
+          type: array
+      required:
+      - users
+      - totalCount
+      - pageNumber
+      - pageSize
+      type: object
+    Status:
+      properties:
+        code:
+          format: int32
+          type: integer
+        details:
+          items:
+            $ref: '#/components/schemas/Any'
+          type: array
+        message:
+          type: string
+      type: object
+    GetObjectStorageSessionKeyResponse:
+      properties:
+        accessKey:
+          type: string
+        endpoint:
+          type: string
+        secretKey:
+          type: string
+        sessionName:
+          type: string
+        sessionToken:
+          type: string
+      type: object
+    ObjectStorageBucket:
+      properties:
+        billableBytes:
+          format: int64
+          readOnly: true
+          type: string
+        dataCenterId:
+          type: string
+        endpoint:
+          readOnly: true
+          type: string
+        id:
+          type: string
+        objectCount:
+          format: int64
+          readOnly: true
+          type: string
+        projectId:
+          type: string
+        sizeBytes:
+          format: int64
+          readOnly: true
+          type: string
+        storageGibPriceHr:
+          $ref: '#/components/schemas/Decimal'
+      required:
+      - projectId
+      - dataCenterId
+      - id
+      type: object
+    Any:
+      additionalProperties: {}
+      properties:
+        '@type':
+          type: string
+      type: object
+    ObjectStorageUser:
+      properties:
+        createBy:
+          readOnly: true
+          type: string
+        createTime:
+          format: date-time
+          readOnly: true
+          type: string
+        dataCenterId:
+          type: string
+        id:
+          type: string
+        keys:
+          items:
+            $ref: '#/components/schemas/ObjectStorageKey'
+          type: array
+        projectId:
+          type: string
+      required:
+      - projectId
+      - dataCenterId
+      - id
+      type: object
+  securitySchemes:
+    bearerAuth:
+      description: API key authentication. API keys should be passed using the format `Bearer API_KEY`.
+      in: header
+      name: Authorization
+      type: apiKey

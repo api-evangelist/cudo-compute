@@ -1,210 +1,649 @@
 openapi: 3.2.0
 info:
-  title: CUDO Compute Networks API
-  description: REST API for the CUDO Compute global GPU and cloud compute platform and marketplace.
-  termsOfService: https://www.cudocompute.com/legal/terms-of-service
-  contact:
-    name: CUDO Compute Support
-    url: https://www.cudocompute.com/contact
+  description: The CUDO Compute API is organized around REST. Our API uses predictable resource-oriented URLs, accepts and returns JSON-encoded requests and responses, and uses standard HTTP response codes, authentication, and verbs where possible.
+  title: CUDO Compute service Networks API
   version: 1.0.0
 servers:
-- url: https://rest.compute.cudo.org
+- url: https://rest.compute.cudo.org/
 security:
 - bearerAuth: []
 tags:
-- name: Networks
+- description: 'Private networks allow you to securely connect your virtual machines together.
+
+
+    Related guide: Networks'
+  name: Networks
 paths:
   /v1/projects/{projectId}/networks:
     get:
-      operationId: listNetworks
-      tags:
-      - Networks
-      summary: List networks
+      description: Lists all virtual networks in a project.
+      operationId: ListNetworks
       parameters:
-      - $ref: '#/components/parameters/projectId'
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: pageNumber
+        schema:
+          format: int32
+          type: integer
+      - in: query
+        name: pageSize
+        schema:
+          format: int32
+          type: integer
       responses:
         '200':
-          description: A list of networks
           content:
             application/json:
               schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-    post:
-      operationId: createNetwork
+                $ref: '#/components/schemas/ListNetworksResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: List networks
       tags:
       - Networks
-      summary: Create a network
+    post:
+      description: Creates a new virtual network.
+      operationId: CreateNetwork
       parameters:
-      - $ref: '#/components/parameters/projectId'
-      requestBody:
+      - in: path
+        name: projectId
         required: true
+        schema:
+          type: string
+      requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateNetworkBody'
+              properties:
+                createTime:
+                  format: date-time
+                  readOnly: true
+                  type: string
+                dataCenterId:
+                  type: string
+                externalIpAddress:
+                  readOnly: true
+                  type: string
+                gateway:
+                  readOnly: true
+                  type: string
+                id:
+                  type: string
+                internalIpAddress:
+                  readOnly: true
+                  type: string
+                ipRange:
+                  type: string
+                priceHr:
+                  $ref: '#/components/schemas/Decimal'
+                state:
+                  $ref: '#/components/schemas/Network.State'
+                vmState:
+                  $ref: '#/components/schemas/VmState'
+              required:
+              - id
+              - dataCenterId
+              - ipRange
+              title: Create network params
+              type: object
+        description: Create network params
+        required: true
+        x-originalParamName: network
       responses:
         '200':
-          description: Network created
-          content:
-            application/json:
-              schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-  /v1/projects/{projectId}/networks/{id}:
-    get:
-      operationId: getNetwork
-      tags:
-      - Networks
-      summary: Get a network
-      parameters:
-      - $ref: '#/components/parameters/projectId'
-      - $ref: '#/components/parameters/id'
-      responses:
-        '200':
-          description: The requested network
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Network'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-    delete:
-      operationId: deleteNetwork
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Create a network
       tags:
       - Networks
-      summary: Delete a network
+  /v1/projects/{projectId}/networks/{id}:
+    delete:
+      description: Deletes a virtual network. A network cannot be deleted if there are any virtual machines attached to it.
+      operationId: DeleteNetwork
       parameters:
-      - $ref: '#/components/parameters/projectId'
-      - $ref: '#/components/parameters/id'
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
       responses:
         '200':
-          description: Network deleted
           content:
             application/json:
               schema:
                 type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Delete a network
+      tags:
+      - Networks
+    get:
+      description: Retrieves the details of a virtual network.
+      operationId: GetNetwork
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Network'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Get a network
+      tags:
+      - Networks
   /v1/projects/{projectId}/networks/{id}/start:
     post:
-      operationId: startNetwork
-      tags:
-      - Networks
-      summary: Start a network
+      description: Starts a virtual network.
+      operationId: StartNetwork
       parameters:
-      - $ref: '#/components/parameters/projectId'
-      - $ref: '#/components/parameters/id'
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
       responses:
         '200':
-          description: Network started
           content:
             application/json:
               schema:
                 type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Start a network
+      tags:
+      - Networks
   /v1/projects/{projectId}/networks/{id}/stop:
     post:
-      operationId: stopNetwork
-      tags:
-      - Networks
+      description: Stops a virtual network. When a virtual network is stopped, no traffic will be routed between the virtual network and the internet.
+      operationId: StopNetwork
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
       summary: Stop a network
-      parameters:
-      - $ref: '#/components/parameters/projectId'
-      - $ref: '#/components/parameters/id'
-      responses:
-        '200':
-          description: Network stopped
-          content:
-            application/json:
-              schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-  /v1/projects/{projectId}/networks/security-groups:
-    get:
-      operationId: listSecurityGroups
       tags:
       - Networks
-      summary: List security groups
+  /v1/projects/{projectId}/security-groups:
+    get:
+      description: Lists all security groups in a project.
+      operationId: ListSecurityGroups
       parameters:
-      - $ref: '#/components/parameters/projectId'
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: dataCenterId
+        schema:
+          type: string
+      - in: query
+        name: pageNumber
+        schema:
+          format: int32
+          type: integer
+      - in: query
+        name: pageSize
+        schema:
+          format: int32
+          type: integer
       responses:
         '200':
-          description: A list of security groups
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSecurityGroupsResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: List security groups
+      tags:
+      - Networks
+    post:
+      description: Creates a new security group.
+      operationId: CreateSecurityGroup
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                dataCenterId:
+                  type: string
+                description:
+                  type: string
+                id:
+                  type: string
+                rules:
+                  items:
+                    $ref: '#/components/schemas/Rule'
+                  type: array
+              required:
+              - dataCenterId
+              - id
+              title: Create security group params
+              type: object
+        description: Create security group params
+        required: true
+        x-originalParamName: securityGroup
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroup'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Create a security group
+      tags:
+      - Networks
+  /v1/projects/{projectId}/security-groups/{id}:
+    delete:
+      description: Deletes a security group. The security group will be removed from any virtual machines that are using it.
+      operationId: DeleteSecurityGroup
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
           content:
             application/json:
               schema:
                 type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Delete a security group
+      tags:
+      - Networks
+    get:
+      description: Retrieves the details of a security group.
+      operationId: GetSecurityGroup
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroup'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Get a security group
+      tags:
+      - Networks
+    patch:
+      description: Updates an existing security group.
+      operationId: UpdateSecurityGroup
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                dataCenterId:
+                  type: string
+                description:
+                  type: string
+                rules:
+                  items:
+                    $ref: '#/components/schemas/Rule'
+                  type: array
+              required:
+              - dataCenterId
+              title: Update security group params
+              type: object
+        description: Update security group params
+        required: true
+        x-originalParamName: securityGroup
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroup'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Update a security group
+      tags:
+      - Networks
 components:
-  parameters:
-    projectId:
-      name: projectId
-      in: path
-      required: true
-      description: The project identifier.
-      schema:
-        type: string
-    id:
-      name: id
-      in: path
-      required: true
-      description: The resource identifier.
-      schema:
-        type: string
   schemas:
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-        status:
-          type: string
-    CreateNetworkBody:
-      type: object
-      properties:
-        dataCenterId:
-          type: string
-        id:
-          type: string
-        cidrPrefix:
-          type: string
+    Rule.RuleType:
+      default: RULE_TYPE_UNKNOWN
+      enum:
+      - RULE_TYPE_UNKNOWN
+      - RULE_TYPE_INBOUND
+      - RULE_TYPE_OUTBOUND
+      type: string
     Network:
-      type: object
       properties:
-        id:
+        createTime:
+          format: date-time
+          readOnly: true
           type: string
         dataCenterId:
+          type: string
+        externalIpAddress:
+          readOnly: true
+          type: string
+        gateway:
+          readOnly: true
+          type: string
+        id:
+          type: string
+        internalIpAddress:
+          readOnly: true
           type: string
         ipRange:
           type: string
-        gateway:
+        priceHr:
+          $ref: '#/components/schemas/Decimal'
+        projectId:
           type: string
-        externalIpAddress:
+        state:
+          $ref: '#/components/schemas/Network.State'
+        vmState:
+          $ref: '#/components/schemas/VmState'
+      required:
+      - projectId
+      - id
+      - dataCenterId
+      - ipRange
+      type: object
+    ListSecurityGroupsResponse:
+      properties:
+        pageNumber:
+          format: int32
+          type: integer
+        pageSize:
+          format: int32
+          type: integer
+        securityGroups:
+          items:
+            $ref: '#/components/schemas/SecurityGroup'
+          type: array
+        totalCount:
+          format: int32
+          type: integer
+      required:
+      - securityGroups
+      - totalCount
+      - pageNumber
+      - pageSize
+      type: object
+    Decimal:
+      description: 'A representation of a decimal value, such as 2.5. Clients may convert values
+
+        into language-native decimal formats, such as Java''s [BigDecimal][] or
+
+        Python''s [decimal.Decimal][].
+
+
+        [BigDecimal]:
+
+        https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html
+
+        [decimal.Decimal]: https://docs.python.org/3/library/decimal.html'
+      properties:
+        value:
+          description: "The decimal value, as a string.\n\nThe string representation consists of an optional sign, `+` (`U+002B`)\nor `-` (`U+002D`), followed by a sequence of zero or more decimal digits\n(\"the integer\"), optionally followed by a fraction, optionally followed\nby an exponent.\n\nThe fraction consists of a decimal point followed by zero or more decimal\ndigits. The string must contain at least one digit in either the integer\nor the fraction. The number formed by the sign, the integer and the\nfraction is referred to as the significand.\n\nThe exponent consists of the character `e` (`U+0065`) or `E` (`U+0045`)\nfollowed by one or more decimal digits.\n\nServices **should** normalize decimal values before storing them by:\n\n  - Removing an explicitly-provided `+` sign (`+2.5` -> `2.5`).\n  - Replacing a zero-length integer value with `0` (`.5` -> `0.5`).\n  - Coercing the exponent character to lower-case (`2.5E8` -> `2.5e8`).\n  - Removing an explicitly-provided zero exponent (`2.5e0` -> `2.5`).\n\nServices **may** perform additional normalization based on its own needs\nand the internal decimal implementation selected, such as shifting the\ndecimal point and exponent value together (example: `2.5e-1` <-> `0.25`).\nAdditionally, services **may** preserve trailing zeroes in the fraction\nto indicate increased precision, but are not required to do so.\n\nNote that only the `.` character is supported to divide the integer\nand the fraction; `,` **should not** be supported regardless of locale.\nAdditionally, thousand separators **should not** be supported. If a\nservice does support them, values **must** be normalized.\n\nThe ENBF grammar is:\n\n    DecimalString =\n      [Sign] Significand [Exponent];\n\n    Sign = '+' | '-';\n\n    Significand =\n      Digits ['.'] [Digits] | [Digits] '.' Digits;\n\n    Exponent = ('e' | 'E') [Sign] Digits;\n\n    Digits = { '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' };\n\nServices **should** clearly document the range of supported values, the\nmaximum supported precision (total number of digits), and, if applicable,\nthe scale (number of digits after the decimal point), as well as how it\nbehaves when receiving out-of-bounds values.\n\nServices **may** choose to accept values passed as input even when the\nvalue has a higher precision or scale than the service supports, and\n**should** round the value to fit the supported scale. Alternatively, the\nservice **may** error with `400 Bad Request` (`INVALID_ARGUMENT` in gRPC)\nif precision would be lost.\n\nServices **should** error with `400 Bad Request` (`INVALID_ARGUMENT` in\ngRPC) if the service receives a value outside of the supported range."
           type: string
-        internalIpAddress:
+      type: object
+    ListNetworksResponse:
+      properties:
+        networks:
+          items:
+            $ref: '#/components/schemas/Network'
+          type: array
+        pageNumber:
+          format: int32
+          type: integer
+        pageSize:
+          format: int32
+          type: integer
+        totalCount:
+          format: int32
+          type: integer
+      required:
+      - networks
+      - totalCount
+      - pageNumber
+      - pageSize
+      type: object
+    Network.State:
+      default: STATE_UNKNOWN
+      enum:
+      - STATE_UNKNOWN
+      - ACTIVE
+      - CREATING
+      - DELETED
+      - DELETING
+      - FAILED
+      - STARTING
+      - STOPPED
+      - STOPPING
+      - UPDATING
+      type: string
+    Status:
+      properties:
+        code:
+          format: int32
+          type: integer
+        details:
+          items:
+            $ref: '#/components/schemas/Any'
+          type: array
+        message:
           type: string
-        shortState:
+      type: object
+    SecurityGroup:
+      properties:
+        dataCenterId:
           type: string
-        createTime:
+        description:
           type: string
-          format: date-time
-  responses:
-    Unauthorized:
-      description: Authentication failed; missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+        id:
+          type: string
+        projectId:
+          type: string
+        rules:
+          items:
+            $ref: '#/components/schemas/Rule'
+          type: array
+      required:
+      - dataCenterId
+      - id
+      type: object
+    Rule.Protocol:
+      default: PROTOCOL_UNKNOWN
+      enum:
+      - PROTOCOL_UNKNOWN
+      - PROTOCOL_ALL
+      - PROTOCOL_TCP
+      - PROTOCOL_UDP
+      - PROTOCOL_ICMP
+      - PROTOCOL_ICMPv6
+      - PROTOCOL_IPSEC
+      type: string
+    Any:
+      additionalProperties: {}
+      properties:
+        '@type':
+          type: string
+      type: object
+    Rule:
+      properties:
+        icmpType:
+          type: string
+        id:
+          type: string
+        ipRangeCidr:
+          title: single IP or CIDR format range to apply rule to
+          type: string
+        ports:
+          type: string
+        protocol:
+          $ref: '#/components/schemas/Rule.Protocol'
+        ruleType:
+          $ref: '#/components/schemas/Rule.RuleType'
+      type: object
+    VmState:
+      default: CLONING
+      enum:
+      - CLONING
+      - CREATING_SNAPSHOT
+      - DELETED
+      - DELETING
+      - DELETING_SNAPSHOT
+      - FAILED
+      - HOTPLUGGING
+      - MIGRATING
+      - RECREATING
+      - REVERTING_SNAPSHOT
+      - RESIZING
+      - RESIZING_DISK
+      - ACTIVE
+      - STARTING
+      - STOPPED
+      - STOPPING
+      - SUSPENDED
+      - SUSPENDING
+      - UNKNOWN
+      - PENDING
+      type: string
   securitySchemes:
     bearerAuth:
-      type: http
-      scheme: bearer
-      description: 'A CUDO Compute API key passed as a Bearer token in the Authorization header, e.g. `Authorization: Bearer $CUDO_API_KEY`. Create keys in the CUDO Compute dashboard. Missing or invalid keys return 401 UNAUTHENTICATED.'
+      description: API key authentication. API keys should be passed using the format `Bearer API_KEY`.
+      in: header
+      name: Authorization
+      type: apiKey

@@ -1,0 +1,408 @@
+openapi: 3.2.0
+info:
+  description: The CUDO Compute API is organized around REST. Our API uses predictable resource-oriented URLs, accepts and returns JSON-encoded requests and responses, and uses standard HTTP response codes, authentication, and verbs where possible.
+  title: CUDO Compute service Projects API
+  version: 1.0.0
+servers:
+- url: https://rest.compute.cudo.org/
+security:
+- bearerAuth: []
+tags:
+- description: Projects are containers for cloud resources, such as virtual machines & clusters.
+  name: Projects
+paths:
+  /v1/project/{projectId}/ssh-keys:
+    get:
+      description: Lists the SSH keys associated with members of a project.
+      operationId: ListProjectSshKeys
+      parameters:
+      - in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListProjectSshKeysResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: List project SSH keys
+      tags:
+      - Projects
+  /v1/projects:
+    get:
+      description: Lists projects that can be accessed by the current user.
+      operationId: ListProjects
+      parameters:
+      - in: query
+        name: pageToken
+        schema:
+          type: string
+      - in: query
+        name: pageSize
+        schema:
+          format: int32
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListProjectsResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: List projects
+      tags:
+      - Projects
+    post:
+      description: Creates a new project.
+      operationId: CreateProject
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+        description: Create project params
+        required: true
+        x-originalParamName: project
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Create a project
+      tags:
+      - Projects
+  /v1/projects/{id}:
+    delete:
+      description: Deletes a project. Only empty projects can be deleted.
+      operationId: DeleteProject
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Delete a project
+      tags:
+      - Projects
+    get:
+      description: Retrieves the details of a project.
+      operationId: GetProject
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Get a project
+      tags:
+      - Projects
+    patch:
+      description: Updates the details of a project.
+      operationId: UpdateProject
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                billingAccountId:
+                  type: string
+                createBy:
+                  readOnly: true
+                  type: string
+                resourceCount:
+                  format: int32
+                  readOnly: true
+                  type: integer
+              required:
+              - billingAccountId
+              title: Update project params
+              type: object
+        description: Update project params
+        required: true
+        x-originalParamName: project
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Update a project
+      tags:
+      - Projects
+  /v1/projects/{id}:add-permission:
+    post:
+      description: Grants a user permission to access a project.
+      operationId: AddProjectPermission
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPermission'
+        required: true
+        x-originalParamName: userPermission
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Add a permission to a project
+      tags:
+      - Projects
+  /v1/projects/{id}:list-permissions:
+    get:
+      description: Lists all user permissions for a project.
+      operationId: GetProjectPermissions
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetProjectPermissionsResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Get project permissions
+      tags:
+      - Projects
+  /v1/projects/{id}:remove-permission:
+    post:
+      description: Revokes a user's permission to access a project.
+      operationId: RemoveProjectPermission
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPermission'
+        required: true
+        x-originalParamName: userPermission
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Remove a permission from a project
+      tags:
+      - Projects
+components:
+  schemas:
+    ListProjectsResponse:
+      properties:
+        pageSize:
+          format: int32
+          type: integer
+        pageToken:
+          type: string
+        projects:
+          items:
+            $ref: '#/components/schemas/Project'
+          type: array
+      required:
+      - projects
+      - pageToken
+      - pageSize
+      type: object
+    UserPermission:
+      properties:
+        permissionRole:
+          $ref: '#/components/schemas/Role'
+        role:
+          readOnly: true
+          type: string
+        userEmail:
+          type: string
+        userId:
+          type: string
+        userPicture:
+          readOnly: true
+          type: string
+      required:
+      - permissionRole
+      type: object
+    Project:
+      properties:
+        billingAccountId:
+          type: string
+        createBy:
+          readOnly: true
+          type: string
+        id:
+          type: string
+        resourceCount:
+          format: int32
+          readOnly: true
+          type: integer
+      required:
+      - id
+      - billingAccountId
+      type: object
+    SshKey:
+      properties:
+        comment:
+          readOnly: true
+          type: string
+        createTime:
+          format: date-time
+          readOnly: true
+          type: string
+        fingerprint:
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          type: string
+        publicKey:
+          type: string
+        type:
+          readOnly: true
+          type: string
+      required:
+      - publicKey
+      type: object
+    Status:
+      properties:
+        code:
+          format: int32
+          type: integer
+        details:
+          items:
+            $ref: '#/components/schemas/Any'
+          type: array
+        message:
+          type: string
+      type: object
+    GetProjectPermissionsResponse:
+      properties:
+        permissions:
+          items:
+            $ref: '#/components/schemas/UserPermission'
+          type: array
+      type: object
+    ListProjectSshKeysResponse:
+      properties:
+        sshKeys:
+          items:
+            $ref: '#/components/schemas/SshKey'
+          type: array
+      required:
+      - sshKeys
+      type: object
+    Any:
+      additionalProperties: {}
+      properties:
+        '@type':
+          type: string
+      type: object
+    Role:
+      default: UNKNOWN
+      enum:
+      - UNKNOWN
+      - OWNER
+      - VIEWER
+      - EDITOR
+      type: string
+  securitySchemes:
+    bearerAuth:
+      description: API key authentication. API keys should be passed using the format `Bearer API_KEY`.
+      in: header
+      name: Authorization
+      type: apiKey

@@ -1,158 +1,192 @@
 openapi: 3.2.0
 info:
-  title: CUDO Compute SSH Keys API
-  description: REST API for the CUDO Compute global GPU and cloud compute platform and marketplace.
-  termsOfService: https://www.cudocompute.com/legal/terms-of-service
-  contact:
-    name: CUDO Compute Support
-    url: https://www.cudocompute.com/contact
+  description: The CUDO Compute API is organized around REST. Our API uses predictable resource-oriented URLs, accepts and returns JSON-encoded requests and responses, and uses standard HTTP response codes, authentication, and verbs where possible.
+  title: CUDO Compute service SSH keys API
   version: 1.0.0
 servers:
-- url: https://rest.compute.cudo.org
+- url: https://rest.compute.cudo.org/
 security:
 - bearerAuth: []
 tags:
-- name: SSH Keys
+- description: SSH keys are access credentials that are automatically added to bare-metal and virtual machines you create.
+  name: SSH Keys
 paths:
   /v1/ssh-keys:
     get:
-      operationId: listSSHKeys
-      tags:
-      - SSH Keys
-      summary: List SSH keys
+      description: Lists the SSH keys of the current user.
+      operationId: ListSshKeys
+      parameters:
+      - in: query
+        name: pageNumber
+        schema:
+          format: int32
+          type: integer
+      - in: query
+        name: pageSize
+        schema:
+          format: int32
+          type: integer
       responses:
         '200':
-          description: A list of SSH keys
           content:
             application/json:
               schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-    post:
-      operationId: createSSHKey
+                $ref: '#/components/schemas/ListSshKeysResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: List SSH keys
       tags:
       - SSH Keys
-      summary: Create an SSH key
+    post:
+      description: Creates an SSH key that can be used to access bare-metal and virtual machines.
+      operationId: CreateSshKey
       requestBody:
-        required: true
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                publicKey:
-                  type: string
+              $ref: '#/components/schemas/SshKey'
+        description: Create SSH key params
+        required: true
+        x-originalParamName: sshKey
       responses:
         '200':
-          description: SSH key created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SshKey'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Create an SSH key
+      tags:
+      - SSH Keys
   /v1/ssh-keys/{id}:
-    get:
-      operationId: getSSHKey
-      tags:
-      - SSH Keys
-      summary: Get an SSH key
+    delete:
+      description: Deletes an SSH key. This will not remove the SSH key from existing bare-metal and virtual machines.
+      operationId: DeleteSshKey
       parameters:
-      - $ref: '#/components/parameters/id'
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
       responses:
         '200':
-          description: The requested SSH key
+          content:
+            application/json:
+              schema:
+                type: object
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Delete an SSH key
+      tags:
+      - SSH Keys
+    get:
+      description: Retrieves the details of an SSH key.
+      operationId: GetSshKey
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SshKey'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-    delete:
-      operationId: deleteSSHKey
-      tags:
-      - SSH Keys
-      summary: Delete an SSH key
-      parameters:
-      - $ref: '#/components/parameters/id'
-      responses:
-        '200':
-          description: SSH key deleted
+          description: A successful response.
+        default:
           content:
             application/json:
               schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-  /v1/project/{projectId}/ssh-keys:
-    get:
-      operationId: listProjectSSHKeys
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Get an SSH key
       tags:
       - SSH Keys
-      summary: List SSH keys available to a project
-      parameters:
-      - $ref: '#/components/parameters/projectId'
-      responses:
-        '200':
-          description: A list of project SSH keys
-          content:
-            application/json:
-              schema:
-                type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
 components:
-  parameters:
-    projectId:
-      name: projectId
-      in: path
-      required: true
-      description: The project identifier.
-      schema:
-        type: string
-    id:
-      name: id
-      in: path
-      required: true
-      description: The resource identifier.
-      schema:
-        type: string
   schemas:
-    Error:
-      type: object
+    Any:
+      additionalProperties: {}
       properties:
-        code:
+        '@type':
+          type: string
+      type: object
+    ListSshKeysResponse:
+      properties:
+        pageNumber:
+          format: int32
           type: integer
-        message:
-          type: string
-        status:
-          type: string
-    SshKey:
+        pageSize:
+          format: int32
+          type: integer
+        sshKeys:
+          items:
+            $ref: '#/components/schemas/SshKey'
+          type: array
+        totalCount:
+          format: int32
+          type: integer
+      required:
+      - sshKeys
+      - totalCount
+      - pageNumber
+      - pageSize
       type: object
+    SshKey:
       properties:
+        comment:
+          readOnly: true
+          type: string
+        createTime:
+          format: date-time
+          readOnly: true
+          type: string
+        fingerprint:
+          readOnly: true
+          type: string
         id:
+          readOnly: true
           type: string
         publicKey:
           type: string
-        fingerprint:
-          type: string
         type:
+          readOnly: true
           type: string
-        comment:
+      required:
+      - publicKey
+      type: object
+    Status:
+      properties:
+        code:
+          format: int32
+          type: integer
+        details:
+          items:
+            $ref: '#/components/schemas/Any'
+          type: array
+        message:
           type: string
-        createTime:
-          type: string
-          format: date-time
-  responses:
-    Unauthorized:
-      description: Authentication failed; missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+      type: object
   securitySchemes:
     bearerAuth:
-      type: http
-      scheme: bearer
-      description: 'A CUDO Compute API key passed as a Bearer token in the Authorization header, e.g. `Authorization: Bearer $CUDO_API_KEY`. Create keys in the CUDO Compute dashboard. Missing or invalid keys return 401 UNAUTHENTICATED.'
+      description: API key authentication. API keys should be passed using the format `Bearer API_KEY`.
+      in: header
+      name: Authorization
+      type: apiKey

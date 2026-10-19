@@ -1,34 +1,31 @@
 {
   "provider": "cudo-compute",
   "sources": [
-    "_original/cudo-compute-openapi.yml"
+    "_original/cudo-compute-openapi.json"
   ],
   "outputs": [
+    "cudo-compute-api-keys-api-openapi.yml",
     "cudo-compute-billing-api-openapi.yml",
-    "cudo-compute-data-centers-api-openapi.yml",
+    "cudo-compute-clusters-api-openapi.yml",
     "cudo-compute-disks-api-openapi.yml",
     "cudo-compute-images-api-openapi.yml",
-    "cudo-compute-machine-types-api-openapi.yml",
+    "cudo-compute-machines-api-openapi.yml",
     "cudo-compute-networks-api-openapi.yml",
+    "cudo-compute-object-storage-api-openapi.yml",
+    "cudo-compute-projects-api-openapi.yml",
+    "cudo-compute-resources-api-openapi.yml",
     "cudo-compute-ssh-keys-api-openapi.yml",
-    "cudo-compute-virtual-machines-api-openapi.yml"
+    "cudo-compute-users-api-openapi.yml",
+    "cudo-compute-virtual-machines-api-openapi.yml",
+    "cudo-compute-volumes-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
     "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
-    "cudo-compute-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
-    "apis.yml register: already-registered"
+    "cudo-compute-openapi.json: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: written (+8 apis, 14 total)"
   ],
-  "skipped": [
-    "cudo-compute-billing-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "cudo-compute-data-centers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "cudo-compute-disks-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "cudo-compute-images-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "cudo-compute-machine-types-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "cudo-compute-networks-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "cudo-compute-ssh-keys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "cudo-compute-virtual-machines-api-openapi.yml: previously refined output, superseded by openapi/_original/"
-  ]
+  "skipped": []
 }

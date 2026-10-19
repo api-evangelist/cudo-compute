@@ -1,0 +1,663 @@
+openapi: 3.2.0
+info:
+  description: The CUDO Compute API is organized around REST. Our API uses predictable resource-oriented URLs, accepts and returns JSON-encoded requests and responses, and uses standard HTTP response codes, authentication, and verbs where possible.
+  title: CUDO Compute service Resources API
+  version: 1.0.0
+servers:
+- url: https://rest.compute.cudo.org/
+security:
+- bearerAuth: []
+tags:
+- description: Operations for searching available compute resources.
+  name: Resources
+paths:
+  /v1/resources/search:
+    get:
+      description: 'Search for resources that can be accessed by the current user. The query
+
+        string is used to match against resource names and other relevant fields.'
+      operationId: SearchResources
+      parameters:
+      - in: query
+        name: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResourcesResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Search accessible resources
+      tags:
+      - Resources
+components:
+  schemas:
+    MachineResult:
+      properties:
+        architecture:
+          type: string
+        cpuCores:
+          format: int32
+          type: integer
+        cpuModel:
+          type: string
+        cpuSpeedMhz:
+          format: int32
+          type: integer
+        createTime:
+          format: date-time
+          type: string
+        dataCenterId:
+          type: string
+        diskSizeGib:
+          format: int32
+          type: integer
+        disks:
+          format: int32
+          type: integer
+        externalIpAddresses:
+          items:
+            type: string
+          type: array
+        gpuModelId:
+          type: string
+        gpus:
+          format: int32
+          type: integer
+        id:
+          type: string
+        ipv4Addresses:
+          format: int32
+          type: integer
+        machineTypeId:
+          type: string
+        memoryGib:
+          format: int32
+          type: integer
+        os:
+          type: string
+        powerState:
+          $ref: '#/components/schemas/MachinePowerState'
+        projectId:
+          type: string
+        state:
+          $ref: '#/components/schemas/Machine.State'
+      type: object
+    Cluster:
+      properties:
+        architecture:
+          readOnly: true
+          type: string
+        commitmentEndTime:
+          format: date-time
+          readOnly: true
+          type: string
+        commitmentTerm:
+          $ref: '#/components/schemas/CommitmentTerm'
+        cpuModel:
+          readOnly: true
+          type: string
+        cpuSpeedMhz:
+          format: int32
+          readOnly: true
+          type: integer
+        createBy:
+          readOnly: true
+          type: string
+        createTime:
+          format: date-time
+          readOnly: true
+          type: string
+        customSshKeys:
+          items:
+            type: string
+          type: array
+        dataCenterId:
+          type: string
+        gpuModelId:
+          readOnly: true
+          type: string
+        id:
+          type: string
+        ipoibConfig:
+          $ref: '#/components/schemas/ClusterIPOIBConfig'
+        machineCount:
+          format: int32
+          type: integer
+        machinePriceHr:
+          $ref: '#/components/schemas/Decimal'
+        machineTypeId:
+          type: string
+        machines:
+          items:
+            $ref: '#/components/schemas/ClusterMachine'
+          readOnly: true
+          type: array
+        networkType:
+          $ref: '#/components/schemas/NetworkType'
+        projectId:
+          type: string
+        sshKeySource:
+          $ref: '#/components/schemas/SshKeySource'
+        startScript:
+          type: string
+        state:
+          $ref: '#/components/schemas/Cluster.State'
+        totalCpuCores:
+          format: int32
+          readOnly: true
+          type: integer
+        totalDiskSizeGib:
+          format: int32
+          readOnly: true
+          type: integer
+        totalGpus:
+          format: int32
+          readOnly: true
+          type: integer
+        totalMachinePriceHr:
+          $ref: '#/components/schemas/Decimal'
+        totalMemoryGib:
+          format: int32
+          readOnly: true
+          type: integer
+        totalPriceHr:
+          $ref: '#/components/schemas/Decimal'
+      required:
+      - projectId
+      - id
+      - dataCenterId
+      - machineTypeId
+      - machineCount
+      type: object
+    MachinePowerState:
+      default: MACHINE_POWER_STATE_UNSPECIFIED
+      enum:
+      - MACHINE_POWER_STATE_UNSPECIFIED
+      - 'ON'
+      - 'OFF'
+      - POWERING_ON
+      - POWERING_OFF
+      - REBOOTING
+      type: string
+    Volume.State:
+      default: VOLUME_STATE_UNSPECIFIED
+      enum:
+      - VOLUME_STATE_UNSPECIFIED
+      - CREATING
+      - ACTIVE
+      - UPDATING
+      - DELETING
+      - FAILED
+      type: string
+    Any:
+      additionalProperties: {}
+      properties:
+        '@type':
+          type: string
+      type: object
+    ClusterMachine.State:
+      default: STATE_UNSPECIFIED
+      enum:
+      - STATE_UNSPECIFIED
+      - CREATING
+      - ACTIVE
+      - DELETING
+      - FAILED
+      type: string
+    Machine.State:
+      default: STATE_UNSPECIFIED
+      enum:
+      - STATE_UNSPECIFIED
+      - CREATING
+      - ACTIVE
+      - DEPLOYING
+      - DELETING
+      - FAILED
+      - UPDATING
+      type: string
+    DiskType:
+      default: DISK_TYPE_UNKNOWN
+      enum:
+      - DISK_TYPE_UNKNOWN
+      - DISK_TYPE_BOOT
+      - DISK_TYPE_STORAGE
+      type: string
+    VmState:
+      default: CLONING
+      enum:
+      - CLONING
+      - CREATING_SNAPSHOT
+      - DELETED
+      - DELETING
+      - DELETING_SNAPSHOT
+      - FAILED
+      - HOTPLUGGING
+      - MIGRATING
+      - RECREATING
+      - REVERTING_SNAPSHOT
+      - RESIZING
+      - RESIZING_DISK
+      - ACTIVE
+      - STARTING
+      - STOPPED
+      - STOPPING
+      - SUSPENDED
+      - SUSPENDING
+      - UNKNOWN
+      - PENDING
+      type: string
+    Network:
+      properties:
+        createTime:
+          format: date-time
+          readOnly: true
+          type: string
+        dataCenterId:
+          type: string
+        externalIpAddress:
+          readOnly: true
+          type: string
+        gateway:
+          readOnly: true
+          type: string
+        id:
+          type: string
+        internalIpAddress:
+          readOnly: true
+          type: string
+        ipRange:
+          type: string
+        priceHr:
+          $ref: '#/components/schemas/Decimal'
+        projectId:
+          type: string
+        state:
+          $ref: '#/components/schemas/Network.State'
+        vmState:
+          $ref: '#/components/schemas/VmState'
+      required:
+      - projectId
+      - id
+      - dataCenterId
+      - ipRange
+      type: object
+    Disk:
+      properties:
+        createTime:
+          format: date-time
+          readOnly: true
+          type: string
+        dataCenterId:
+          type: string
+        diskState:
+          $ref: '#/components/schemas/DiskState'
+        diskType:
+          $ref: '#/components/schemas/DiskType'
+        id:
+          type: string
+        privateImageId:
+          readOnly: true
+          type: string
+        projectId:
+          type: string
+        publicImageId:
+          readOnly: true
+          type: string
+        sizeGib:
+          format: int32
+          type: integer
+        vmId:
+          readOnly: true
+          type: string
+      required:
+      - id
+      - projectId
+      - dataCenterId
+      - sizeGib
+      type: object
+    DiskState:
+      default: UNKNOWN
+      enum:
+      - UNKNOWN
+      - ATTACHED
+      - CLONING
+      - CREATING
+      - DELETING
+      - DISABLED
+      - FAILED
+      - READY
+      - UPDATING
+      type: string
+    Project:
+      properties:
+        billingAccountId:
+          type: string
+        createBy:
+          readOnly: true
+          type: string
+        id:
+          type: string
+        resourceCount:
+          format: int32
+          readOnly: true
+          type: integer
+      required:
+      - id
+      - billingAccountId
+      type: object
+    Result:
+      properties:
+        billingAccount:
+          $ref: '#/components/schemas/BillingAccountResult'
+        cluster:
+          $ref: '#/components/schemas/Cluster'
+        disk:
+          $ref: '#/components/schemas/Disk'
+        image:
+          $ref: '#/components/schemas/ImageResult'
+        machine:
+          $ref: '#/components/schemas/MachineResult'
+        network:
+          $ref: '#/components/schemas/Network'
+        project:
+          $ref: '#/components/schemas/Project'
+        resourceName:
+          type: string
+        resourceType:
+          type: string
+        score:
+          format: float
+          type: number
+        virtualMachine:
+          $ref: '#/components/schemas/VirtualMachineResult'
+        volume:
+          $ref: '#/components/schemas/Volume'
+      type: object
+    Network.State:
+      default: STATE_UNKNOWN
+      enum:
+      - STATE_UNKNOWN
+      - ACTIVE
+      - CREATING
+      - DELETED
+      - DELETING
+      - FAILED
+      - STARTING
+      - STOPPED
+      - STOPPING
+      - UPDATING
+      type: string
+    Status:
+      properties:
+        code:
+          format: int32
+          type: integer
+        details:
+          items:
+            $ref: '#/components/schemas/Any'
+          type: array
+        message:
+          type: string
+      type: object
+    NetworkType:
+      default: NETWORK_TYPE_UNSPECIFIED
+      enum:
+      - NETWORK_TYPE_UNSPECIFIED
+      - ETHERNET
+      - INFINIBAND
+      type: string
+    SearchResourcesResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/Result'
+          type: array
+      type: object
+    BillingAccountResult:
+      properties:
+        createTime:
+          format: date-time
+          type: string
+        displayName:
+          type: string
+        id:
+          type: string
+      type: object
+    ClusterIPOIBConfig:
+      properties:
+        hostBits:
+          description: The number of bits following the port portion that are used for the host portion of the address (e.g. 16). The maximum number of hosts will be 2 raised to the power of this value, minus 2 (for network and broadcast addresses).
+          format: int32
+          type: integer
+        networkPrefix:
+          description: The network prefix in CIDR format (e.g. "172.24.0.0/13").
+          type: string
+        portBits:
+          description: The number of bits following the network prefix that are used for the port portion of the address (e.g. 3). The maximum number of ports per host will be 2 raised to the power of this value.
+          format: int32
+          type: integer
+      required:
+      - networkPrefix
+      - portBits
+      - hostBits
+      type: object
+    ImageResult:
+      properties:
+        createTime:
+          format: date-time
+          type: string
+        dataCenterId:
+          type: string
+        id:
+          type: string
+        projectId:
+          type: string
+        sizeGib:
+          format: int32
+          type: integer
+      type: object
+    VirtualMachineResult:
+      properties:
+        bootDiskPrivateImageId:
+          type: string
+        bootDiskPublicImageId:
+          type: string
+        bootDiskSizeGib:
+          format: int32
+          type: integer
+        createTime:
+          format: date-time
+          type: string
+        dataCenterId:
+          type: string
+        gpuModelId:
+          type: string
+        gpus:
+          format: int32
+          type: integer
+        id:
+          type: string
+        memoryGib:
+          format: int32
+          type: integer
+        projectId:
+          type: string
+        state:
+          $ref: '#/components/schemas/VmState'
+        vcpus:
+          format: int32
+          type: integer
+      type: object
+    ClusterMachine:
+      properties:
+        architecture:
+          readOnly: true
+          type: string
+        cpuCores:
+          format: int32
+          readOnly: true
+          type: integer
+        cpuModel:
+          readOnly: true
+          type: string
+        cpuSpeedMhz:
+          format: int32
+          readOnly: true
+          type: integer
+        createBy:
+          readOnly: true
+          type: string
+        createTime:
+          format: date-time
+          readOnly: true
+          type: string
+        dataCenterId:
+          readOnly: true
+          type: string
+        diskSizeGib:
+          format: int32
+          readOnly: true
+          type: integer
+        disks:
+          format: int32
+          readOnly: true
+          type: integer
+        externalIpAddress:
+          readOnly: true
+          type: string
+        gpuModelId:
+          readOnly: true
+          type: string
+        gpus:
+          format: int32
+          readOnly: true
+          type: integer
+        id:
+          readOnly: true
+          type: string
+        internalIpAddress:
+          readOnly: true
+          type: string
+        machineTypeId:
+          readOnly: true
+          type: string
+        memoryGib:
+          format: int32
+          readOnly: true
+          type: integer
+        powerState:
+          $ref: '#/components/schemas/MachinePowerState'
+        priceHr:
+          $ref: '#/components/schemas/Decimal'
+        projectId:
+          readOnly: true
+          type: string
+        state:
+          $ref: '#/components/schemas/ClusterMachine.State'
+        volumeIds:
+          items:
+            type: string
+          type: array
+      type: object
+    SshKeySource:
+      default: SSH_KEY_SOURCE_UNKNOWN
+      enum:
+      - SSH_KEY_SOURCE_UNKNOWN
+      - SSH_KEY_SOURCE_PROJECT
+      - SSH_KEY_SOURCE_USER
+      - SSH_KEY_SOURCE_NONE
+      type: string
+    Decimal:
+      description: 'A representation of a decimal value, such as 2.5. Clients may convert values
+
+        into language-native decimal formats, such as Java''s [BigDecimal][] or
+
+        Python''s [decimal.Decimal][].
+
+
+        [BigDecimal]:
+
+        https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html
+
+        [decimal.Decimal]: https://docs.python.org/3/library/decimal.html'
+      properties:
+        value:
+          description: "The decimal value, as a string.\n\nThe string representation consists of an optional sign, `+` (`U+002B`)\nor `-` (`U+002D`), followed by a sequence of zero or more decimal digits\n(\"the integer\"), optionally followed by a fraction, optionally followed\nby an exponent.\n\nThe fraction consists of a decimal point followed by zero or more decimal\ndigits. The string must contain at least one digit in either the integer\nor the fraction. The number formed by the sign, the integer and the\nfraction is referred to as the significand.\n\nThe exponent consists of the character `e` (`U+0065`) or `E` (`U+0045`)\nfollowed by one or more decimal digits.\n\nServices **should** normalize decimal values before storing them by:\n\n  - Removing an explicitly-provided `+` sign (`+2.5` -> `2.5`).\n  - Replacing a zero-length integer value with `0` (`.5` -> `0.5`).\n  - Coercing the exponent character to lower-case (`2.5E8` -> `2.5e8`).\n  - Removing an explicitly-provided zero exponent (`2.5e0` -> `2.5`).\n\nServices **may** perform additional normalization based on its own needs\nand the internal decimal implementation selected, such as shifting the\ndecimal point and exponent value together (example: `2.5e-1` <-> `0.25`).\nAdditionally, services **may** preserve trailing zeroes in the fraction\nto indicate increased precision, but are not required to do so.\n\nNote that only the `.` character is supported to divide the integer\nand the fraction; `,` **should not** be supported regardless of locale.\nAdditionally, thousand separators **should not** be supported. If a\nservice does support them, values **must** be normalized.\n\nThe ENBF grammar is:\n\n    DecimalString =\n      [Sign] Significand [Exponent];\n\n    Sign = '+' | '-';\n\n    Significand =\n      Digits ['.'] [Digits] | [Digits] '.' Digits;\n\n    Exponent = ('e' | 'E') [Sign] Digits;\n\n    Digits = { '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' };\n\nServices **should** clearly document the range of supported values, the\nmaximum supported precision (total number of digits), and, if applicable,\nthe scale (number of digits after the decimal point), as well as how it\nbehaves when receiving out-of-bounds values.\n\nServices **may** choose to accept values passed as input even when the\nvalue has a higher precision or scale than the service supports, and\n**should** round the value to fit the supported scale. Alternatively, the\nservice **may** error with `400 Bad Request` (`INVALID_ARGUMENT` in gRPC)\nif precision would be lost.\n\nServices **should** error with `400 Bad Request` (`INVALID_ARGUMENT` in\ngRPC) if the service receives a value outside of the supported range."
+          type: string
+      type: object
+    CommitmentTerm:
+      default: COMMITMENT_TERM_NONE
+      enum:
+      - COMMITMENT_TERM_NONE
+      - COMMITMENT_TERM_1_MONTH
+      - COMMITMENT_TERM_3_MONTHS
+      - COMMITMENT_TERM_6_MONTHS
+      - COMMITMENT_TERM_12_MONTHS
+      - COMMITMENT_TERM_24_MONTHS
+      - COMMITMENT_TERM_36_MONTHS
+      - COMMITMENT_TERM_60_MONTHS
+      type: string
+    Cluster.State:
+      default: STATE_UNSPECIFIED
+      enum:
+      - STATE_UNSPECIFIED
+      - CREATING
+      - ACTIVE
+      - UPDATING
+      - DELETING
+      - FAILED
+      type: string
+    Volume:
+      properties:
+        commitmentEndTime:
+          format: date-time
+          type: string
+        commitmentTerm:
+          $ref: '#/components/schemas/CommitmentTerm'
+        dataCenterId:
+          type: string
+        gibPriceHr:
+          $ref: '#/components/schemas/Decimal'
+        id:
+          type: string
+        nfsPath:
+          readOnly: true
+          type: string
+        nfsServer:
+          readOnly: true
+          type: string
+        projectId:
+          type: string
+        sizeGib:
+          format: int32
+          type: integer
+        sizeGibUsed:
+          format: int32
+          readOnly: true
+          type: integer
+        state:
+          $ref: '#/components/schemas/Volume.State'
+        totalPriceHr:
+          $ref: '#/components/schemas/Decimal'
+      required:
+      - projectId
+      - id
+      - dataCenterId
+      - sizeGib
+      type: object
+  securitySchemes:
+    bearerAuth:
+      description: API key authentication. API keys should be passed using the format `Bearer API_KEY`.
+      in: header
+      name: Authorization
+      type: apiKey

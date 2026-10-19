@@ -1,0 +1,170 @@
+openapi: 3.2.0
+info:
+  description: The CUDO Compute API is organized around REST. Our API uses predictable resource-oriented URLs, accepts and returns JSON-encoded requests and responses, and uses standard HTTP response codes, authentication, and verbs where possible.
+  title: CUDO Compute service API keys API
+  version: 1.0.0
+servers:
+- url: https://rest.compute.cudo.org/
+security:
+- bearerAuth: []
+tags:
+- description: API keys allow you to authenticate requests with the CUDO Compute API.
+  name: API Keys
+paths:
+  /v1/api-keys:
+    get:
+      description: List all API keys created by the requesting user. This does not include the API key itself which is only returned when the API key is first created.
+      operationId: ListApiKeys
+      parameters:
+      - in: query
+        name: pageNumber
+        schema:
+          format: int32
+          type: integer
+      - in: query
+        name: pageSize
+        schema:
+          format: int32
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListApiKeysResponse'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: List API keys
+      tags:
+      - API Keys
+    post:
+      description: Generates a new API key for the requesting user. The API key is returned in the response, and this is the only time it can be retrieved.
+      operationId: GenerateApiKey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateApiKeyRequest'
+        required: true
+        x-originalParamName: body
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Create an API key
+      tags:
+      - API Keys
+  /v1/api-keys/{name}:
+    delete:
+      description: Deletes an API key, revoking all access for requests that use the key.
+      operationId: DeleteApiKey
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+          description: A successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Delete an API key
+      tags:
+      - API Keys
+components:
+  schemas:
+    ApiKey:
+      properties:
+        createTime:
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          type: string
+        key:
+          readOnly: true
+          type: string
+      type: object
+    GenerateApiKeyRequest:
+      properties:
+        apikeyId:
+          description: 'The identifier to use for the api key, which will become the final component of
+
+            the api key''s resource name.
+
+            This value should be 4-63 characters, and valid characters
+
+            are /[a-z][0-9]-/.'
+          type: string
+      required:
+      - apikeyId
+      type: object
+    Status:
+      properties:
+        code:
+          format: int32
+          type: integer
+        details:
+          items:
+            $ref: '#/components/schemas/Any'
+          type: array
+        message:
+          type: string
+      type: object
+    Any:
+      additionalProperties: {}
+      properties:
+        '@type':
+          type: string
+      type: object
+    ListApiKeysResponse:
+      properties:
+        apiKeys:
+          items:
+            $ref: '#/components/schemas/ApiKey'
+          type: array
+        pageNumber:
+          format: int32
+          type: integer
+        pageSize:
+          format: int32
+          type: integer
+        totalCount:
+          format: int32
+          type: integer
+      required:
+      - apiKeys
+      - totalCount
+      - pageNumber
+      - pageSize
+      type: object
+  securitySchemes:
+    bearerAuth:
+      description: API key authentication. API keys should be passed using the format `Bearer API_KEY`.
+      in: header
+      name: Authorization
+      type: apiKey
