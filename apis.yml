@@ -161,6 +161,8 @@ apis:
   humanURL: https://www.cudocompute.com/docs/api
   baseURL: https://rest.compute.cudo.org
   tags:
+  - APIKeys
+  tags_raw:
   - API keys
   properties:
   - type: OpenAPI
@@ -184,6 +186,8 @@ apis:
   humanURL: https://www.cudocompute.com/docs/api
   baseURL: https://rest.compute.cudo.org
   tags:
+  - Cluster
+  tags_raw:
   - Clusters
   properties:
   - type: OpenAPI
@@ -229,6 +233,8 @@ apis:
   humanURL: https://www.cudocompute.com/docs/api
   baseURL: https://rest.compute.cudo.org
   tags:
+  - Object Storage
+  tags_raw:
   - Object storage
   properties:
   - type: OpenAPI
@@ -247,6 +253,8 @@ apis:
   humanURL: https://www.cudocompute.com/docs/api
   baseURL: https://rest.compute.cudo.org
   tags:
+  - Project
+  tags_raw:
   - Projects
   properties:
   - type: OpenAPI
@@ -283,6 +291,8 @@ apis:
   humanURL: https://www.cudocompute.com/docs/api
   baseURL: https://rest.compute.cudo.org
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
