@@ -1,4 +1,4 @@
-# CUDO Compute (cudo-compute)
+# CUDO Compute
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,195 +66,130 @@
 
 CUDO Compute is a global GPU and cloud compute platform and marketplace that provisions on-demand and reserved virtual machines, bare metal, and multi-node GPU clusters across a distributed network of data centers. Its versioned, resource-oriented REST API (with a parallel gRPC surface) lets developers create and manage virtual machines, machine types, data centers, disks, networks, images, SSH keys, object storage, and billing programmatically.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/cudo-compute/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/cudo-compute/refs/heads/main/apis.yml)
+**Areas:** GPU · Cloud Compute · Infrastructure · Virtual Machines · Marketplace
 
-## Tags
+## CUDO Compute on APIs.io
 
-- GPU
-- Cloud Compute
-- Infrastructure
-- Virtual Machines
-- Marketplace
+Everything profiled for CUDO Compute is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/cudo-compute/](https://apis.io/providers/cudo-compute/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (8)
 
-- **Created:** 2026-06-21
-- **Modified:** 2026-06-21
+- [CUDO Compute Billing API](https://apis.io/apis/cudo-compute/cudo-compute-billing-api/) — The Billing API from CUDO Compute — 4 operation(s) for billing.
+- [CUDO Compute Data Centers API](https://apis.io/apis/cudo-compute/cudo-compute-data-centers-api/) — The Data Centers API from CUDO Compute — 3 operation(s) for data centers.
+- [CUDO Compute Disks API](https://apis.io/apis/cudo-compute/cudo-compute-disks-api/) — The Disks API from CUDO Compute — 5 operation(s) for disks.
+- [CUDO Compute Images API](https://apis.io/apis/cudo-compute/cudo-compute-images-api/) — The Images API from CUDO Compute — 3 operation(s) for images.
+- [CUDO Compute Machine Types API](https://apis.io/apis/cudo-compute/cudo-compute-machine-types-api/) — The Machine Types API from CUDO Compute — 4 operation(s) for machine types.
+- [CUDO Compute Networks API](https://apis.io/apis/cudo-compute/cudo-compute-networks-api/) — The Networks API from CUDO Compute — 5 operation(s) for networks.
+- [CUDO Compute SSH Keys API](https://apis.io/apis/cudo-compute/cudo-compute-ssh-keys-api/) — The SSH Keys API from CUDO Compute — 3 operation(s) for ssh keys.
+- [CUDO Compute Virtual Machines API](https://apis.io/apis/cudo-compute/cudo-compute-virtual-machines-api/) — The Virtual Machines API from CUDO Compute — 10 operation(s) for virtual machines.
 
-## APIs
+### Published properties
 
-### CUDO Compute Virtual Machines API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Create, list, start, stop, reboot, resize, terminate, and monitor CPU- and GPU-backed virtual machines in a project, including boot disks, NICs, security groups, metadata, expiry, and password retrieval.
+#### Agentic access (1)
 
-- **Human URL:** [https://www.cudocompute.com/docs/api](https://www.cudocompute.com/docs/api)
-- **Base URL:** `https://rest.compute.cudo.org`
+Which operations an agent can call, which act, and which need a human in the loop.
 
-#### Tags
+- [Cudo Compute Agentic Access](https://apis.io/agentic-access/cudo-compute/cudo-compute-agentic-access/)
 
-- Virtual Machines
-- Compute
-- GPU
+#### Collections (9)
 
-#### Properties
+Postman and Open Collection request collections.
 
-- [Documentation](https://www.cudocompute.com/docs/api)
-- [API Reference](https://www.cudocompute.com/docs/rest-api/introduction)
-- [OpenAPI](openapi/cudo-compute-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/cudo-compute.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cudo-compute.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [CUDO Compute API](https://apis.io/collections/cudo-compute/open-cudo-compute/)
+- [CUDO Compute Billing API](https://apis.io/collections/cudo-compute/open-cudo-compute-billing-api/)
+- [CUDO Compute Billing Data Centers API](https://apis.io/collections/cudo-compute/open-cudo-compute-data-centers-api/)
+- [CUDO Compute Billing Disks API](https://apis.io/collections/cudo-compute/open-cudo-compute-disks-api/)
+- [CUDO Compute Billing Images API](https://apis.io/collections/cudo-compute/open-cudo-compute-images-api/)
+- [CUDO Compute Billing Machine Types API](https://apis.io/collections/cudo-compute/open-cudo-compute-machine-types-api/)
+- [CUDO Compute Billing Networks API](https://apis.io/collections/cudo-compute/open-cudo-compute-networks-api/)
+- [CUDO Compute Billing SSH Keys API](https://apis.io/collections/cudo-compute/open-cudo-compute-ssh-keys-api/)
+- [CUDO Compute Billing Virtual Machines API](https://apis.io/collections/cudo-compute/open-cudo-compute-virtual-machines-api/)
 
-### CUDO Compute Machine Types API
+#### Security (2)
 
-Lists available machine types, GPU models, and per-data-center machine-type prices and live utilization used to size virtual machines.
+Authentication, trust centre, and vulnerability disclosure.
 
-- **Human URL:** [https://www.cudocompute.com/docs/api](https://www.cudocompute.com/docs/api)
-- **Base URL:** `https://rest.compute.cudo.org`
+- [Cudo Compute Authentication](https://apis.io/security/cudo-compute/cudo-compute-authentication/)
+- [Cudo Compute Domain Security](https://apis.io/security/cudo-compute/cudo-compute-domain-security/)
 
-#### Tags
+#### Plans and pricing (1)
 
-- Machine Types
-- GPU Models
-- Catalog
+Published plans, tiers and prices.
 
-#### Properties
+- [Cudo Compute Plans Pricing](https://apis.io/plans/cudo-compute/cudo-compute-plans-pricing/)
 
-- [Documentation](https://www.cudocompute.com/docs/api)
-- [OpenAPI](openapi/cudo-compute-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/cudo-compute.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cudo-compute.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Rate limits (1)
 
-### CUDO Compute Data Centers API
+Published request limits.
 
-Lists data centers and regions, host counts, clusters, commitment schedules, and utilization across the CUDO global compute network.
+- [Cudo Compute Rate Limits](https://apis.io/rate-limits/cudo-compute/cudo-compute-rate-limits/)
 
-- **Human URL:** [https://www.cudocompute.com/docs/api](https://www.cudocompute.com/docs/api)
-- **Base URL:** `https://rest.compute.cudo.org`
+#### FinOps (1)
 
-#### Tags
+What the API costs to run, by operation.
 
-- Data Centers
-- Regions
-- Capacity
+- [Cudo Compute Finops](https://apis.io/finops/cudo-compute/cudo-compute-finops/)
 
-#### Properties
+## Where to find this API
 
-- [Documentation](https://www.cudocompute.com/docs/api)
-- [OpenAPI](openapi/cudo-compute-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/cudo-compute.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cudo-compute.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-### CUDO Compute Disks & Storage API
-
-Create, list, attach, detach, revert, and delete storage disks, plus create and delete disk snapshots, and manage object storage buckets and users.
-
-- **Human URL:** [https://www.cudocompute.com/docs/api](https://www.cudocompute.com/docs/api)
-- **Base URL:** `https://rest.compute.cudo.org`
-
-#### Tags
-
-- Disks
-- Storage
-- Snapshots
-
-#### Properties
-
-- [Documentation](https://www.cudocompute.com/docs/api)
-- [OpenAPI](openapi/cudo-compute-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/cudo-compute.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cudo-compute.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### CUDO Compute Networks API
-
-Create, list, start, stop, and delete project networks, and manage security groups that control inbound and outbound traffic to virtual machines.
-
-- **Human URL:** [https://www.cudocompute.com/docs/api](https://www.cudocompute.com/docs/api)
-- **Base URL:** `https://rest.compute.cudo.org`
-
-#### Tags
-
-- Networks
-- Security Groups
-- VPC
-
-#### Properties
-
-- [Documentation](https://www.cudocompute.com/docs/api)
-- [OpenAPI](openapi/cudo-compute-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/cudo-compute.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cudo-compute.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### CUDO Compute Images API
-
-List public boot images and create, list, update, and delete private VM images used to provision virtual machines.
-
-- **Human URL:** [https://www.cudocompute.com/docs/api](https://www.cudocompute.com/docs/api)
-- **Base URL:** `https://rest.compute.cudo.org`
-
-#### Tags
-
-- Images
-- Boot Images
-- Snapshots
-
-#### Properties
-
-- [Documentation](https://www.cudocompute.com/docs/api)
-- [OpenAPI](openapi/cudo-compute-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/cudo-compute.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cudo-compute.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### CUDO Compute SSH Keys API
-
-Create, list, get, and delete account SSH keys and list the SSH keys available to a project for injection into virtual machines.
-
-- **Human URL:** [https://www.cudocompute.com/docs/api](https://www.cudocompute.com/docs/api)
-- **Base URL:** `https://rest.compute.cudo.org`
-
-#### Tags
-
-- SSH Keys
-- Access
-- Security
-
-#### Properties
-
-- [Documentation](https://www.cudocompute.com/docs/api)
-- [OpenAPI](openapi/cudo-compute-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/cudo-compute.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cudo-compute.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### CUDO Compute Billing API
-
-Create and manage billing accounts, payment methods, credit, invoices and outstanding balances, spend details, and credit-balance transactions.
-
-- **Human URL:** [https://www.cudocompute.com/docs/api](https://www.cudocompute.com/docs/api)
-- **Base URL:** `https://rest.compute.cudo.org`
-
-#### Tags
-
-- Billing
-- FinOps
-- Invoices
-
-#### Properties
-
-- [Documentation](https://www.cudocompute.com/docs/api)
-- [OpenAPI](openapi/cudo-compute-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/cudo-compute.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/cudo-compute.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/CudoVentures)
-- [LinkedIn](https://www.linkedin.com/company/cudo-ventures)
 - [Website](https://www.cudocompute.com)
 - [Documentation](https://www.cudocompute.com/docs/api)
-- [Plans](plans/cudo-compute-plans-pricing.yml)
-- [Rate Limits](rate-limits/cudo-compute-rate-limits.yml)
-- [Fin Ops](finops/cudo-compute-finops.yml)
+- [Blog](https://www.cudocompute.com/blog)
+- [GitHub](https://github.com/CudoVentures)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 26.5** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 46.8 |
+| Contract governance | 0.0 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 32.1 |
+| Access clarity | 7.9 |
+
+**Agent readiness 17.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 11.8** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/cudo-compute/](https://apis.io/providers/cudo-compute/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for CUDO Compute: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/cudo-compute/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
